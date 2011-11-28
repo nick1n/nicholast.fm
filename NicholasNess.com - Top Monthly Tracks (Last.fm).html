@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)http://dl.dropbox.com/u/117031/lastfm/alpha/index.html -->
+<html lang="en" class=" js canvas canvastext geolocation crosswindowmessaging websqldatabase no-indexeddb hashchange historymanagement draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions  video audio localstorage sessionstorage webworkers applicationcache svg smil svgclippaths   fontface"><head><meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta charset="utf-8">
+
+<!-- www.phpied.com/conditional-comments-block-downloads/ -->
+<!--[if IE]><![endif]-->
+
+<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
+   Remove this if you use the .htaccess -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>NicholasNess.com - Top Monthly Tracks (Last.fm)</title>
+<meta name="description" content="Check out you top Last.fm tracks for this month with this handy, beautiful widget!">
+<meta name="author" content="Nicholas Ness @nick1n, Nicholas Kramer @namklabs">
+
+<!--  Mobile Viewport Fix
+    j.mp/mobileviewport & davidbcalhoun.com/2010/viewport-metatag 
+device-width : Occupy full width of the screen in its current orientation
+initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height
+maximum-scale = 1.0 retains dimensions instead of zooming in if page width < device width
+-->
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+
+<!-- Place favicon.ico and apple-touch-icon.png in the root of your domain and delete these references -->
+<link rel="shortcut icon" href="http://dl.dropbox.com/u/117031/lastfm/alpha/favicon.ico">
+<link rel="apple-touch-icon" href="http://dl.dropbox.com/u/117031/lastfm/alpha/apple-touch-icon.png">
+
+<!-- CSS : implied media="all" -->
+<link rel="stylesheet" href="http://dl.dropbox.com/u/117031/lastfm/alpha/style.css">
+
+<!-- For the less-enabled mobile browsers like Opera Mini -->
+<link rel="stylesheet" media="handheld" href="http://dl.dropbox.com/u/117031/lastfm/alpha/handheld.css">
+
+<!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
+<script async="" src="./NicholasNess.com - Top Monthly Tracks (Last.fm)_files/ga.js"></script><script src="./NicholasNess.com - Top Monthly Tracks (Last.fm)_files/modernizr-1.5.min.js"></script>
+
+</head>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7 ]> <body class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <body class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <body class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <body class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <body> <!--<![endif]-->
+
+<div id="header" class="container_12">
+	<div id="app_title" class="grid_8">
+		<h1>Monthly Top Tracks</h1>
+	</div>
+	<div id="lastfm_logo" class="grid_4">alpha</div>
+	<div id="enter_user" class="grid_12 clearfix">
+		<p>Instructions aren't really necessary, but an explanation for the user might be helpful.</p>
+		<form id="form" onsubmit="return false;">
+			<input id="user" type="text" value="Enter your Last.fm username..." maxlength="64" onclick="if(this.value == &#39;Enter your Last.fm username...&#39;) this.value = &#39;&#39;;" onblur="if(this.value == &#39;&#39;) this.value = &#39;Enter your Last.fm username...&#39;;">
+			<input type="submit" value="Submit" onclick="if (!isRunning) getTracks();"><br>
+			<select id="month">
+				<option value="0">Janurary</option>
+				<option value="1">Feburary</option>
+				<option value="2">March</option> 
+				<option value="3">April</option>
+				<option value="4">May</option>
+				<option value="5">June</option>
+				<option value="6">July</option>
+				<option value="7">August</option>
+				<option value="8">September</option>
+				<option value="9">October</option>
+				<option value="10">November</option>
+				<option value="11">December</option>
+			</select>
+			<select id="year"></select>
+		</form>
+		<div id="progressBack" class="progressBack" style="display: none;">
+			<div id="progressBar" class="progressBar" style="width:0%;">&nbsp;<span id="progressPercent" style=""></span></div>
+		</div>
+	</div>
+	<div class="clear">&nbsp;</div>
+</div>
+<div id="results" class="container_12">
+	<div id="trackInfo" class="grid_12 tracks clearfix" style="display: none;">
+		<div class="info" id="total_tracks"><span class="info_label">Total tracks:</span> <span id="totalTracks"></span></div>
+		<div class="info" id="total_unique_tracks"><span class="info_label">Total unique tracks:</span> <span id="totalUniqueTracks"></span></div>
+		<div class="info" id="get_bb_code"><span class="info_label">BB Code:</span><br>
+		<textarea id="bbCode" rows="8" cols="75" readonly="true"></textarea></div>
+		<h1 id="track_list_title">Tracks:</h1>
+		<div class="info" id="trackList"></div>
+	</div>
+	<div class="clear">&nbsp;</div>
+</div>
+
+<!--<div id="ArtistRecommendations" style="display: block;">-->
+<div id="header" class="container_12">
+	<div id="app_title" class="grid_8">
+		<h1>Artist Recommendations</h1>
+	</div>
+	<div id="enter_user" class="grid_12 clearfix">
+		<p>Instructions aren't really necessary, but an explanation for the user might be helpful.</p>
+		<form class="form" onsubmit="return false;">
+			<input id="user" type="text" value="Enter your Last.fm username..." maxlength="64" onclick="if(this.value == &#39;Enter your Last.fm username...&#39;) this.value = &#39;&#39;;" onblur="if(this.value == &#39;&#39;) this.value = &#39;Enter your Last.fm username...&#39;;">
+			<input type="submit" value="Submit" onclick="if (!isRunning) getArtistRecommendations();"><br>
+			<select id="arPeriod">
+				<option value="overall">Overall</option>
+				<option value="7day">Last 7 Days</option>
+				<option value="3month">Last 3 Months</option>
+				<option value="6month">Last 6 Months</option>
+				<option value="12month">Last 12 Months</option>
+			</select>
+			<select id="arLimit">
+				<option value="50">Top 50</option>
+				<option value="100">Top 100</option>
+				<option value="200">Top 200</option>
+			</select>
+		</form>
+	</div>
+</div>
+<div id="results" class="container_12">
+	<div id="arDisplay" class="grid_12 tracks clearfix" style="display: none;">
+		<b>Artists:</b><br>
+		<span id="arList"></span><br>
+	</div>
+	<div class="clear">&nbsp;</div>
+</div>
+<!--</div>-->
+<div id="footer" class="">
+	<div id="credits" class="">created by <a href="http://www.last.fm/user/nick1n">Nick</a> &amp; designed by another <a href="http://twitter.namklabs.com/">Nick</a></div>
+</div>
+
+
+<!-- Javascript at the bottom for fast page loading -->
+
+<!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+<script src="./NicholasNess.com - Top Monthly Tracks (Last.fm)_files/jquery.min.js"></script>
+<script>!window.jQuery && document.write('<script src="jquery-1.4.2.min.js"><\/script>')</script>
+
+<!-- custom scripts -->
+<script type="text/javascript" src="./NicholasNess.com - Top Monthly Tracks (Last.fm)_files/lastfm.api.md5.js"></script>
+<script type="text/javascript" src="./NicholasNess.com - Top Monthly Tracks (Last.fm)_files/lastfm.api.js"></script>
+<script type="text/javascript" src="./NicholasNess.com - Top Monthly Tracks (Last.fm)_files/lastfm.js"></script>
+<!-- asynchronous google analytics: mathiasbynens.be/notes/async-analytics-snippet -->
+<script>
+   var _gaq = [['_setAccount', 'UA-21408785-1'], ['_trackPageview']];
+   (function(d, t) {
+    var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+    g.async = true;
+    g.src = '//www.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g, s);
+   })(document, 'script');
+</script>
+
+</body></html>
