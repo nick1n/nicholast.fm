@@ -1,0 +1,28 @@
+a:link {  /* unvisited link */
+	color: #1B1B1B;
+	text-decoration: none;
+}
+
+a:visited {  /* visited link */
+	color: #1B1B1B;
+	text-decoration: none;
+}
+
+a:hover {  /* mouse over link */
+	color: #0187C5;
+	text-decoration: underline;
+}
+
+a:active {  /* selected link */
+	color: #0187C5;
+	text-decoration: underline;
+}
+
+body {
+	background-color: #E3E3E3;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
+}
+
+#plays.a:link {
+	color: #0187C5;
+}

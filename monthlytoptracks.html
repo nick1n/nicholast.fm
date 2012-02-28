@@ -3,21 +3,14 @@
     <title>Last.fm Stats</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <link href="css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
-    </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <script src="js/jquery.js"></script>
     <script type="text/javascript" src="js/lastfm.api.md5.js"></script>
     <script type="text/javascript" src="js/lastfm.api.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 </head>
-<body onload="onLoad();">
+<body>
     <div id="all" style="border: 1px solid black; width:600px; align: center; padding:10px; background-color: white">
     	<div id="MonthlyTopTracks" style="display: block;">
 			<div class="header">
@@ -82,9 +75,9 @@
 				</div>
 			</form>
         </div>
-        <div id="progressBack" class="progressBack" style="border: 1px solid gray; display: none;">
-            <div id="progressBar" class="progressBar" style="background-color:green; width:0%;">&nbsp;<span id="progressPercent" style="position: relative; right:-280px;"></span></div>
-        </div>
+        <div id="progressBack" class="progress progress-info progress-striped active hide">
+			<div id="progressBar" class="bar" style="width: 0%;"></div>
+		</div>
         <div id="footer" style="text-align: center;">
             <a href="http://www.last.fm/user/nick1n" target="_blank">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank">Nick</a><br/>
         </div>
@@ -95,7 +88,6 @@
     </div>
 
 <!-- scripts at the bottom of the body for faster loading -->
-    <script src="js/jquery.js"></script>
     <script src="js/bootstrap-transition.js"></script>
     <script src="js/bootstrap-alert.js"></script>
 
