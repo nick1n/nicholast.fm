@@ -24,13 +24,13 @@
 <body onload="onLoad();">
 <div class="row" id="main">
   <div class="span12">
-    <div id="main-tabs" class="tabbable">
+    <div id="main-tabs">
       <ul class="nav nav-tabs">
-        <li><a href="#1">Monthly Top Tracks</a></li>
-        <li><a href="#2">Artist Recommendations</a></li>
+        <li class="tab active"><a href="#MonthlyTopTracks">Monthly Top Tracks</a></li>
+        <li class="tab"><a href="#ArtistRecommendations">Artist Recommendations</a></li>
       </ul>
       <div class="tab-content">
-        <div class="tab-pane active" id="MonthlyTopTracks" id="1">
+        <div class="tab-pane active" id="MonthlyTopTracks">
 	  <h1>Monthly Top Tracks</h1>
 	  <form id="form" onsubmit="return false;">
 	    Username: <input id="user" type="text" value="" maxlength="64"/>
@@ -66,7 +66,7 @@
 	    <span id="trackList"></span><br/>
           </div>
         </div>
-        <div class="tab-pane" id="ArtistRecommendations" id="2">
+        <div class="tab-pane" id="ArtistRecommendations">
 	  <h1>Artist Recommendations</h1>
 	  <form class="form" onSubmit="return false;">
 	    Username: <input id="arUser" type="text" value=""/>

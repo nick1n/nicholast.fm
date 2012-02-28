@@ -403,7 +403,7 @@ function onLoad() {
 //jQuery document ready function:
 $(function(){
   //jQuery goes here
-  $('#main-tabs').tab('show');
+  $('#main-tabs .active').tab('show');
 });
 //end jQuery document ready function
 
