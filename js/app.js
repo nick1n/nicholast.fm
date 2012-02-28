@@ -397,3 +397,15 @@ function onLoad() {
 	}
 	years.options[date.getFullYear()-2005].selected = true;
 }
+
+
+
+//jQuery document ready function:
+$(function(){
+  //jQuery goes here
+  $('#main-tabs').tab('show');
+});
+//end jQuery document ready function
+
+
+
