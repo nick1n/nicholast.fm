@@ -390,7 +390,7 @@ function arFinished() {
 
 // event function(s)
 $(function() {
-  $('#main-tabs .active').tab('show');
+	$('#main-tabs .active').tab('show');
 	
 	// sets focus to first textbox
 	$("#user").focus();
