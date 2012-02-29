@@ -1,3 +1,10 @@
+/*
+ * Last.fm stats
+ * Author: Nicholas Ness
+ */
+
+if (typeof console == 'undefined') { var console = { log: function(val) {} }; }
+
 /* Create a LastFM object */
 var lastfm = new LastFM({apiKey : 'f750712ed70caea3272e70e48e1f464e'});
 
@@ -22,7 +29,7 @@ function getTracks(user) {
 	isRunning = true;
 	
 	if (user == null) {
-		user = document.getElementById("user").value;
+		user = $("#user").val();
 	}
 	username = user;
 	numTracks = 0;
@@ -33,13 +40,12 @@ function getTracks(user) {
 	uniqueArtists = {};
 	year = 0;
 	month = 0;
-	document.getElementById("progressBar").style.width = "0%";
-	document.getElementById("progressPercent").innerHTML = "0%";
-	
+	$("#progressBar").width("0%");
+	//document.getElementById("progressPercent").innerHTML = "0%";
 	
 	document.getElementById("arDisplay").style.display = "none";
 	document.getElementById("trackInfo").style.display = "none";
-	document.getElementById("progressBack").style.display = "block";
+	$("#progressBack").show();
 	
 	try {
 		lastfm.user.getRecentTracks({user: username, limit: 1}, {success: getTimeZone, error: failFunction});
@@ -54,7 +60,7 @@ function getTimeZone(data) {
 	//if (data.recenttracks.track[1] == undefined) {
 	//    offset = -(new Date().getTimezoneOffset()*60*1000) - (new Date(new Date(data.recenttracks.track.date.uts*1000).setSeconds(0)).getTime()-new Date(data.recenttracks.track.date['#text']).getTime());
 	//}
-	
+
 	// Find the from and to dates
 	// need to fix this only works when you are in the same timezone as the scrobbling was
 	var date = new Date();
@@ -133,8 +139,8 @@ function gotTracks(data) {
 	
 	//code for progress bar :)
 	var percent = (pagesFinished/numPages*100).toFixed(0) + "%";
-	document.getElementById("progressBar").style.width =  percent;
-	document.getElementById("progressPercent").innerHTML = percent;
+	$("#progressBar").width(percent);
+	//document.getElementById("progressPercent").innerHTML = percent;
 	
 	// this is our last page so let's finish this
 	if (pagesFinished >= numPages) {
@@ -238,7 +244,7 @@ function finished() {
 	document.getElementById("mttMonth").innerHTML = "Monthly Stats For " + document.getElementById("month").options[parseInt(month)].innerHTML;
 	
 	document.getElementById("trackInfo").style.display = "block";
-	document.getElementById("progressBack").style.display = "none";
+	$("#progressBack").hide();
 	
 	isRunning = false;
 }
@@ -247,7 +253,6 @@ function finished() {
 function failFunction(code, message) {
 	alert("Failed:\nCode: " + code + "\n" + message);
 }
-
 
 function getArtistRecommendations(user) {
 	if (isRunning) {
@@ -267,12 +272,12 @@ function getArtistRecommendations(user) {
 	innerStr = "<table>";
 	pagesFinished = 0;
 	
-	document.getElementById("progressBar").style.width = "0%";
-	document.getElementById("progressPercent").innerHTML = "0%";
+	$("#progressBar").width("0%");
+	//document.getElementById("progressPercent").innerHTML = "0%";
 	
 	
 	document.getElementById("arDisplay").style.display = "none";
-	document.getElementById("progressBack").style.display = "block";
+	$("#progressBack").show();
 	
 	if (user == null) {
 		user = document.getElementById("arUser").value;
@@ -322,8 +327,8 @@ function gotTopSimilarArtists(data) {
 		
 		//code for progress bar :)
 		var percent = (pagesFinished/numPages*100).toFixed(0) + "%";
-		document.getElementById("progressBar").style.width =  percent;
-		document.getElementById("progressPercent").innerHTML = percent;
+		$("#progressBar").width(percent);
+		//document.getElementById("progressPercent").innerHTML = percent;
 		
 		// this is our last page so let's finish this
 		if (pagesFinished >= numPages) {
@@ -350,8 +355,8 @@ function gotTopSimilarArtists(data) {
 	
 	//code for progress bar :)
 	var percent = (pagesFinished/numPages*100).toFixed(0) + "%";
-	document.getElementById("progressBar").style.width =  percent;
-	document.getElementById("progressPercent").innerHTML = percent;
+	$("#progressBar").width(percent);
+	//document.getElementById("progressPercent").innerHTML = percent;
 	
 	// this is our last page so let's finish this
 	if (pagesFinished >= numPages) {
@@ -374,8 +379,8 @@ function arFinished() {
 	}
 	document.getElementById("arList").innerHTML = innerStr + "</table>";
 	
-	document.getElementById("arDisplay").style.display = "block";
-	document.getElementById("progressBack").style.display = "none";
+	$("#arDisplay").show();
+	$("#progressBack").hide();
 	
 	isRunning = false;
 }
@@ -384,28 +389,18 @@ function arFinished() {
 //getTracks("nick1n");
 
 // event function(s)
-function onLoad() {
+$(function() {
+  $('#main-tabs .active').tab('show');
+	
 	// sets focus to first textbox
-	document.getElementById("user").focus();
+	$("#user").focus();
 	
 	// sets default selections of the month and year to the current
 	var date = new Date();
-	var years = document.getElementById("year");
-	document.getElementById("month").options[date.getMonth()].selected = true;
+	var years = $("#year");
+	$("#month").val(date.getMonth());
 	for (var i = 2005; i <= date.getFullYear(); ++i) {
-		years.options[i-2005] = new Option(i, i);
+		$("<option value='" + i + "'>" + i + "</option>").appendTo(years);
 	}
-	years.options[date.getFullYear()-2005].selected = true;
-}
-
-
-
-//jQuery document ready function:
-$(function(){
-  //jQuery goes here
-  $('#main-tabs .active').tab('show');
+	years.val(date.getFullYear());
 });
-//end jQuery document ready function
-
-
-

@@ -1,5 +1,4 @@
 /*
- *
  * Copyright (c) 2008-2010, Felix Bruns <felixbruns@web.de>
  * Modified by Nicholas Ness
  */

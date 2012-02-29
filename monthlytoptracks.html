@@ -4,99 +4,83 @@
   <title>Last.fm Stats</title>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
   <link href="css/bootstrap.css" rel="stylesheet">
-  <style type="text/css">
-    body {
-      padding-top: 60px;
-      padding-bottom: 40px;
-    }
-    .sidebar-nav {
-      padding: 9px 0;
-    }
-  </style>
   <link href="css/bootstrap-responsive.css" rel="stylesheet">
   <link href="css/app.css" rel="stylesheet">
-  <script src="js/jquery.js"></script>
-  <script src="js/lastfm.api.md5.js"></script>
-  <script src="js/lastfm.api.js"></script>
-  <script src="js/bootstrap-tab.js"></script>
-  <script src="js/app.js"></script>
 </head>
-<body onload="onLoad();">
+<body>
 <div class="row" id="main">
   <div class="span12">
     <div id="main-tabs">
       <ul class="nav nav-tabs">
-        <li class="tab active"><a href="#MonthlyTopTracks">Monthly Top Tracks</a></li>
-        <li class="tab"><a href="#ArtistRecommendations">Artist Recommendations</a></li>
+        <li class="active"><a href="#MonthlyTopTracks">Monthly Top Tracks</a></li>
+        <li><a href="#ArtistRecommendations">Artist Recommendations</a></li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="MonthlyTopTracks">
-	  <h1>Monthly Top Tracks</h1>
-	  <form id="form" onsubmit="return false;">
-	    Username: <input id="user" type="text" value="" maxlength="64"/>
-	    <select id="month">
-	      <option value="0">Janurary</option>
-	      <option value="1">Feburary</option>
-	      <option value="2">March</option> 
-	      <option value="3">April</option>
-	      <option value="4">May</option>
-	      <option value="5">June</option>
-	      <option value="6">July</option>
-	      <option value="7">August</option>
-	      <option value="8">September</option>
-	      <option value="9">October</option>
-	      <option value="10">November</option>
-	      <option value="11">December</option>
-	    </select>
-	    <select id="year"></select>
-	    <input type="submit" value="Submit" onclick="if (!isRunning) getTracks();"/>
-	  </form>
-	  <div id="trackInfo" class="tracks" style="display: none;" >
-	    <h3><span id="mttMonth"></span></h3>
-	    <b>Total tracks:</b> <span id="totalTracks"></span><br/>
-	    <b>Total unique tracks:</b> <span id="totalUniqueTracks"></span><br/>
-	    <b>Song Repetition:</b> <span id="songRepetition"></span><br/>
-	    <b>BB Code:</b><br/>
-	    <textarea id="bbcode" rows="8" cols="70" readonly="true"></textarea><br/>
-	    <b>Old BB Code:</b><br/>
-	    <textarea id="oldbbcode" rows="8" cols="70" readonly="true"></textarea><br/>
-	    <b>Top Artists:</b><br/>
-	    <span id="artistList"></span><br/>
-	    <b>Top Tracks:</b><br/>
-	    <span id="trackList"></span><br/>
+          <h1>Monthly Top Tracks</h1>
+          <form id="form" onsubmit="return false;">
+            Username: <input id="user" type="text" value="" maxlength="64"/>
+            <select id="month">
+              <option value="0">Janurary</option>
+              <option value="1">Feburary</option>
+              <option value="2">March</option> 
+              <option value="3">April</option>
+              <option value="4">May</option>
+              <option value="5">June</option>
+              <option value="6">July</option>
+              <option value="7">August</option>
+              <option value="8">September</option>
+              <option value="9">October</option>
+              <option value="10">November</option>
+              <option value="11">December</option>
+            </select>
+            <select id="year"></select>
+            <input type="submit" value="Submit" onclick="if (!isRunning) getTracks();"/>
+          </form>
+          <div id="trackInfo" class="tracks" style="display: none;" >
+            <h3><span id="mttMonth"></span></h3>
+            <b>Total tracks:</b> <span id="totalTracks"></span><br/>
+            <b>Total unique tracks:</b> <span id="totalUniqueTracks"></span><br/>
+            <b>Song Repetition:</b> <span id="songRepetition"></span><br/>
+            <b>BB Code:</b><br/>
+            <textarea id="bbcode" rows="8" cols="70" readonly="true"></textarea><br/>
+            <b>Old BB Code:</b><br/>
+            <textarea id="oldbbcode" rows="8" cols="70" readonly="true"></textarea><br/>
+            <b>Top Artists:</b><br/>
+            <span id="artistList"></span><br/>
+            <b>Top Tracks:</b><br/>
+            <span id="trackList"></span><br/>
           </div>
         </div>
         <div class="tab-pane" id="ArtistRecommendations">
-	  <h1>Artist Recommendations</h1>
-	  <form class="form" onSubmit="return false;">
-	    Username: <input id="arUser" type="text" value=""/>
-	    <select id="arPeriod">
-	      <option value="overall">Overall</option>
-	      <option value="7day">Last 7 Days</option>
-	      <option value="3month">Last 3 Months</option>
-	      <option value="6month">Last 6 Months</option>
-	      <option value="12month">Last 12 Months</option>
-	    </select>
-	    <select id="arLimit">
-	      <option value="50">Top 50</option>
-	      <option value="100">Top 100</option>
-	      <option value="200">Top 200</option>
-	    </select>
-	    <input type="submit" value="Submit" onClick="if (!isRunning) getArtistRecommendations();"/>
-	    <div id="arDisplay" class="display" style="display: none;">
-	      <b>Artists:</b><br/>
-	      <span id="arList"></span><br/>
-	    </div>
-	  </form>
+          <h1>Artist Recommendations</h1>
+          <form class="form" onSubmit="return false;">
+            Username: <input id="arUser" type="text" value=""/>
+            <select id="arPeriod">
+              <option value="overall">Overall</option>
+              <option value="7day">Last 7 Days</option>
+              <option value="3month">Last 3 Months</option>
+              <option value="6month">Last 6 Months</option>
+              <option value="12month">Last 12 Months</option>
+            </select>
+            <select id="arLimit">
+              <option value="50">Top 50</option>
+              <option value="100">Top 100</option>
+              <option value="200">Top 200</option>
+            </select>
+            <input type="submit" value="Submit" onClick="if (!isRunning) getArtistRecommendations();"/>
+            <div id="arDisplay" class="display" style="display: none;">
+              <b>Artists:</b><br/>
+              <span id="arList"></span><br/>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div id="progressBack" class="progressBack" style="border: 1px solid gray; display: none;">
-  <div id="progressBar" class="progressBar" style="background-color:green; width:0%;">
-    &nbsp;<span id="progressPercent" style="position: relative; right:-280px;"></span>
-  </div>
+<div id="progressBack" class="progress progress-info progress-striped active hide">
+  <div id="progressBar" class="bar" style="width: 0%;"></div>
 </div>
 <div id="footer" style="text-align: center;">
   <a href="http://www.last.fm/user/nick1n" target="_blank">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank">Nick</a><br/>
@@ -106,29 +90,34 @@
 </center>
 
 <!-- scripts at the bottom of the body for faster loading -->
-    <script src="js/bootstrap-transition.js"></script>
-    <script src="js/bootstrap-alert.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap-transition.js"></script>
+<script src="js/bootstrap-alert.js"></script>
 
-    <script src="js/bootstrap-modal.js"></script>
-    <script src="js/bootstrap-dropdown.js"></script>
-    <script src="js/bootstrap-scrollspy.js"></script>
-    <script src="js/bootstrap-tooltip.js"></script>
-    <script src="js/bootstrap-popover.js"></script>
+<script src="js/bootstrap-modal.js"></script>
+<script src="js/bootstrap-dropdown.js"></script>
+<script src="js/bootstrap-scrollspy.js"></script>
+<script src="js/bootstrap-tab.js"></script>
+<script src="js/bootstrap-tooltip.js"></script>
+<script src="js/bootstrap-popover.js"></script>
 
-    <script src="js/bootstrap-button.js"></script>
-    <script src="js/bootstrap-collapse.js"></script>
-    <script src="js/bootstrap-carousel.js"></script>
-    <script src="js/bootstrap-typeahead.js"></script>
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-21408785-1']);
-        _gaq.push(['_trackPageview']);
+<script src="js/bootstrap-button.js"></script>
+<script src="js/bootstrap-collapse.js"></script>
+<script src="js/bootstrap-carousel.js"></script>
+<script src="js/bootstrap-typeahead.js"></script>
+<script src="js/lastfm.api.md5.js"></script>
+<script src="js/lastfm.api.js"></script>
+<script src="js/app.js"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-21408785-1']);
+  _gaq.push(['_trackPageview']);
 
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
 </body>
 </html>
