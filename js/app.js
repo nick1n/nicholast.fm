@@ -8,8 +8,6 @@ if (typeof console == 'undefined') { var console = { log: function(val) {} }; }
 /* Create a LastFM object */
 var lastfm = new LastFM({apiKey : 'f750712ed70caea3272e70e48e1f464e'});
 
-console.log(lastfm);
-
 var username = "";
 var numTracks = 0;
 var innerStr = "<table>";
@@ -392,7 +390,7 @@ function arFinished() {
 
 // event function(s)
 $(function() {
-	$('.tabs a:last').tab('show');
+	$('#main-tabs .active').tab('show');
 	
 	// sets focus to first textbox
 	$("#user").focus();
