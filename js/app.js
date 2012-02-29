@@ -1,5 +1,14 @@
+/*
+ * Last.fm stats
+ * Author: Nicholas Ness
+ */
+
+if (typeof console == 'undefined') { var console = { log: function(val) {} }; }
+
 /* Create a LastFM object */
 var lastfm = new LastFM({apiKey : 'f750712ed70caea3272e70e48e1f464e'});
+
+console.log(lastfm);
 
 var username = "";
 var numTracks = 0;
@@ -35,12 +44,14 @@ function getTracks(user) {
 	month = 0;
 	$("#progressBar").width("0%");
 	//document.getElementById("progressPercent").innerHTML = "0%";
-	
+	console.log(user);
 	
 	document.getElementById("arDisplay").style.display = "none";
 	document.getElementById("trackInfo").style.display = "none";
 	$("#progressBack").show();
 	
+	console.log($("#progressBack"));
+	console.log(lastfm.user.getRecentTracks);
 	try {
 		lastfm.user.getRecentTracks({user: username, limit: 1}, {success: getTimeZone, error: failFunction});
 	} catch (e) {}
@@ -54,7 +65,7 @@ function getTimeZone(data) {
 	//if (data.recenttracks.track[1] == undefined) {
 	//    offset = -(new Date().getTimezoneOffset()*60*1000) - (new Date(new Date(data.recenttracks.track.date.uts*1000).setSeconds(0)).getTime()-new Date(data.recenttracks.track.date['#text']).getTime());
 	//}
-	
+	console.log('getTimeZone');
 	// Find the from and to dates
 	// need to fix this only works when you are in the same timezone as the scrobbling was
 	var date = new Date();
@@ -248,7 +259,6 @@ function failFunction(code, message) {
 	alert("Failed:\nCode: " + code + "\n" + message);
 }
 
-
 function getArtistRecommendations(user) {
 	if (isRunning) {
 		return;
@@ -385,6 +395,8 @@ function arFinished() {
 
 // event function(s)
 $(function() {
+	$('.tabs a:last').tab('show');
+	
 	// sets focus to first textbox
 	$("#user").focus();
 	
