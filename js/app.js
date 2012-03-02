@@ -27,7 +27,8 @@ function getTracks(user) {
 		return;
 	}
 	isRunning = true;
-	
+	$(".btn").button('loading');
+  
 	if (user == null) {
 		user = $("#user").val();
 	}
@@ -247,6 +248,7 @@ function finished() {
 	$("#progressBack").hide();
 	
 	isRunning = false;
+	$(".btn").button('reset');
 }
 
 // something went wrong function for all last.fm api calls
