@@ -43,13 +43,15 @@ function getTracks(user) {
 	$("#progressBar").width("0%");
 	//document.getElementById("progressPercent").innerHTML = "0%";
 	
-	document.getElementById("arDisplay").style.display = "none";
-	document.getElementById("trackInfo").style.display = "none";
+	$("#arDisplay").hide();
+	$("#trackInfo").hide();
 	$("#progressBack").show();
 	
-	try {
-		lastfm.user.getRecentTracks({user: username, limit: 1}, {success: getTimeZone, error: failFunction});
-	} catch (e) {}
+	// Just call getTimeZone, trying to figure out last.fm user's timezone isn't working out :-/
+	getTimeZone();
+	//try {
+	//	lastfm.user.getRecentTracks({user: username, limit: 1}, {success: getTimeZone, error: failFunction});
+	//} catch (e) {}
 }
 
 // gets the timezone of the user so that we can have accurate stats no matter what timezone you are in :)
@@ -64,11 +66,9 @@ function getTimeZone(data) {
 	// Find the from and to dates
 	// need to fix this only works when you are in the same timezone as the scrobbling was
 	var date = new Date();
-	var dropdown = document.getElementById("year");
-	year = dropdown.options[dropdown.selectedIndex].value;
+	year = $("#year").val();
 	date.setFullYear(year);
-	dropdown = document.getElementById("month");
-	month = dropdown.options[dropdown.selectedIndex].value
+	month = parseInt($("#month").val());
 	date.setMonth(month);
 	date.setDate(1);
 	date.setHours(0);
@@ -92,7 +92,7 @@ function gotNumTracks(data) {
 		return;
 	}
 	numPages = data.recenttracks['@attr'].totalPages;
-	document.getElementById("totalTracks").innerHTML = data.recenttracks['@attr'].total;
+	$("#totalTracks").html(data.recenttracks['@attr'].total);
 	
 	// check for extra now playing track even though its a list of tracks from last month :-/
 	// and remove it from the array FOREVER!
@@ -119,7 +119,7 @@ function getRecentTracks(page) {
 // got some track info from last.fm lets parse it :)
 function gotTracks(data) {
 	numTracks += data.recenttracks.track.length;
-	document.getElementById("totalUniqueTracks").innerHTML = numTracks;
+	$("#totalUniqueTracks").html(numTracks);
 	
 	for (var i = 0; i < data.recenttracks.track.length; ++i) {
 		var artist = data.recenttracks.track[i].artist["#text"];
@@ -186,9 +186,9 @@ function finished() {
 	}
 	artists.sort(artistSort);
 	
-	document.getElementById("totalUniqueTracks").innerHTML = tracks.length;
+	$("#totalUniqueTracks").html(tracks.length);
 	if (numTracks > 0) {
-		document.getElementById("songRepetition").innerHTML = (numTracks/tracks.length).toFixed(2);
+		$("#songRepetition").html((numTracks/tracks.length).toFixed(2));
 	}
 	
 	// generate large artist list .......
@@ -196,9 +196,9 @@ function finished() {
 	var tempArtist = "";
 	for (var i = 0; i < artists.length && i < 50; ++i) {
 		tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
-		innerStr += "<tr><td class=\"artist\"><a href=\"http://www.last.fm/music/" + tempArtist + "\">" + artists[i].artist + "</a> <span class=\"plays\"><a href=\"http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "\">(" + artists[i].plays + " plays)</a></span></td></tr>";
+		innerStr += "<tr><td class=\"artist\">" + artists[i].artist.link("http://www.last.fm/music/" + tempArtist) + " <span class=\"plays\">" + ("(" + artists[i].plays + " plays)").link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist) + "</span></td></tr>";
 	}
-	document.getElementById("artistList").innerHTML = innerStr + "</table>";
+	$("#artistList").html(innerStr + "</table>");
 	
 	// generate large track list .......
 	var tempTrack = "";
@@ -208,10 +208,10 @@ function finished() {
 		tempTrack = encodeURI(tracks[i].track.replace(/ /g, "+"));
 		
 		//<div id="progressBar" class="progressBar" style="background-color:green; width:0%">&nbsp;<span id="progressPercent" style="position:relative; right:-240px;"></span></div>
-		innerStr += "<tr><td class=\"track\"><a href=\"http://www.last.fm/music/" + tempArtist + "\">" + tracks[i].artist + "</a> - <a href=\"http://www.last.fm/music/" + tempArtist + "/_/" + tempTrack + "\">" + tracks[i].track + "</a> <span class=\"plays\"><a href=\"http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "\">(" + tracks[i].plays + " plays)</a></span></td></tr>";
+		innerStr += "<tr><td class=\"track\">" + tracks[i].artist.link("http://www.last.fm/music/" + tempArtist) + " - " + tracks[i].track.link("http://www.last.fm/music/" + tempArtist + "/_/" + tempTrack) + " <span class=\"plays\">" + ("(" + tracks[i].plays + " plays)").link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist) + "</span></td></tr>";
 		//<div style=\"background-color:#71B7E6; width:" + (tracks[i].plays/tracks[0].plays*500).toFixed(0) + "px;\">&nbsp;<span style=\"position:relative;\">
 	}
-	document.getElementById("trackList").innerHTML = innerStr + "</table>";
+	$("#trackList").html(innerStr + "</table>");
 	
 	// generate my bb code
 	var bbCode = "";
@@ -219,31 +219,31 @@ function finished() {
 		bbCode += "[url=http://lastfm.nicholasness.com]Monthly Top Artists[/url]\n";
 		for (var i = 0; artists[i] != undefined && artists[0].plays == artists[i].plays; ++i) {
 			tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
-			bbCode += "[b]" + (parseInt(month)+1) + "-" + year.substr(2) + ":[/b] [artist]" + artists[i].artist + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].plays + " plays)[/url]\n";
+			bbCode += "[b]" + (month + 1) + "-" + year.substr(2) + ":[/b] [artist]" + artists[i].artist + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].plays + " plays)[/url]\n";
 		}
 		bbCode += "[url=http://lastfm.nicholasness.com]Monthly Top Tracks[/url]\n";
 		for (var i = 0; tracks[i] != undefined && tracks[0].plays == tracks[i].plays; ++i) {
-			bbCode += "[b]" + (parseInt(month)+1) + "-" + year.substr(2) + ":[/b] [artist]" + tracks[i].artist + "[/artist] - [track artist=" + tracks[i].artist + "]" + tracks[i].track + "[/track]\n";
+			bbCode += "[b]" + (month + 1) + "-" + year.substr(2) + ":[/b] [artist]" + tracks[i].artist + "[/artist] - [track artist=" + tracks[i].artist + "]" + tracks[i].track + "[/track]\n";
 		}
-		document.getElementById("bbcode").innerHTML = bbCode;
+		$("#bbcode").html(bbCode);
 	
 	// generate old bb code (styled from lastfm.heathaze.org)
 		bbCode = "";
 		bbCode += "[url=http://lastfm.nicholasness.com]Monthly Top Artists[/url]\n";
 		for (var i = 0; artists[i] != undefined && artists[0].plays == artists[i].plays; ++i) {
 			tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
-			bbCode += "[b]" + document.getElementById("month").options[parseInt(month)].innerHTML.substr(0,3) + "-" + year + "[/b]\n[artist]" + artists[i].artist + "[/artist] ([b]" + artists[i].plays + "[/b] plays)\n";
+			bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + artists[i].artist + "[/artist] ([b]" + artists[i].plays + "[/b] plays)\n";
 		}
 		bbCode += "[url=http://lastfm.nicholasness.com]Monthly Top Tracks[/url]\n";
 		for (var i = 0; tracks[i] != undefined && tracks[0].plays == tracks[i].plays; ++i) {
-			bbCode += "[b]" + document.getElementById("month").options[parseInt(month)].innerHTML.substr(0,3) + "-" + year + "[/b]\n[artist]" + tracks[i].artist + "[/artist] : [track artist=" + tracks[i].artist + "]" + tracks[i].track + "[/track] ([b]" + tracks[i].plays + "[/b] plays)\n";
+			bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + tracks[i].artist + "[/artist] : [track artist=" + tracks[i].artist + "]" + tracks[i].track + "[/track] ([b]" + tracks[i].plays + "[/b] plays)\n";
 		}
-		document.getElementById("oldbbcode").innerHTML = bbCode;
+		$("#oldbbcode").html(bbCode);
 	}
 	
-	document.getElementById("mttMonth").innerHTML = "Monthly Stats For " + document.getElementById("month").options[parseInt(month)].innerHTML;
+	$("#mttMonth").html("Monthly Stats For " + getMonthName(month));
 	
-	document.getElementById("trackInfo").style.display = "block";
+	$("#trackInfo").show();
 	$("#progressBack").hide();
 	
 	isRunning = false;
@@ -276,18 +276,16 @@ function getArtistRecommendations(user) {
 	//document.getElementById("progressPercent").innerHTML = "0%";
 	
 	
-	document.getElementById("arDisplay").style.display = "none";
+	$("#arDisplay").hide();
 	$("#progressBack").show();
 	
 	if (user == null) {
-		user = document.getElementById("arUser").value;
+		user = $("#arUser").val();
 	}
 	username = user;
 	
-	var dropdown = document.getElementById("arPeriod");
-	var period = dropdown.options[dropdown.selectedIndex].value;
-	dropdown = document.getElementById("arLimit");
-	numPages = parseInt(dropdown.options[dropdown.selectedIndex].value);
+	var period = $("#arPeriod").val();
+	numPages = parseInt($("#arLimit").val());
 	
 	lastfm.user.getTopArtists({user: username, period: period, limit: 200}, {success: gotTopArtists, error: failFunction});
 }
@@ -375,18 +373,15 @@ function arFinished() {
 	var tempArtist = "";
 	for (var i = 0; i < artists.length && i < 50; ++i) {
 		tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
-		innerStr += "<tr><td class=\"artist\"><a href=\"http://" + artists[i].url + "\">" + artists[i].artist + "</a> <span class=\"plays\">(" + artists[i].plays + " recommendations)</span></td></tr>";
+		innerStr += "<tr><td class=\"artist\">" + artists[i].artist.link("http://" + artists[i].url) + " <span class=\"plays\">(" + artists[i].plays + " recommendations)</span></td></tr>";
 	}
-	document.getElementById("arList").innerHTML = innerStr + "</table>";
+	$("#arList").html(innerStr + "</table>");
 	
 	$("#arDisplay").show();
 	$("#progressBack").hide();
 	
 	isRunning = false;
 }
-
-//testing code: executes grabbing tracks
-//getTracks("nick1n");
 
 // event function(s)
 $(function() {
@@ -404,3 +399,16 @@ $(function() {
 	}
 	years.val(date.getFullYear());
 });
+
+// By: nickf
+// Src: http://stackoverflow.com/questions/1643320/get-month-name-from-date-using-javascript
+// Modified by: Nicholas Ness
+var monthNames = [
+	"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+];
+function getMonthName(month) {
+	return this.monthNames[month];
+};
+function getShortMonthName(month) {
+	return this.getMonthName(month).substr(0, 3);
+};
