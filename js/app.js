@@ -282,7 +282,7 @@ function getArtistRecommendations(user) {
 	$("#progressBack").show();
 	
 	if (user == null) {
-		user = $("#arUser").val();
+		user = $("#user").val();
 	}
 	username = user;
 	
@@ -385,22 +385,14 @@ function arFinished() {
 	isRunning = false;
 }
 
-// event function(s)
-$(function() {
-	$('#main-tabs .active').tab('show');
-	
-	// sets focus to first textbox
-	$("#user").focus();
-	
-	// sets default selections of the month and year to the current
-	var date = new Date();
-	var years = $("#year");
-	$("#month").val(date.getMonth());
-	for (var i = 2005; i <= date.getFullYear(); ++i) {
-		$("<option value='" + i + "'>" + i + "</option>").appendTo(years);
-	}
-	years.val(date.getFullYear());
-});
+function elementSupportsAttribute(element,attribute){
+  var test = document.createElement(element);
+  if (attribute in test) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 // By: nickf
 // Src: http://stackoverflow.com/questions/1643320/get-month-name-from-date-using-javascript
@@ -414,3 +406,30 @@ function getMonthName(month) {
 function getShortMonthName(month) {
 	return this.getMonthName(month).substr(0, 3);
 };
+
+// Load top 10 artists for logo
+// code goes here
+
+// ready funciton / event function(s)
+$(function() {
+  // activate tabs
+  $('#main-tabs .active').tab('show');
+
+  // sets focus to first textbox
+  $("#user").focus();
+
+  // sets default selections of the month and year to the current
+  var date = new Date();
+  var years = $("#year");
+  $("#month").val(date.getMonth());
+  for (var i = 2005; i <= date.getFullYear(); ++i) {
+	  $("<option value='" + i + "'>" + i + "</option>").appendTo(years);
+  }
+  years.val(date.getFullYear());
+
+  // make sure placeholders show up
+  if( !elementSupportsAttribute('input','placeholder') ) {
+   // javascript to replicate placeholder function 
+  }
+});
+
