@@ -10,6 +10,13 @@
 </head>
 <body>
 <div class="container" id="main">
+<div class="row">
+  <div class="span12">
+    <div id="logo-container">
+      <img id="logo" src="img/nicholast.png" alt="nicholast.fm logo">
+    </div>
+  </div>
+</div>
 <div class="row" id="main-tabbed">
   <div class="span12">
     <input id="user" type="text" value="" maxlength="64" placeholder="last.fm username">
@@ -40,7 +47,7 @@
 	      <option value="11">December</option>
 	    </select>
 	    <select id="year"></select>
-	    <input class="btn-primary" data-loading-text="loading..." type="submit" onclick="if (!isRunning) getTracks();" value="Submit">
+	    <input class="btn-primary submit" data-loading-text="loading..." type="submit" onclick="if (!isRunning) getTracks();" value="Submit">
 	  </form>
 	  <div id="trackInfo" class="tracks hide">
 	    <div class="row">
@@ -97,7 +104,7 @@
               <option value="100">Top 100</option>
               <option value="200">Top 200</option>
             </select>
-            <input class="btn-primary" type="submit" value="Submit" onClick="if (!isRunning) getArtistRecommendations();"/>
+            <input class="btn-primary submit" type="submit" value="Submit" onClick="if (!isRunning) getArtistRecommendations();"/>
             <div id="arDisplay" class="display hide">
               <b>Artists:</b><br/>
               <span id="arList"></span><br/>

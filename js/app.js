@@ -394,21 +394,44 @@ function elementSupportsAttribute(element,attribute){
   }
 }
 
-// By: nickf
-// Src: http://stackoverflow.com/questions/1643320/get-month-name-from-date-using-javascript
-// Modified by: Nicholas Ness
-var monthNames = [
-	"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-];
-function getMonthName(month) {
-	return this.monthNames[month];
-};
-function getShortMonthName(month) {
-	return this.getMonthName(month).substr(0, 3);
-};
-
 // Load top 10 artists for logo
 // code goes here
+
+function logo(data){ 
+  var tracks = 0;
+  var art = "";
+  obj = data.toptracks.track;
+  for( prop in obj ){
+    tracks++; 
+  }
+
+  for( var i = 0; i < tracks; i++){
+    art += "<img src=\"" + data.toptracks.track[i].image[2]["#text"] + "\" class=\"logo-bg\">";
+  }
+
+/*    obj1 = data.toptracks.track[i].image; */
+/*    for(prop1 in obj){
+      $("body").prepend( "<div>index: "+ prop1 + " property: " + obj[prop1] + "</div>" ); 
+      obj2 = obj[prop1]; 
+      for(prop2 in obj2){ 
+	$("body").prepend( "<div>index2: "+ prop2 + " property2: " + obj2[prop2] + "</div>" ); 
+      }
+    }*/
+
+alert( art );
+
+$("#logo-container").prepend( art );
+
+}
+
+function logoInit(){
+  username = $("#user").val();
+  try {
+    lastfm.user.getTopTracks({user: username, limit: '10'}, {success: logo, error: failFunction});
+  } catch (e) {
+    return;
+  }
+}
 
 // ready funciton / event function(s)
 $(function() {
@@ -417,6 +440,8 @@ $(function() {
 
   // sets focus to first textbox
   $("#user").focus();
+
+  $(".submit").click( logoInit );
 
   // sets default selections of the month and year to the current
   var date = new Date();
@@ -431,5 +456,19 @@ $(function() {
   if( !elementSupportsAttribute('input','placeholder') ) {
    // javascript to replicate placeholder function 
   }
+
 });
+
+// By: nickf
+// Src: http://stackoverflow.com/questions/1643320/get-month-name-from-date-using-javascript
+// Modified by: Nicholas Ness
+var monthNames = [
+	"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+];
+function getMonthName(month) {
+	return this.monthNames[month];
+};
+function getShortMonthName(month) {
+	return this.getMonthName(month).substr(0, 3);
+};
 

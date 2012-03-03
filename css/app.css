@@ -34,3 +34,9 @@ body {
 textarea[readonly] {
   cursor: auto;
 }
+
+#logo-container {
+  background-color:#000000;
+  height:105px;
+  margin:20px 0;
+  width:940px;}
