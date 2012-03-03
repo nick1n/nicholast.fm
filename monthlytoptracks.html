@@ -11,75 +11,69 @@
 <body>
 <div class="container" id="main">
   <div class="span12">
-    <div id="main-tabs">
+    <div id="tabbable">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#MonthlyTopTracks">Monthly Top Tracks</a></li>
-        <li><a href="#ArtistRecommendations">Artist Recommendations</a></li>
+        <li class="active"><a href="#MonthlyTopTracks" data-toggle="tab">Monthly Top Tracks</a></li>
+        <li><a href="#ArtistRecommendations" data-toggle="tab">Artist Recommendations</a></li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="MonthlyTopTracks">
-          <div class="row">
-            <h1>Monthly Top Tracks</h1>
-          </div>
-          <div class="row">
-            <div class="span12">
-              <form id="form" onsubmit="return false;">
-                Username: <input id="user" type="text" value="" maxlength="64"/>
-                <select id="month">
-                  <option value="0">Janurary</option>
-                  <option value="1">Feburary</option>
-                  <option value="2">March</option> 
-                  <option value="3">April</option>
-                  <option value="4">May</option>
-                  <option value="5">June</option>
-                  <option value="6">July</option>
-                  <option value="7">August</option>
-                  <option value="8">September</option>
-                  <option value="9">October</option>
-                  <option value="10">November</option>
-                  <option value="11">December</option>
-                </select>
-                <select id="year"></select>
-                <button class="btn" data-loading-text="loading..." type="submit" onclick="if (!isRunning) getTracks();">Sumbit</button>
-              </form>
-            </div>
-          </div>
-          <div id="trackInfo" class="tracks hide">
-            <div class="row">
-              <h3><span id="mttMonth"></span></h3>
-            </div>
-            <div class="row">
-              <b>Total tracks:</b> <span id="totalTracks"></span>
-            </div>
-            <div class="row">
-              <b>Total unique tracks:</b> <span id="totalUniqueTracks"></span>
-            </div>
-            <div class="row">
-              <b>Song Repetition:</b> <span id="songRepetition"></span>
-            </div>
-            <div class="row">
-              <div class="span12">
-                <b>BB Code:</b><br/>
-                <textarea id="bbcode" rows="8" cols="70" readonly="true"></textarea>
-              </div>
-            </div>
-            <div class="row">
-              <div class="span12">
-                <b>Old BB Code:</b> (Based on <a href="http://www.last.fm/user/kurtrips">kurtrips</a>' heathaze.org BB Code)<br/>
-                <textarea id="oldbbcode" rows="8" cols="70" readonly="true"></textarea>
-              </div>
-            </div>
-            <div class="row">
-              <div class="span6">
-                <b>Top Artists:</b><br/>
-                <span id="artistList"></span><br/>
-              </div>
-              <div class="span6">
-                <b>Top Tracks:</b><br/>
-                <span id="trackList"></span><br/>
-              </div>
-            </div>
-          </div>
+	<h1>Monthly Top Tracks</h1>
+	  <form id="form" onsubmit="return false;">
+	    Username: <input id="user" type="text" value="" maxlength="64"/>
+	    <select id="month">
+	      <option value="0">Janurary</option>
+	      <option value="1">Feburary</option>
+	      <option value="2">March</option> 
+	      <option value="3">April</option>
+	      <option value="4">May</option>
+	      <option value="5">June</option>
+	      <option value="6">July</option>
+	      <option value="7">August</option>
+	      <option value="8">September</option>
+	      <option value="9">October</option>
+	      <option value="10">November</option>
+	      <option value="11">December</option>
+	    </select>
+	    <select id="year"></select>
+	    <input class="btn" data-loading-text="loading..." type="submit" onclick="if (!isRunning) getTracks();" value="Submit">
+	  </form>
+	<div id="trackInfo" class="tracks hide">
+	  <div class="row">
+	    <h3><span id="mttMonth"></span></h3>
+	  </div>
+	  <div class="row">
+	    <b>Total tracks:</b> <span id="totalTracks"></span>
+	  </div>
+	  <div class="row">
+	    <b>Total unique tracks:</b> <span id="totalUniqueTracks"></span>
+	  </div>
+	  <div class="row">
+	    <b>Song Repetition:</b> <span id="songRepetition"></span>
+	  </div>
+	  <div class="row">
+	    <div class="span12">
+	      <b>BB Code:</b><br/>
+	      <textarea id="bbcode" rows="8" cols="70" readonly="true"></textarea>
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class="span12">
+	      <b>Old BB Code:</b> (Based on <a href="http://www.last.fm/user/kurtrips">kurtrips</a>' heathaze.org BB Code)<br/>
+	      <textarea id="oldbbcode" rows="8" cols="70" readonly="true"></textarea>
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class="span6">
+	      <b>Top Artists:</b><br/>
+	      <span id="artistList"></span><br/>
+	    </div>
+	    <div class="span6">
+	      <b>Top Tracks:</b><br/>
+	      <span id="trackList"></span><br/>
+	    </div>
+	  </div>
+	</div>
         </div>
         <div class="tab-pane" id="ArtistRecommendations">
           <h1>Artist Recommendations</h1>
