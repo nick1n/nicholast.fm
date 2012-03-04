@@ -44,6 +44,7 @@ textarea[readonly] {
   width:940px;}
 
 #logo-container .logo-bg {
+  display:none;
   float:left;
   position:relative;
   width:94px;}

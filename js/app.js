@@ -5,6 +5,9 @@
 
 if (typeof console == 'undefined') { var console = { log: function(val) {} }; }
 
+// add scrollbar from load so no weird repositioning happens
+$("body").height( $(window).height() * 1.1 );
+
 /* Create a LastFM object */
 var lastfm = new LastFM({apiKey : 'f750712ed70caea3272e70e48e1f464e'});
 
@@ -421,13 +424,20 @@ function logo(data){
   }
 //alert( art );
 $("#logo-container").prepend( art );
+var delay = 150;
+$.each( $(".logo-bg"), function(i, x){
+  $(this).fadeTo( 250 + (delay * i), .70 );
+});
 
 }
 
 function logoInit(){
+  //if a different username is entered, clear the album art in the logo
+  $("#logo-container .logo-bg").fadeOut("500",function(){ $(this).remove();});
+
   username = $("#user").val();
   try {
-    lastfm.user.getTopTracks({user: username, limit: '10'}, {success: logo, error: failFunction});
+    lastfm.user.getTopTracks({user: username, limit: '20'}, {success: logo, error: failFunction});
   } catch (e) {
     return;
   }
@@ -456,6 +466,8 @@ $(function() {
   if( !elementSupportsAttribute('input','placeholder') ) {
    // javascript to replicate placeholder function 
   }
+
+  
 
 });
 
