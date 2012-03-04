@@ -461,24 +461,29 @@ var delay = (function(){
 
 // ready funciton / event function(s)
 $(function() {
-  // activate tabs
-  $('#main-tabs .active').tab('show');
-
   // sets focus to first textbox
   $("#user").focus();
 
+  // button to clear the current user
   $("#clear-user").click(function(){
     $("#user").val("").keyup();
     $(this).fadeOut(250);
+    $("#logo-container .logo-bg").fadeOut("500",function(){ $(this).remove();}); 
   }).hide();
+
+  // activate tooltips
+  //$("[data-original-title]").tooltip({placement: "right"});
+  $("#user").tooltip({ trigger: 'manual', placement: 'right' });
 
   // makes sure you don't submit the form without entering a username
   $("#user").keyup(function(){
     delay(function(){
      if( $("#user").val() == "" ){
+       $("#user").tooltip('show');
        $(".submit").addClass("disabled").attr("disabled","disabled");
        $("#clear-user").fadeOut(250);
      } else {
+       $("#user").tooltip('hide');
        $(".submit").removeClass("disabled").removeAttr("disabled");
        $("#clear-user").fadeIn(250);
      } 
@@ -506,10 +511,10 @@ $(function() {
   years.val(date.getFullYear());
 
   // make flag conuter section less obnoxious, but have a nice fade-in when moused over
-  $("#flags").fadeTo( 1000, .1).hover(function(){
-    $(this).fadeTo( 250, 1);
+  $("#flags").fadeTo( 0, .1).hover(function(){
+    $(this).stop().fadeTo( 250, 1);
   },function(){
-    $(this).fadeTo( 250, .1);
+    $(this).stop().fadeTo( 250, .1);
   });
 
   // make sure placeholders show up

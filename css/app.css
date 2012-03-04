@@ -1,5 +1,5 @@
 body {
-  //background-color: #E3E3E3;
+  /*background-color: #E3E3E3;*/
   font-family: "Lucida Sans Unicode", "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
 }
 
@@ -23,8 +23,14 @@ body {
   color: #0187C5;}
 
 #user {
+  float:left;
   margin-bottom:.75em;
   width:auto;}
+#clear-user {
+  line-height:15px;}
+.controls .clear-user {
+  background-color:transparent;
+  border:0px solid transparent;}
 
 #main-tabbed .plays {
   color: #cccccc;}
@@ -62,9 +68,10 @@ textarea[readonly] {
   top:0px;}
 
 #footer {
-  border-top:1px solid #000000;
+  border-top:1px solid #DDDDDD;
   margin-top:35px;
-  padding:1em 1em 1em 1em;}
+  padding:1em 0em 1em 0em;}
+
 
 
 
