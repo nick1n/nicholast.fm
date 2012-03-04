@@ -1,6 +1,8 @@
-.DS_Store
 *~
 ~*
-*.swp
+Thumbs.db
 *thumbs.db
+.DS_Store
+*.swp
 desktop.ini
+_resources
