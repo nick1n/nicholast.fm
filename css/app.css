@@ -1,31 +1,30 @@
-#MonthlyTopTracks a:link, #ArtistRecommendations a:link {  /* unvisited link */
-  color: #1B1B1B;
-  text-decoration: none;
-}
-
-#MonthlyTopTracks a:visited, #ArtistRecommendations a:visited  {  /* visited link */
-  color: #1B1B1B;
-  text-decoration: none;
-}
-
-#MonthlyTopTracks a:hover, #ArtistRecommendations a:hover {  /* mouse over link */
-  color: #0187C5;
-  text-decoration: underline;
-}
-
-#MonthlyTopTracks a:active, #ArtistRecommendations a:active {  /* selected link */
-  color: #0187C5;
-  text-decoration: underline;
-}
-
 body {
   //background-color: #E3E3E3;
   font-family: "Lucida Sans Unicode", "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
 }
 
-#main-tabbed .artist a, #main-tabbed .track a {
+#MonthlyTopTracks a:link, #ArtistRecommendations a:link {  /* unvisited link */
+  color: #1B1B1B;
+  text-decoration: none;}
+
+#MonthlyTopTracks a:visited, #ArtistRecommendations a:visited  {  /* visited link */
+  color: #1B1B1B;
+  text-decoration: none;}
+
+#MonthlyTopTracks a:hover, #ArtistRecommendations a:hover {  /* mouse over link */
   color: #0187C5;
-}
+  text-decoration: underline;}
+
+#MonthlyTopTracks a:active, #ArtistRecommendations a:active {  /* selected link */
+  color: #0187C5;
+  text-decoration: underline;}
+
+#main-tabbed .artist a, #main-tabbed .track a {
+  color: #0187C5;}
+
+#user {
+  margin-bottom:.75em;
+  width:auto;}
 
 #main-tabbed .plays {
   color: #cccccc;}
@@ -66,6 +65,8 @@ textarea[readonly] {
   border-top:1px solid #000000;
   margin-top:35px;
   padding:1em 1em 1em 1em;}
+
+
 
 
 

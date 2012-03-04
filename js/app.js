@@ -447,9 +447,17 @@ function activate(whichFeature){
     logoInit();
   }
 
-  if( !isRunning ) window[whichFeature](); 
+  if( !isRunning ) window[whichFeature](); // this is how you invoke a function via a string stored in a variable. In this case, the string is from the ID attribute of the submit button pressed
 
 }
+
+var delay = (function(){
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
 
 // ready funciton / event function(s)
 $(function() {
@@ -459,7 +467,34 @@ $(function() {
   // sets focus to first textbox
   $("#user").focus();
 
-  $(".submit").click( function(){ activate( $(this).attr("id") ) } );
+  $("#clear-user").click(function(){
+    $("#user").val("").keyup();
+    $(this).fadeOut(250);
+  }).hide();
+
+  // makes sure you don't submit the form without entering a username
+  $("#user").keyup(function(){
+    delay(function(){
+     if( $("#user").val() == "" ){
+       $(".submit").addClass("disabled").attr("disabled","disabled");
+       $("#clear-user").fadeOut(250);
+     } else {
+       $(".submit").removeClass("disabled").removeAttr("disabled");
+       $("#clear-user").fadeIn(250);
+     } 
+    }, 250);
+  }).click(function(){
+    $(this).val("").keyup();
+  }).keyup();
+
+  // handles activation of features, like getting Monthly Top Tracks, etc.
+  $(".submit").click( function(){ 
+    if( $("#user").val() == "" ){
+      $("#user").parents(".control-group").addClass("error");
+    } else {
+      activate( $(this).attr("id") ) 
+    }
+  });
 
   // sets default selections of the month and year to the current
   var date = new Date();
@@ -470,13 +505,17 @@ $(function() {
   }
   years.val(date.getFullYear());
 
+  // make flag conuter section less obnoxious, but have a nice fade-in when moused over
+  $("#flags").fadeTo( 1000, .1).hover(function(){
+    $(this).fadeTo( 250, 1);
+  },function(){
+    $(this).fadeTo( 250, .1);
+  });
+
   // make sure placeholders show up
   if( !elementSupportsAttribute('input','placeholder') ) {
    // javascript to replicate placeholder function 
   }
-
-  
-
 });
 
 // By: nickf

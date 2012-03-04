@@ -19,7 +19,14 @@
 </div>
 <div class="row">
   <div class="span12">
-    <input id="user" type="text" value="" maxlength="64" placeholder="last.fm username">
+    <div class="control-group">
+      <div class="controls">
+        <div class="input-append">
+	  <input id="user" type="text" value="" maxlength="64" placeholder="last.fm username">
+          <span class="add-on"><i class="icon-user"></i><i id="clear-user" class="icon-remove"></i></span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <div class="row">
@@ -48,7 +55,7 @@
 	      <option value="11">December</option>
 	    </select>
 	    <select id="year"></select>
-	    <input class="btn-primary submit" data-loading-text="loading..." type="submit" value="Submit" id="getTracks">
+	    <input class="btn btn-primary submit" data-loading-text="loading..." type="submit" value="Submit" id="getTracks">
 	  </form>
 	  <div id="trackInfo" class="tracks hide">
 	    <div class="row">
@@ -104,7 +111,7 @@
               <option value="100">Top 100</option>
               <option value="200">Top 200</option>
             </select>
-            <input class="btn-primary submit" type="submit" value="Submit" id="getArtistRecommendations">
+            <input class="btn btn-primary submit" data-loading-text="loading..." type="submit" value="Submit" id="getArtistRecommendations">
             <div id="arDisplay" class="display hide">
               <b>Artists:</b><br/>
               <span id="arList"></span><br/>
@@ -117,7 +124,7 @@
     </div><!-- end #tabbable -->
   </div><!-- end #main-tabbed.span8 -->
   <div class="span4">
-    <a href="http://s08.flagcounter.com/more/HQj4"><img src="http://s08.flagcounter.com/count/HQj4/bg=FFFFFF/txt=000000/border=CCCCCC/columns=3/maxflags=248/viewers=3/labels=1/pageviews=0/" alt="free counters" border="0"></a>
+    <a id="flags" href="http://s08.flagcounter.com/more/HQj4"><img src="http://s08.flagcounter.com/count/HQj4/bg=FFFFFF/txt=000000/border=CCCCCC/columns=3/maxflags=248/viewers=3/labels=1/pageviews=0/" alt="free counters" border="0"></a>
   </div>
 </div><!-- end .row -->
 <div class="row">
