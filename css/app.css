@@ -1,6 +1,7 @@
 body {
   /*background-color: #E3E3E3;*/
   font-family: "Lucida Sans Unicode", "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
+  overflow-y: scroll;
 }
 
 #MonthlyTopTracks a:link, #ArtistRecommendations a:link {  /* unvisited link */
