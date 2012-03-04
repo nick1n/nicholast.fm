@@ -406,20 +406,20 @@ function logo(data){
   }
 
   for( var i = 0; i < tracks; i++){
+    try {
     art += "<img src=\"" + data.toptracks.track[i].image[2]["#text"] + "\" class=\"logo-bg\">";
-  }
-
-/*    obj1 = data.toptracks.track[i].image; */
-/*    for(prop1 in obj){
+    } catch(e){}
+/*
+    for(prop1 in obj){
       $("body").prepend( "<div>index: "+ prop1 + " property: " + obj[prop1] + "</div>" ); 
       obj2 = obj[prop1]; 
       for(prop2 in obj2){ 
 	$("body").prepend( "<div>index2: "+ prop2 + " property2: " + obj2[prop2] + "</div>" ); 
       }
-    }*/
-
-alert( art );
-
+    }
+*/
+  }
+//alert( art );
 $("#logo-container").prepend( art );
 
 }

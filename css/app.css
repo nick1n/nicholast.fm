@@ -37,6 +37,23 @@ textarea[readonly] {
 
 #logo-container {
   background-color:#000000;
-  height:105px;
+  height:94px;
   margin:20px 0;
+  overflow:hidden;
+  position:relative;
   width:940px;}
+
+#logo-container .logo-bg {
+  float:left;
+  position:relative;
+  width:94px;}
+
+#logo-container #logo {
+  height:94px;
+  left:0px;
+  position:absolute;
+  top:0px;}
+
+
+
+
