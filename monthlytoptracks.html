@@ -48,7 +48,7 @@
 	      <option value="11">December</option>
 	    </select>
 	    <select id="year"></select>
-	    <input class="btn-primary submit" data-loading-text="loading..." type="submit" onclick="if (!isRunning) getTracks();" value="Submit">
+	    <input class="btn-primary submit" data-loading-text="loading..." type="submit" value="Submit" id="getTracks">
 	  </form>
 	  <div id="trackInfo" class="tracks hide">
 	    <div class="row">
@@ -104,7 +104,7 @@
               <option value="100">Top 100</option>
               <option value="200">Top 200</option>
             </select>
-            <input class="btn-primary submit" type="submit" value="Submit" onClick="if (!isRunning) getArtistRecommendations();"/>
+            <input class="btn-primary submit" type="submit" value="Submit" id="getArtistRecommendations">
             <div id="arDisplay" class="display hide">
               <b>Artists:</b><br/>
               <span id="arList"></span><br/>

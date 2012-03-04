@@ -433,14 +433,22 @@ $.each( $(".logo-bg"), function(i, x){
 
 function logoInit(){
   //if a different username is entered, clear the album art in the logo
-  $("#logo-container .logo-bg").fadeOut("500",function(){ $(this).remove();});
-
+  $("#logo-container .logo-bg").fadeOut("500",function(){ $(this).remove();}); 
   username = $("#user").val();
   try {
     lastfm.user.getTopTracks({user: username, limit: '20'}, {success: logo, error: failFunction});
   } catch (e) {
     return;
   }
+}
+
+function activate(whichFeature){
+  if( username != $("#user").val() ){
+    logoInit();
+  }
+
+  if( !isRunning ) window[whichFeature](); 
+
 }
 
 // ready funciton / event function(s)
@@ -451,7 +459,7 @@ $(function() {
   // sets focus to first textbox
   $("#user").focus();
 
-  $(".submit").click( logoInit );
+  $(".submit").click( function(){ activate( $(this).attr("id") ) } );
 
   // sets default selections of the month and year to the current
   var date = new Date();
