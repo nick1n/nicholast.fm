@@ -1,19 +1,19 @@
-a:link {  /* unvisited link */
+#MonthlyTopTracks a:link, #ArtistRecommendations a:link {  /* unvisited link */
   color: #1B1B1B;
   text-decoration: none;
 }
 
-a:visited {  /* visited link */
+#MonthlyTopTracks a:visited, #ArtistRecommendations a:visited  {  /* visited link */
   color: #1B1B1B;
   text-decoration: none;
 }
 
-a:hover {  /* mouse over link */
+#MonthlyTopTracks a:hover, #ArtistRecommendations a:hover {  /* mouse over link */
   color: #0187C5;
   text-decoration: underline;
 }
 
-a:active {  /* selected link */
+#MonthlyTopTracks a:active, #ArtistRecommendations a:active {  /* selected link */
   color: #0187C5;
   text-decoration: underline;
 }
@@ -23,9 +23,16 @@ body {
   font-family: "Lucida Sans Unicode", "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
 }
 
-#plays.a:link {
+#main-tabbed .artist a, #main-tabbed .track a {
   color: #0187C5;
 }
+
+#main-tabbed .plays {
+  color: #cccccc;}
+
+#main-tabbed .plays a {
+  color: #cccccc;
+  text-decoration:underline;}
 
 .center {
   text-align: center;
@@ -54,6 +61,11 @@ textarea[readonly] {
   left:0px;
   position:absolute;
   top:0px;}
+
+#footer {
+  border-top:1px solid #000000;
+  margin-top:35px;
+  padding:1em 1em 1em 1em;}
 
 
 

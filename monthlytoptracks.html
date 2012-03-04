@@ -17,11 +17,13 @@
     </div>
   </div>
 </div>
-<div class="row" id="main-tabbed">
+<div class="row">
   <div class="span12">
     <input id="user" type="text" value="" maxlength="64" placeholder="last.fm username">
   </div>
-  <div class="span12">
+</div>
+<div class="row">
+  <div class="span8" id="main-tabbed">
     <div id="tabbable">
       <ul class="nav nav-tabs">
         <li class="active"><a href="#MonthlyTopTracks" data-toggle="tab">Monthly Top Tracks</a></li>
@@ -30,7 +32,6 @@
       <div class="tab-content">
         <div class="tab-pane active" id="MonthlyTopTracks">
 
-	<h1>Monthly Top Tracks</h1>
 	  <form id="form" onsubmit="return false;">
 	    <select id="month">
 	      <option value="0">Janurary</option>
@@ -90,7 +91,6 @@
 
         <div class="tab-pane" id="ArtistRecommendations">
 
-          <h1>Artist Recommendations</h1>
           <form class="form" onSubmit="return false;">
             <select id="arPeriod">
               <option value="overall">Overall</option>
@@ -115,23 +115,23 @@
 
       </div><!-- end .tab-content -->
     </div><!-- end #tabbable -->
-  </div><!-- end .span12 -->
-  <div class="row">
+  </div><!-- end #main-tabbed.span8 -->
+  <div class="span4">
+    <a href="http://s08.flagcounter.com/more/HQj4"><img src="http://s08.flagcounter.com/count/HQj4/bg=FFFFFF/txt=000000/border=CCCCCC/columns=3/maxflags=248/viewers=3/labels=1/pageviews=0/" alt="free counters" border="0"></a>
+  </div>
+</div><!-- end .row -->
+<div class="row">
+  <div class="span8">
     <div id="progressBack" class="progress progress-info progress-striped active hide span10 offset1">
       <div id="progressBar" class="bar" style="width: 0%;"></div>
     </div>
   </div>
-  <div class="row">
-    <div id="footer" class="span12 center">
-      <a href="http://www.last.fm/user/nick1n" target="_blank">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank">Nick</a>
-    </div>
-  </div>
-  <div class="row">
-    <div class="span12 center">
-      <a href="http://s08.flagcounter.com/more/HQj4"><img src="http://s08.flagcounter.com/count/HQj4/bg=FFFFFF/txt=000000/border=CCCCCC/columns=3/maxflags=248/viewers=3/labels=1/pageviews=0/" alt="free counters" border="0"></a>
-    </div>
-  </div>
-</div><!-- end #main-tabbed.row -->
+</div>
+
+<footer id="footer">
+  <a href="http://www.last.fm/user/nick1n" target="_blank">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank">Nick</a>
+</footer>
+
 </div><!-- end #main.container -->
 
 <!-- scripts at the bottom of the body for faster loading -->
