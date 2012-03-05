@@ -226,17 +226,18 @@ function finished() {
     innerStr += "<tr><td class=\"track\">" + tracks[i].artist.link("http://www.last.fm/music/" + tempArtist) + " - " + tracks[i].track.link("http://www.last.fm/music/" + tempArtist + "/_/" + tempTrack) + " <span class=\"plays\">" + ("(" + tracks[i].plays + " plays)").link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist) + "</span></td></tr>";
     //<div style=\"background-color:#71B7E6; width:" + (tracks[i].plays/tracks[0].plays*500).toFixed(0) + "px;\">&nbsp;<span style=\"position:relative;\">
   }
+  console.log(innerStr);
   $("#trackList").html(innerStr + "</table>");
   
   // generate my bb code
   var bbCode = "";
   if (artists[0] != undefined) {
-    bbCode += "[url=http://lastfm.nicholasness.com]Monthly Top Artists[/url]\n";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
     for (var i = 0; artists[i] != undefined && artists[0].plays == artists[i].plays; ++i) {
       tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
       bbCode += "[b]" + (month + 1) + "-" + year.substr(2) + ":[/b] [artist]" + artists[i].artist + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].plays + " plays)[/url]\n";
     }
-    bbCode += "[url=http://lastfm.nicholasness.com]Monthly Top Tracks[/url]\n";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
     for (var i = 0; tracks[i] != undefined && tracks[0].plays == tracks[i].plays; ++i) {
       bbCode += "[b]" + (month + 1) + "-" + year.substr(2) + ":[/b] [artist]" + tracks[i].artist + "[/artist] - [track artist=" + tracks[i].artist + "]" + tracks[i].track + "[/track]\n";
     }
@@ -244,12 +245,12 @@ function finished() {
     
     // generate old bb code (styled from lastfm.heathaze.org)
     bbCode = "";
-    bbCode += "[url=http://lastfm.nicholasness.com]Monthly Top Artists[/url]\n";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
     for (var i = 0; artists[i] != undefined && artists[0].plays == artists[i].plays; ++i) {
       tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
       bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + artists[i].artist + "[/artist] ([b]" + artists[i].plays + "[/b] plays)\n";
     }
-    bbCode += "[url=http://lastfm.nicholasness.com]Monthly Top Tracks[/url]\n";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
     for (var i = 0; tracks[i] != undefined && tracks[0].plays == tracks[i].plays; ++i) {
       bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + tracks[i].artist + "[/artist] : [track artist=" + tracks[i].artist + "]" + tracks[i].track + "[/track] ([b]" + tracks[i].plays + "[/b] plays)\n";
     }
@@ -267,6 +268,22 @@ function finished() {
 
 // something went wrong function for all last.fm api calls
 function failFunction(code, message) {
+  /**
+   * 2 : Invalid service - This service does not exist
+   * 3 : Invalid Method - No method with that name in this package
+   * 4 : Authentication Failed - You do not have permissions to access the service
+   * 5 : Invalid format - This service doesn't exist in that format
+   * 6 : Invalid parameters - Your request is missing a required parameter
+   * 7 : Invalid resource specified
+   * 8 : Operation failed - Something else went wrong
+   * 9 : Invalid session key - Please re-authenticate
+   * 10 : Invalid API key - You must be granted a valid key by last.fm
+   * 11 : Service Offline - This service is temporarily offline. Try again later.
+   * 13 : Invalid method signature supplied
+   * 16 : There was a temporary error processing your request. Please try again
+   * 26 : Suspended API key - Access for your account has been suspended, please contact Last.fm
+   * 29 : Rate limit exceeded - Your IP has made too many requests in a short period
+   */
   alert("Failed:\nCode: " + code + "\n" + message);
 }
 
@@ -331,13 +348,7 @@ function gotTopArtists(data) {
 }
 
 function getSimilarArtists(i) {
-  lastfm.artist.getSimilar({
-    artist : topArtists[i].name,
-    autocorrect : 1
-  }, {
-    success : gotTopSimilarArtists,
-    error : failFunction
-  });
+  lastfm.artist.getSimilar({ artist : topArtists[i].name, autocorrect : 1 }, { success : gotTopSimilarArtists, error : failFunction });
 }
 
 function gotTopSimilarArtists(data) {
@@ -480,7 +491,7 @@ $(function() {
   // button to clear the current user
   $("#clear-user").click(function() {
     $("#user").val("").keyup();
-    $(this).fadeOut(250);
+    $("#user").focus();
     $("#logo-container .logo-bg").fadeOut("500", function() {
       $(this).remove();
     });
@@ -491,18 +502,21 @@ $(function() {
   $("#user").tooltip({ trigger : 'manual', placement : 'right' });
   
   // makes sure you don't submit the form without entering a username
-  $("#user").keyup(function() {
-    delay(function() {
-      if ($("#user").val() == "") {
-        $("#user").tooltip('show');
-        $(".submit").addClass("disabled").attr("disabled", "disabled");
-        $("#clear-user").fadeOut(250);
-      } else {
-        $("#user").tooltip('hide');
-        $(".submit").removeClass("disabled").removeAttr("disabled");
-        $("#clear-user").fadeIn(250);
-      }
-    }, 250);
+  var user = null;
+  $("#user").keyup(function(data) {
+    if (user == $("#user").val()) {
+      return;
+    }
+    if ($("#user").val() == "") {
+      $("#user").tooltip('show');
+      $(".submit").addClass("disabled").attr("disabled", "disabled");
+      $("#clear-user").fadeOut(250);
+    } else {
+      $("#user").tooltip('hide');
+      $(".submit").removeClass("disabled").removeAttr("disabled");
+      $("#clear-user").fadeIn(250);
+    }
+    user = $("#user").val();
   }).keyup();
   
   // handles activation of features, like getting Monthly Top Tracks, etc.
@@ -523,12 +537,13 @@ $(function() {
   }
   years.val(date.getFullYear());
   
+  // The flag counter is currently hidden
   // make flag conuter section less obnoxious, but have a nice fade-in when moused over
-  $("#flags").fadeTo(0, .1).hover(function() {
-    $(this).stop().fadeTo(250, 1);
-  }, function() {
-    $(this).stop().fadeTo(250, .1);
-  });
+  //$("#flags").fadeTo(0, .1).hover(function() {
+  //  $(this).stop().fadeTo(250, 1);
+  //}, function() {
+  //  $(this).stop().fadeTo(250, .1);
+  //});
   
   // make sure placeholders show up
   if (!elementSupportsAttribute('input', 'placeholder')) {

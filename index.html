@@ -11,19 +11,19 @@
 <body>
 <div class="container" id="main">
 <div class="row">
-  <div class="span12">
+  <div class="span10 offset1">
     <div id="logo-container">
       <a href="/"><img id="logo" src="img/nicholast.png" alt="nicholast.fm logo"></a>
     </div>
   </div>
 </div>
 <div class="row">
-  <div class="span12">
+  <div class="span10 offset1">
     <div class="control-group">
       <div class="controls">
         <div class="input-prepend">
           <span class="add-on"><i class="icon-user"></i></span>
-	  <input id="user" type="text" value="" maxlength="64" placeholder="last.fm username" title="Enter your last.fm username">
+          <input id="user" type="text" value="" maxlength="64" placeholder="last.fm username" title="Enter your last.fm username">
           <span class="add-on clear-user"><a id="clear-user" class="close">&times;</a></span>
         </div>
       </div>
@@ -31,95 +31,113 @@
   </div>
 </div>
 <div class="row">
-  <div class="span8" id="main-tabbed">
+  <div class="span10 offset1" id="main-tabbed">
     <div id="tabbable">
       <ul class="nav nav-tabs">
         <li class="active"><a href="#MonthlyTopTracks" data-toggle="tab">Monthly Top Tracks</a></li>
         <li><a href="#ArtistRecommendations" data-toggle="tab">Artist Recommendations</a></li>
+        <li><a href="#TrackRecommendations" data-toggle="tab">Track Recommendations</a></li>
+        <li><a href="#About" data-toggle="tab">About</a></li>
       </ul>
       <div class="tab-content">
-        <div class="tab-pane active" id="MonthlyTopTracks">
+    
+    <!-- start Monthly Top Tracks -->
+    <div class="tab-pane active" id="MonthlyTopTracks">
 
-	  <form id="form" onsubmit="return false;">
-	    <select id="month">
-	      <option value="0">Janurary</option>
-	      <option value="1">Feburary</option>
-	      <option value="2">March</option> 
-	      <option value="3">April</option>
-	      <option value="4">May</option>
-	      <option value="5">June</option>
-	      <option value="6">July</option>
-	      <option value="7">August</option>
-	      <option value="8">September</option>
-	      <option value="9">October</option>
-	      <option value="10">November</option>
-	      <option value="11">December</option>
-	    </select>
-	    <select id="year"></select>
-	    <input class="btn btn-primary submit" data-loading-text="loading..." type="submit" value="Submit" id="getTracks">
-	  </form>
-	  <div id="trackInfo" class="tracks hide">
-	    <div class="row">
-	      <h3><span id="mttMonth"></span></h3>
-	    </div>
-	    <div class="row">
-	      <b>Total tracks:</b> <span id="totalTracks"></span>
-	    </div>
-	    <div class="row">
-	      <b>Total unique tracks:</b> <span id="totalUniqueTracks"></span>
-	    </div>
-	    <div class="row">
-	      <b>Song Repetition:</b> <span id="songRepetition"></span>
-	    </div>
-	    <div class="row">
-	      <div class="span12">
-		<b>BB Code:</b><br/>
-		<textarea id="bbcode" rows="8" cols="70" readonly="true"></textarea>
-	      </div>
-	    </div>
-	    <div class="row">
-	      <div class="span12">
-		<b>Old BB Code:</b> (Based on <a href="http://www.last.fm/user/kurtrips">kurtrips</a>' heathaze.org BB Code)<br/>
-		<textarea id="oldbbcode" rows="8" cols="70" readonly="true"></textarea>
-	      </div>
-	    </div>
-	    <div class="row">
-	      <div class="span6">
-		<b>Top Artists:</b><br/>
-		<span id="artistList"></span><br/>
-	      </div>
-	      <div class="span6">
-		<b>Top Tracks:</b><br/>
-		<span id="trackList"></span><br/>
-	      </div>
-	    </div>
-	  </div>
+    <form id="form" onsubmit="return false;">
+      <select id="month">
+        <option value="0">Janurary</option>
+        <option value="1">Feburary</option>
+        <option value="2">March</option> 
+        <option value="3">April</option>
+        <option value="4">May</option>
+        <option value="5">June</option>
+        <option value="6">July</option>
+        <option value="7">August</option>
+        <option value="8">September</option>
+        <option value="9">October</option>
+        <option value="10">November</option>
+        <option value="11">December</option>
+      </select>
+      <select id="year"></select>
+      <input class="btn btn-primary submit" data-loading-text="loading..." type="submit" value="Submit" id="getTracks">
+    </form>
+    <div id="trackInfo" class="hide">
+      <div class="row">
+        <div class="span10">
+          <h3><span id="mttMonth"></span></h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span10">
+          <b>Total tracks:</b> <span id="totalTracks"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span10">
+          <b>Total unique tracks:</b> <span id="totalUniqueTracks"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span10">
+          <b>Song Repetition:</b> <span id="songRepetition"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span10">
+          <b>BB Code:</b><br/>
+          <textarea id="bbcode" rows="8" cols="70" readonly="true"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span10">
+          <b>Old BB Code:</b> (Based on <a href="http://www.last.fm/user/kurtrips">kurtrips</a>' heathaze.org BB Code)<br/>
+          <textarea id="oldbbcode" rows="8" cols="70" readonly="true"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span5">
+          <b>Top Artists:</b><br/>
+          <span id="artistList"></span>
+        </div>
+        <div class="span5">
+          <b>Top Tracks:</b><br/>
+          <span id="trackList"></span>
+        </div>
+      </div>
+    </div>
 
-        </div><!-- end #monthlytoptracks -->
+    </div>
+    <!-- end Monthly Top Tracks -->
 
-        <div class="tab-pane" id="ArtistRecommendations">
+    <!-- start Artist Recommendations -->
+    <div class="tab-pane" id="ArtistRecommendations">
 
-          <form class="form" onSubmit="return false;">
-            <select id="arPeriod">
-              <option value="overall">Overall</option>
-              <option value="7day">Last 7 Days</option>
-              <option value="3month">Last 3 Months</option>
-              <option value="6month">Last 6 Months</option>
-              <option value="12month">Last 12 Months</option>
-            </select>
-            <select id="arLimit">
-              <option value="50">Top 50</option>
-              <option value="100">Top 100</option>
-              <option value="200">Top 200</option>
-            </select>
-            <input class="btn btn-primary submit" data-loading-text="loading..." type="submit" value="Submit" id="getArtistRecommendations">
-            <div id="arDisplay" class="display hide">
-              <b>Artists:</b><br/>
-              <span id="arList"></span><br/>
-            </div>
-          </form>
+    <form class="form" onSubmit="return false;">
+      <select id="arPeriod">
+        <option value="overall">Overall</option>
+        <option value="7day">Last 7 Days</option>
+        <option value="3month">Last 3 Months</option>
+        <option value="6month">Last 6 Months</option>
+        <option value="12month">Last 12 Months</option>
+      </select>
+      <select id="arLimit">
+        <!-- For Testing -->
+        <option value="5">Top 5</option>
+        <!-- For Testing -->
+        <option value="50">Top 50</option>
+        <option value="100">Top 100</option>
+        <option value="200">Top 200</option>
+      </select>
+      <input class="btn btn-primary submit" data-loading-text="loading..." type="submit" value="Submit" id="getArtistRecommendations">
+      <div id="arDisplay" class="hide">
+        <b>Artists:</b><br/>
+        <span id="arList"></span>
+      </div>
+    </form>
 
-        </div><!-- end #artistrecommendations -->
+    </div>
+    <!-- end Artist Recommendations -->
 
       </div><!-- end .tab-content -->
     </div><!-- end #tabbable -->
@@ -127,17 +145,17 @@
       <div id="progressBar" class="bar" style="width: 0%;"></div>
     </div>
   </div><!-- end #main-tabbed.span8 -->
-  <div class="span4">
+  <div class="hide">
     <a id="flags" href="http://s08.flagcounter.com/more/HQj4"><img src="http://s08.flagcounter.com/count/HQj4/bg=FFFFFF/txt=000000/border=CCCCCC/columns=3/maxflags=248/viewers=3/labels=1/pageviews=0/" alt="free counters" border="0"></a>
   </div>
 </div><!-- end .row -->
 
 <footer id="footer" class="row">
-  <div class="span8">
+  <div class="span7 offset1">
     <p>nicholast.fm is by <a href="http://www.last.fm/user/nick1n" target="_blank">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank">Nick</a></p>
     <p>Copyright &copy; 2012</p>
   </div>
-  <div class="span4">
+  <div class="span3">
     <p>Many thanks to last.fm, bootstrap, nickf, flagcounter, jQuery, and Felix Bruns' javascript last.fm api lib</p><br>
   </div>
 </footer>
