@@ -557,11 +557,14 @@ function trOnClick(col) {
   
   recommendedTracks.sort(trSort);
   
-  innerStr = "<table><tr><td onClick=\"trOnClick('A');\"><b>Artist</b></td><td onClick=\"trOnClick('M');\"><b>Match</b></td><td onClick=\"trOnClick('R');\"><b>Recommendations</b></td></tr>";
+  innerStr = "<table class=\"table table-striped table-bordered table-condensed\"><thead><tr>";
+  innerStr += "<th onClick=\"trOnClick('A');\"><b>Artist</b>" + (col == 'A' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th>";
+  innerStr += "<th onClick=\"trOnClick('M');\"><b>Match</b>" + (col == 'M' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th>";
+  innerStr += "<th onClick=\"trOnClick('R');\"><b>Recommendations</b>" + (col == 'R' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th></tr></thead><tbody>";
   for (var i = 0; i < recommendedTracks.length && i < 50; ++i) {
     innerStr += "<tr><td class=\"artist\"><a href=\"http://" + recommendedTracks[i].artisturl + "\">" + recommendedTracks[i].artist + "</a> - <a href=\"http://" + recommendedTracks[i].trackurl + "\">" + recommendedTracks[i].track + "</a></td> <td class=\"plays\">" + recommendedTracks[i].match.toFixed(2) + "</td> <td class=\"plays\">" + recommendedTracks[i].recommendations + "</td></tr>";
   }
-  $("#trList").html(innerStr + "</table>");
+  $("#trList").html(innerStr + "</tbody></table>");
 }
 
 function elementSupportsAttribute(element, attribute) {
