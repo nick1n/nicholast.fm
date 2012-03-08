@@ -138,6 +138,35 @@
 
     </div>
     <!-- end Artist Recommendations -->
+    
+    <!-- start Track Recommendations -->
+    <div class="tab-pane" id="TrackRecommendations">
+
+    <form class="form" onSubmit="return false;">
+      <select id="trPeriod">
+        <option value="overall">Overall</option>
+        <option value="7day">Last 7 Days</option>
+        <option value="3month">Last 3 Months</option>
+        <option value="6month">Last 6 Months</option>
+        <option value="12month">Last 12 Months</option>
+      </select>
+      <select id="trLimit">
+        <!-- For Testing -->
+        <option value="5">Top 5</option>
+        <!-- For Testing -->
+        <option value="50">Top 50</option>
+        <option value="100">Top 100</option>
+        <option value="200">Top 200</option>
+      </select>
+      <input class="btn btn-primary submit" data-loading-text="loading..." type="submit" value="Submit" id="getTrackRecommendations">
+      <div id="trDisplay" class="hide">
+        <b>Tracks:</b><br/>
+        <span id="trList"></span>
+      </div>
+    </form>
+
+    </div>
+    <!-- end Track Recommendations -->
 
       </div><!-- end .tab-content -->
     </div><!-- end #tabbable -->

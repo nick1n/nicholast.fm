@@ -32,10 +32,7 @@ function getTracks(user) {
   isRunning = true;
   $(".btn").button('loading');
   
-  if (user == null) {
-    user = $("#user").val();
-  }
-  username = user;
+  username = $("#user").val();
   numTracks = 0;
   innerStr = "<table>";
   pagesFinished = 0;
@@ -47,7 +44,6 @@ function getTracks(user) {
   $("#progressBar").width("0%");
   //document.getElementById("progressPercent").innerHTML = "0%";
   
-  $("#arDisplay").hide();
   $("#trackInfo").hide();
   $("#progressBack").show();
   
@@ -292,6 +288,7 @@ function getArtistRecommendations(user) {
     return;
   }
   isRunning = true;
+  $(".btn").button('loading');
   
   /*
   numTracks = 0;
@@ -312,10 +309,7 @@ function getArtistRecommendations(user) {
   $("#arDisplay").hide();
   $("#progressBack").show();
   
-  if (user == null) {
-    user = $("#user").val();
-  }
-  username = user;
+  username = $("#user").val();
   
   var period = $("#arPeriod").val();
   numPages = parseInt($("#arLimit").val());
@@ -416,7 +410,158 @@ function arFinished() {
   $("#arDisplay").show();
   $("#progressBack").hide();
   
+  $(".btn").button('reset');
   isRunning = false;
+}
+
+//////////////// Track Recommendations Code //////////////////////////////////////
+// thinking of advance tuning such as:
+// auto correct on/off
+// recommendation ... match ... cut off ... ? 0-1
+// user's top artists' ... plays ... cut off ... ? ... 20 ... 100 ?
+
+var recommendedTracks = [];
+var trSortColumn = 'M';
+
+function getTrackRecommendations(user) {
+  if (isRunning) {
+    return;
+  }
+  isRunning = true;
+  $(".btn").button('loading');
+  
+  /*
+  numTracks = 0;
+  year = 0;
+  month = 0;
+  */
+  numPages = 0; // num of user's top tracks
+  uniqueTracks = {}; // user's top tracks
+  uniqueArtists = {}; // recommended tracks
+  topArtists = {};
+  innerStr = "<table>";
+  pagesFinished = 0;
+  
+  $("#progressBar").width("0%");
+  //$("#progressPercent").innerHTML = "0%";
+  //$("#arDisplay").hide();
+  $("#trDisplay").hide();
+  $("#progressBack").show();
+  
+  username = $("#user").val();
+  
+  var period = $("#trPeriod").val();
+  numPages = parseInt($("#trLimit").val());
+  
+  lastfm.user.getTopTracks({user: username, period: period, limit: 400}, {success: gotTopTracks, error: failFunction});
+}
+
+function gotTopTracks(data) {
+  if (data.toptracks['@attr'] == undefined) {
+    innerStr += "No Data";
+    arFinished();
+    return;
+  }
+  console.log(data);
+  
+  if (data.toptracks.track.length < numPages) {
+    numPages = data.toptracks.track.length;
+  }
+  
+  // make a list with the user's top artist and tracks' names as the index
+  for (var i = 0; i < data.toptracks.track.length; ++i) {
+    uniqueTracks[data.toptracks.track[i].artist.name + " " + data.toptracks.track[i].name] = 1;
+  }
+  
+  topArtists = data.toptracks.track;
+  
+  // for each top artist get their list of similar artists
+  for (var i = 0; i < data.toptracks.track.length && i < numPages; ++i) {
+    setTimeout("getSimilarTracks(" + i + ")", 200*i+200);
+  }
+}
+
+function getSimilarTracks(i) {
+  lastfm.track.getSimilar({artist: topArtists[i].artist.name, track: topArtists[i].name, autocorrect: 1}, {success: gotTopSimilarTracks, error: failFunction});
+}
+
+function gotTopSimilarTracks(data) {
+  // make sure that there are similar tracks for this one
+  if (data.similartracks['@attr'] != undefined) {  
+    // for each similar artist
+    for (var i = 0; i < data.similartracks.track.length; ++i) {
+      var combinedName = data.similartracks.track[i].artist.name + " " + data.similartracks.track[i].name;
+      // look for the artist in the user's top artists
+      if (uniqueTracks[combinedName] == undefined) {
+        // if not in it, look for it in the list of recommended artist
+        if (uniqueArtists[combinedName] == undefined) {
+          // if not in it add that artist to it and add one recommendation
+          uniqueArtists[combinedName] = {artist: data.similartracks.track[i].artist.name, track: data.similartracks.track[i].name, recommendations: 1, match: parseFloat(data.similartracks.track[i].match), artisturl: data.similartracks.track[i].artist.url, trackurl: data.similartracks.track[i].url}; // artist == name && plays == recommendations
+        } else {
+          ++uniqueArtists[combinedName].recommendations;
+          uniqueArtists[combinedName].match += parseFloat(data.similartracks.track[i].match);
+        }
+      }
+    }
+  }
+  
+  ++pagesFinished;
+  
+  //code for progress bar :)
+  var percent = (pagesFinished/numPages*100).toFixed(0) + "%";
+  $("#progressBar").width(percent);
+  //$("#progressPercent").innerHTML = percent;
+  
+  // this is our last page so let's finish this
+  if (pagesFinished >= numPages) {
+    trFinished();
+  }
+}
+
+function trFinished() {
+  recommendedTracks = [];
+  for (var artist in uniqueArtists) {
+    recommendedTracks.push(uniqueArtists[artist]);
+  }
+  
+  trOnClick('M');
+  
+  $("#trDisplay").show();
+  $("#progressBack").hide();
+  
+  $(".btn").button('reset');
+  isRunning = false;
+}
+
+function trSort(a, b) {
+  var ret = 0;
+  if (trSortColumn == 'R') {
+    ret = b.recommendations - a.recommendations;
+    if (ret == 0) {
+      ret = b.match - a.match;
+    }
+  } else if (trSortColumn == 'M') {
+    ret = b.match - a.match;
+  }
+  if (ret == 0) {
+    var aat = (a.artist + " " + a.track).toLowerCase();
+    var bat = (b.artist + " " + b.track).toLowerCase();
+    if (aat < bat) return -1;
+    if (aat > bat) return 1;
+  }
+  return ret;
+}
+
+function trOnClick(col) {
+  trSortColumn = col;
+  
+  recommendedTracks.sort(trSort);
+  
+  innerStr = "<table><tr><td onClick=\"trOnClick('A');\"><b>Artist</b></td><td onClick=\"trOnClick('M');\"><b>Match</b></td><td onClick=\"trOnClick('R');\"><b>Recommendations</b></td></tr>";
+  for (var i = 0; i < recommendedTracks.length && i < 50; ++i) {
+    innerStr += "<tr><td class=\"artist\"><a href=\"http://" + recommendedTracks[i].artisturl + "\">" + recommendedTracks[i].artist + "</a> - <a href=\"http://" + recommendedTracks[i].trackurl + "\">" + recommendedTracks[i].track + "</a></td> <td class=\"plays\">" + recommendedTracks[i].match.toFixed(2) + "</td> <td class=\"plays\">" + recommendedTracks[i].recommendations + "</td></tr>";
+  }
+  $("#trList").html(innerStr + "</table>");
 }
 
 function elementSupportsAttribute(element, attribute) {
