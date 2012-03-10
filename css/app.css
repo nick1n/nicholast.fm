@@ -1,5 +1,6 @@
 body {
-  background-color: #E3E3E3;
+  //background-color: #E3E3E3;
+  background-color: #F5F5F5;
   font-family: "Lucida Sans Unicode", "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
   overflow-y: scroll;
 }
@@ -78,4 +79,8 @@ textarea[readonly] {
 
 .container {
   background-color: #FFF;
+  border: 1px solid #DDDDDD;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
 }

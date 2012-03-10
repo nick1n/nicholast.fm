@@ -24,6 +24,8 @@ var year = 0;
 var month = 0;
 var isRunning = false;
 
+/////////////////////// User's Monthly Top Tracks Code //////////////////
+
 // starting function, the function that lets all last.fm hell break loose.
 function getTracks(user) {
   if (isRunning) {
@@ -262,26 +264,14 @@ function finished() {
   $(".btn").button('reset');
 }
 
-// something went wrong function for all last.fm api calls
-function failFunction(code, message) {
-  /**
-   * 2 : Invalid service - This service does not exist
-   * 3 : Invalid Method - No method with that name in this package
-   * 4 : Authentication Failed - You do not have permissions to access the service
-   * 5 : Invalid format - This service doesn't exist in that format
-   * 6 : Invalid parameters - Your request is missing a required parameter
-   * 7 : Invalid resource specified
-   * 8 : Operation failed - Something else went wrong
-   * 9 : Invalid session key - Please re-authenticate
-   * 10 : Invalid API key - You must be granted a valid key by last.fm
-   * 11 : Service Offline - This service is temporarily offline. Try again later.
-   * 13 : Invalid method signature supplied
-   * 16 : There was a temporary error processing your request. Please try again
-   * 26 : Suspended API key - Access for your account has been suspended, please contact Last.fm
-   * 29 : Rate limit exceeded - Your IP has made too many requests in a short period
-   */
-  alert("Failed:\nCode: " + code + "\n" + message);
-}
+//////////////// Artist Recommendations Code /////////////////
+// thinking of advance tuning such as:
+// auto correct on/off
+// recommendation ... match ... cut off ... ? 0-1
+// user's top artists' ... plays ... cut off ... ? ... 20 ... 100 ?
+
+var recommendedArtists = [];
+var arSortColumn = 'M';
 
 function getArtistRecommendations(user) {
   if (isRunning) {
@@ -299,7 +289,7 @@ function getArtistRecommendations(user) {
   uniqueTracks = {}; // user's top artists
   uniqueArtists = {}; // recommended artists
   topArtists = {};
-  innerStr = "<table>";
+  innerStr = "";
   pagesFinished = 0;
   
   $("#progressBar").width("0%");
@@ -394,24 +384,47 @@ function gotTopSimilarArtists(data) {
 }
 
 function arFinished() {
-  var artists = [];
   for (var artist in uniqueArtists) {
-    artists.push(uniqueArtists[artist]);
+    recommendedArtists.push(uniqueArtists[artist]);
   }
-  artists.sort(artistSort);
   
-  var tempArtist = "";
-  for (var i = 0; i < artists.length && i < 50; ++i) {
-    tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
-    innerStr += "<tr><td class=\"artist\">" + artists[i].artist.link("http://" + artists[i].url) + " <span class=\"plays\">(" + artists[i].plays + " recommendations)</span></td></tr>";
-  }
-  $("#arList").html(innerStr + "</table>");
+  arOnClick('R');
   
   $("#arDisplay").show();
   $("#progressBack").hide();
   
   $(".btn").button('reset');
   isRunning = false;
+}
+
+function arSort(a, b) {
+  var ret = 0;
+  if (arSortColumn == 'R') {
+    ret = b.plays - a.plays;
+  }
+  if (ret == 0) {
+    var aat = a.artist.toLowerCase();
+    var bat = b.artist.toLowerCase();
+    if (aat < bat) return -1;
+    if (aat > bat) return 1;
+  }
+  return ret;
+}
+
+function arOnClick(col) {
+  arSortColumn = col;
+  recommendedArtists.sort(arSort);
+  
+  innerStr = "<table class=\"table table-striped table-bordered table-condensed\"><caption><h2>Recommended Artists:</h2></caption><thead><tr>";
+  innerStr += "<th onClick=\"arOnClick('A');\"><b>Artist</b>" + (col == 'A' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th>";
+  innerStr += "<th onClick=\"arOnClick('R');\"><b>Recommendations</b>" + (col == 'R' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th></tr></thead><tbody>";
+  
+  var tempArtist = "";
+  for (var i = 0; i < recommendedArtists.length && i < 50; ++i) {
+    tempArtist = encodeURI(recommendedArtists[i].artist.replace(/ /g, "+"));
+    innerStr += "<tr><td>" + recommendedArtists[i].artist.link("http://" + recommendedArtists[i].url) + "</td><td>" + recommendedArtists[i].plays + "</td></tr>";
+  }
+  $("#arList").html(innerStr + "</table>");
 }
 
 //////////////// Track Recommendations Code //////////////////////////////////////
@@ -557,7 +570,7 @@ function trOnClick(col) {
   
   recommendedTracks.sort(trSort);
   
-  innerStr = "<table class=\"table table-striped table-bordered table-condensed\"><thead><tr>";
+  innerStr = "<table class=\"table table-striped table-bordered table-condensed\"><caption><h2>Recommended Tracks:</h2></caption><thead><tr>";
   innerStr += "<th onClick=\"trOnClick('A');\"><b>Artist</b>" + (col == 'A' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th>";
   innerStr += "<th onClick=\"trOnClick('M');\"><b>Match</b>" + (col == 'M' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th>";
   innerStr += "<th onClick=\"trOnClick('R');\"><b>Recommendations</b>" + (col == 'R' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th></tr></thead><tbody>";
@@ -565,6 +578,29 @@ function trOnClick(col) {
     innerStr += "<tr><td class=\"artist\"><a href=\"http://" + recommendedTracks[i].artisturl + "\">" + recommendedTracks[i].artist + "</a> - <a href=\"http://" + recommendedTracks[i].trackurl + "\">" + recommendedTracks[i].track + "</a></td> <td class=\"plays\">" + recommendedTracks[i].match.toFixed(2) + "</td> <td class=\"plays\">" + recommendedTracks[i].recommendations + "</td></tr>";
   }
   $("#trList").html(innerStr + "</tbody></table>");
+}
+
+//// end of last.fm api code ////
+
+// something went wrong function for all last.fm api calls
+function failFunction(code, message) {
+  /**
+   * 2 : Invalid service - This service does not exist
+   * 3 : Invalid Method - No method with that name in this package
+   * 4 : Authentication Failed - You do not have permissions to access the service
+   * 5 : Invalid format - This service doesn't exist in that format
+   * 6 : Invalid parameters - Your request is missing a required parameter
+   * 7 : Invalid resource specified
+   * 8 : Operation failed - Something else went wrong
+   * 9 : Invalid session key - Please re-authenticate
+   * 10 : Invalid API key - You must be granted a valid key by last.fm
+   * 11 : Service Offline - This service is temporarily offline. Try again later.
+   * 13 : Invalid method signature supplied
+   * 16 : There was a temporary error processing your request. Please try again
+   * 26 : Suspended API key - Access for your account has been suspended, please contact Last.fm
+   * 29 : Rate limit exceeded - Your IP has made too many requests in a short period
+   */
+  alert("Failed:\nCode: " + code + "\n" + message);
 }
 
 function elementSupportsAttribute(element, attribute) {
