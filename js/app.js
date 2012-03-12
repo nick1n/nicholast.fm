@@ -722,7 +722,7 @@ $(function() {
   years.val(date.getFullYear());
   
   // The flag counter is currently hidden
-  // make flag conuter section less obnoxious, but have a nice fade-in when moused over
+  // make flag counter section less obnoxious, but have a nice fade-in when moused over
   //$("#flags").fadeTo(0, .1).hover(function() {
   //  $(this).stop().fadeTo(250, 1);
   //}, function() {
@@ -737,6 +737,21 @@ $(function() {
   //Testing...
   //$("#user").val("nick1n");
   //logoInit();
+});
+
+// Stops the tooltip from being in the wrong position
+// and a little delay to stop it from blinking when resizing the window
+var resizeTimer = 0;
+$(window).resize(function() {
+  if ($("#user").val() == "") {
+    $("#user").tooltip('hide');
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      if ($("#user").val() == "") {
+        $("#user").tooltip('show');
+      }
+    }, 250);
+  }
 });
 
 // By: nickf
