@@ -9,6 +9,7 @@
   <link href="css/app.css" rel="stylesheet">
 </head>
 <body>
+<div id="fb-root"></div>
 <div class="container" id="main">
 <div class="row">
   <div class="span10 offset1">
@@ -18,7 +19,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="span10 offset1">
+  <div class="span7 offset1">
     <div class="control-group">
       <div class="controls">
         <div class="input-prepend">
@@ -28,6 +29,12 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="span1">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="nicholast.fm" data-count="horizontal" data-via="nicholastdotfm" data-related="mdo:Last.fm utility">Tweet</a>
+  </div>
+  <div class="span2">
+    <div class="fb-like" data-href="http://lastfm.nicholasness.com" data-send="true" data-layout="button_count" data-width="150" data-show-faces="true" data-font="lucida grande"></div>
   </div>
 </div>
 <div class="row">
@@ -227,34 +234,64 @@
 </div><!-- end #main.container -->
 
 <!-- scripts at the bottom of the body for faster loading -->
+<!-- jQuery 1.7.1 -->
 <script src="js/jquery.js"></script>
+<!-- Bootstrap 2.0.1 -->
 <script src="js/bootstrap-transition.js"></script>
 <script src="js/bootstrap-alert.js"></script>
-
 <script src="js/bootstrap-modal.js"></script>
 <script src="js/bootstrap-dropdown.js"></script>
 <script src="js/bootstrap-scrollspy.js"></script>
 <script src="js/bootstrap-tab.js"></script>
 <script src="js/bootstrap-tooltip.js"></script>
 <script src="js/bootstrap-popover.js"></script>
-
 <script src="js/bootstrap-button.js"></script>
 <script src="js/bootstrap-collapse.js"></script>
 <script src="js/bootstrap-carousel.js"></script>
 <script src="js/bootstrap-typeahead.js"></script>
+<!-- Last.fm API Javascript Library -->
 <script src="js/lastfm.api.md5.js"></script>
 <script src="js/lastfm.api.js"></script>
+<!-- Custom Javascript -->
 <script src="js/app.js"></script>
+<!-- Widgets -->
 <script type="text/javascript">
+  // Google Analytics
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-21408785-1']);
   _gaq.push(['_trackPageview']);
 
   (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
   })();
+  
+  // Twitter Tweet
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.async = true;
+    js.src = "http://platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'twitter-wjs'));
+  
+  // Facebook Like/Send
+  // outputs a lot of errors to console :-/
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.async = true;
+    js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
 </script>
 </body>
 </html>
