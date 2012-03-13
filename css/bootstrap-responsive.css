@@ -25,16 +25,16 @@
 
 /* custom styles */
   #main #logo-container #logo {
-    height: 30px !important;
-    width: 300px !important;
+    height: 26px !important;
+    width: 260px !important;
   }
   #main #logo-container .logo-bg {
-    height: 30px !important;
-    width: 30px !important;
+    height: 26px !important;
+    width: 26px !important;
   }
   #main #logo-container {
-    height: 30px !important;
-    width: 300px !important;
+    height: 26px !important;
+    width: 260px !important;
   }
 /* end custom styles */
 
