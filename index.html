@@ -20,15 +20,15 @@
 </div>
 <div class="row">
   <div class="span7 offset1">
-    <div class="control-group">
-      <div class="controls">
-        <div class="input-prepend">
-          <span class="add-on"><i class="icon-user"></i></span>
-          <input id="user" type="text" value="" maxlength="64" placeholder="last.fm username" title="Enter your last.fm username">
-          <span class="add-on clear-user"><a id="clear-user" class="close">&times;</a></span>
+    <form class="form-inline" onSubmit="return false;">
+      <div class="control-group">
+        <div class="controls">
+          <div class="input-prepend input-append">
+            <span class="add-on"><i class="icon-user"></i></span><input id="user" class="span2" size="16" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username"><span class="add-on clear-user"><a id="clear-user" class="close">&times;</a></span>
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
   <div class="span1">
     <a href="https://twitter.com/share" class="twitter-share-button" data-url="nicholast.fm" data-count="horizontal" data-via="nicholastdotfm" data-related="mdo:Last.fm utility">Tweet</a>
@@ -51,7 +51,7 @@
     <!-- start Monthly Top Tracks -->
     <div class="tab-pane active" id="MonthlyTopTracks">
 
-    <form id="form" onsubmit="return false;">
+    <form id="form" class="form-inline" onSubmit="return false;">
       <select id="month">
         <option value="0">Janurary</option>
         <option value="1">Feburary</option>
@@ -67,7 +67,7 @@
         <option value="11">December</option>
       </select>
       <select id="year"></select>
-      <input class="btn btn-primary submit" data-loading-text="loading..." type="submit" value="Submit" id="getTracks">
+      <button class="btn btn-primary submit" data-loading-text="loading..." id="getTracks">Submit</button>
     </form>
     <div id="trackInfo" class="hide">
       <div class="row">
@@ -120,7 +120,7 @@
     <!-- start Artist Recommendations -->
     <div class="tab-pane" id="ArtistRecommendations">
 
-    <form class="form" onSubmit="return false;">
+    <form class="form-inline" onSubmit="return false;">
       <select id="arPeriod">
         <option value="overall">Overall</option>
         <option value="7day">Last 7 Days</option>
@@ -136,7 +136,7 @@
         <option value="100">Top 100</option>
         <option value="200">Top 200</option>
       </select>
-      <input class="btn btn-primary submit" data-loading-text="loading..." type="submit" value="Submit" id="getArtistRecommendations">
+      <button class="btn btn-primary submit" data-loading-text="loading..." type="submit" id="getArtistRecommendations">Submit</button>
       <div id="arDisplay" class="hide">
         <span id="arList"></span>
       </div>
@@ -148,7 +148,7 @@
     <!-- start Track Recommendations -->
     <div class="tab-pane" id="TrackRecommendations">
 
-    <form class="form" onSubmit="return false;">
+    <form class="form-inline" onSubmit="return false;">
       <select id="trPeriod">
         <option value="overall">Overall</option>
         <option value="7day">Last 7 Days</option>
@@ -164,7 +164,7 @@
         <option value="100">Top 100</option>
         <option value="200">Top 200</option>
       </select>
-      <input class="btn btn-primary submit" data-loading-text="loading..." type="submit" value="Submit" id="getTrackRecommendations">
+      <button class="btn btn-primary submit" data-loading-text="loading..." type="submit" id="getTrackRecommendations">Submit</button>
       <div id="trDisplay" class="hide">
         <span id="trList"></span>
       </div>
@@ -231,13 +231,18 @@
   </div>
 </div><!-- end .row -->
 
-<footer id="footer" class="row">
-  <div class="span7 offset1">
-    <p>nicholast.fm is by <a href="http://www.last.fm/user/nick1n" target="_blank">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank">Nick</a></p>
-    <p>Copyright &copy; 2012</p>
+<footer>
+  <div class="row">
+    <div id="footer" class="span12"></div>
   </div>
-  <div class="span3">
-    <p>Many thanks to last.fm, bootstrap, nickf, flagcounter, jQuery, and Felix Bruns' javascript last.fm api lib</p><br>
+  <div class="row">
+    <div class="span7 offset1">
+      <p>nicholast.fm is by <a href="http://www.last.fm/user/nick1n" target="_blank">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank">Nick</a></p>
+      <p>Copyright &copy; 2012</p>
+    </div>
+    <div class="span3">
+      <p>Many thanks to last.fm, bootstrap, nickf, flagcounter, jQuery, and Felix Bruns' javascript last.fm api lib</p><br>
+    </div>
   </div>
 </footer>
 

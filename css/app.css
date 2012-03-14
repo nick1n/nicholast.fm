@@ -18,10 +18,8 @@ thead {
   cursor: pointer;
 }
 
-#user {
-  float:left;
-  margin-bottom:.75em;
-  width:auto;
+caption {
+  text-align: left;
 }
 
 #clear-user {
@@ -73,7 +71,7 @@ textarea[readonly] {
 
 .container {
   background-color: #FFF;
-  border: 1px solid #DDDDDD;
+  //border: 1px solid #DDDDDD;
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
   border-radius: 50px;

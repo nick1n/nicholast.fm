@@ -220,11 +220,8 @@ function finished() {
     tempArtist = encodeURI(tracks[i].artist.replace(/ /g, "+"));
     tempTrack = encodeURI(tracks[i].track.replace(/ /g, "+"));
     
-    //<div id="progressBar" class="progressBar" style="background-color:green; width:0%">&nbsp;<span id="progressPercent" style="position:relative; right:-240px;"></span></div>
     innerStr += "<tr><td class=\"track\">" + tracks[i].artist.link("http://www.last.fm/music/" + tempArtist) + " - " + tracks[i].track.link("http://www.last.fm/music/" + tempArtist + "/_/" + tempTrack) + " <span class=\"plays\">" + ("(" + tracks[i].plays + " plays)").link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist) + "</span></td></tr>";
-    //<div style=\"background-color:#71B7E6; width:" + (tracks[i].plays/tracks[0].plays*500).toFixed(0) + "px;\">&nbsp;<span style=\"position:relative;\">
   }
-  console.log(innerStr);
   $("#trackList").html(innerStr + "</table>");
   
   // generate my bb code
@@ -475,7 +472,6 @@ function gotTopTracks(data) {
     arFinished();
     return;
   }
-  console.log(data);
   
   if (data.toptracks.track.length < numPages) {
     numPages = data.toptracks.track.length;
@@ -618,7 +614,6 @@ function logo(data) {
   var tracks = 0;
   var art = "";
   
-  console.log(data);
   tracks = data.topalbums.album.length;
   
   for (var i = 0; i < tracks; i++) {
