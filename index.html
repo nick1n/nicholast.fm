@@ -126,7 +126,7 @@
     <!-- start Artist Recommendations -->
     <div class="tab-pane" id="ArtistRecommendations">
 
-    <form class="form-inline row" onSubmit="return false;">
+    <form class="form-inline" onSubmit="return false;">
       <select id="arPeriod">
         <option value="overall">Overall</option>
         <option value="7day">Last 7 Days</option>
@@ -134,7 +134,7 @@
         <option value="6month">Last 6 Months</option>
         <option value="12month">Last 12 Months</option>
       </select>
-      <select id="arLimit" class="span2">
+      <select id="arLimit">
         <!-- For Testing -->
         <option value="5">Top 5</option>
         <!-- For Testing -->
@@ -142,7 +142,7 @@
         <option value="100">Top 100</option>
         <option value="200">Top 200</option>
       </select>
-      <button class="btn btn-primary submit span1" data-loading-text="loading..." type="submit" id="getArtistRecommendations">Submit</button>
+      <button class="btn btn-primary submit" data-loading-text="loading..." type="submit" id="getArtistRecommendations">Submit</button>
     </form>
     <div id="arDisplay" class="row hide">
       <span id="arList" class="span10"></span>
