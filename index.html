@@ -2,11 +2,15 @@
 <html>
 <head>
   <title>Last.fm Stats</title>
+  
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/bootstrap-responsive.css" rel="stylesheet">
   <link href="css/app.css" rel="stylesheet">
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
 </head>
 <body>
 <div id="fb-root"></div>
@@ -20,14 +24,16 @@
 </div>
 <div class="row">
   <div class="span7 offset1">
-    <form class="form-inline" onSubmit="return false;">
-      <div class="control-group">
-        <div class="controls">
-          <div class="input-prepend input-append">
-            <span class="add-on"><i class="icon-user"></i></span><input id="user" class="span2" size="16" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username"><span class="add-on clear-user"><a id="clear-user" class="close">&times;</a></span>
-          </div>
+  <form class="form-inline">
+  <fieldset>
+    <div class="control-group">
+      <div class="controls">
+        <div class="input-prepend input-append">
+          <span class="add-on"><i class="icon-user"></i></span><input id="user" size="16" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username"><span class="add-on clear-user"><a id="clear-user" class="close">&times;</a></span>
         </div>
       </div>
+    </div>
+    </fieldset>
     </form>
   </div>
   <div class="span1">
@@ -120,7 +126,7 @@
     <!-- start Artist Recommendations -->
     <div class="tab-pane" id="ArtistRecommendations">
 
-    <form class="form-inline" onSubmit="return false;">
+    <form class="form-inline row" onSubmit="return false;">
       <select id="arPeriod">
         <option value="overall">Overall</option>
         <option value="7day">Last 7 Days</option>
@@ -128,7 +134,7 @@
         <option value="6month">Last 6 Months</option>
         <option value="12month">Last 12 Months</option>
       </select>
-      <select id="arLimit">
+      <select id="arLimit" class="span2">
         <!-- For Testing -->
         <option value="5">Top 5</option>
         <!-- For Testing -->
@@ -136,11 +142,11 @@
         <option value="100">Top 100</option>
         <option value="200">Top 200</option>
       </select>
-      <button class="btn btn-primary submit" data-loading-text="loading..." type="submit" id="getArtistRecommendations">Submit</button>
-      <div id="arDisplay" class="hide">
-        <span id="arList"></span>
-      </div>
+      <button class="btn btn-primary submit span1" data-loading-text="loading..." type="submit" id="getArtistRecommendations">Submit</button>
     </form>
+    <div id="arDisplay" class="row hide">
+      <span id="arList" class="span10"></span>
+    </div>
 
     </div>
     <!-- end Artist Recommendations -->

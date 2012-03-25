@@ -297,7 +297,6 @@ function getArtistRecommendations(user) {
   $("#progressBack").show();
   
   username = $("#user").val();
-  
   var period = $("#arPeriod").val();
   numPages = parseInt($("#arLimit").val());
   
@@ -667,6 +666,15 @@ $(function() {
   // sets focus to first textbox
   $("#user").focus();
   
+  // sets default selections of the month and year to the current
+  var date = new Date();
+  var years = $("#year");
+  $("#month").val(date.getMonth());
+  for (var i = 2005; i <= date.getFullYear(); ++i) {
+    $("<option value='" + i + "'>" + i + "</option>").appendTo(years);
+  }
+  years.val(date.getFullYear());
+  
   // button to clear the current user
   $("#clear-user").click(function() {
     $("#user").val("").keyup();
@@ -706,15 +714,6 @@ $(function() {
       activate($(this).attr("id"));
     }
   });
-  
-  // sets default selections of the month and year to the current
-  var date = new Date();
-  var years = $("#year");
-  $("#month").val(date.getMonth());
-  for (var i = 2005; i <= date.getFullYear(); ++i) {
-    $("<option value='" + i + "'>" + i + "</option>").appendTo(years);
-  }
-  years.val(date.getFullYear());
   
   // The flag counter is currently hidden
   // make flag counter section less obnoxious, but have a nice fade-in when moused over
