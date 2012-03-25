@@ -32,7 +32,7 @@ function getTracks(user) {
     return;
   }
   isRunning = true;
-  $(".btn").button('loading');
+  $(".submit").button('loading');
   
   username = $("#user").val();
   numTracks = 0;
@@ -258,7 +258,7 @@ function finished() {
   $("#progressBack").hide();
   
   isRunning = false;
-  $(".btn").button('reset');
+  $(".submit").button('reset');
 }
 
 //////////////// Artist Recommendations Code /////////////////
@@ -275,7 +275,7 @@ function getArtistRecommendations(user) {
     return;
   }
   isRunning = true;
-  $(".btn").button('loading');
+  $(".submit").button('loading');
   
   /*
   numTracks = 0;
@@ -389,7 +389,7 @@ function arFinished() {
   $("#arDisplay").show();
   $("#progressBack").hide();
   
-  $(".btn").button('reset');
+  $(".submit").button('reset');
   isRunning = false;
 }
 
@@ -437,7 +437,7 @@ function getTrackRecommendations(user) {
     return;
   }
   isRunning = true;
-  $(".btn").button('loading');
+  $(".submit").button('loading');
   
   /*
   numTracks = 0;
@@ -537,7 +537,7 @@ function trFinished() {
   $("#trDisplay").show();
   $("#progressBack").hide();
   
-  $(".btn").button('reset');
+  $(".submit").button('reset');
   isRunning = false;
 }
 
@@ -679,9 +679,11 @@ $(function() {
   $("#clear-user").click(function() {
     $("#user").val("").keyup();
     $("#user").focus();
-    $("#logo-container .logo-bg").fadeOut("500", function() {
+/*  $("#logo-container .logo-bg").fadeOut("500", function() {
       $(this).remove();
-    });
+    }); 
+Uncomment this to have the clear-user button clear the album art too
+*/
   }).hide();
   
   // activate tooltips
