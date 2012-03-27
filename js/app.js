@@ -596,6 +596,9 @@ function failFunction(code, message) {
    * 29 : Rate limit exceeded - Your IP has made too many requests in a short period
    */
   alert("Failed:\nCode: " + code + "\n" + message);
+  $(".submit").button("reset");
+  $("#progressBack").hide();
+  isRunning = false;
 }
 
 function elementSupportsAttribute(element, attribute) {
