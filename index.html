@@ -24,7 +24,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="span7 offset1">
+  <div class="span6 offset1">
   <form class="form-inline" onsubmit="return false;">
   <fieldset>
     <div class="control-group">
@@ -42,6 +42,9 @@
   </div>
   <div class="span2">
     <div class="fb-like" data-href="http://nicholast.fm" data-send="true" data-layout="button_count" data-width="150" data-show-faces="true" data-font="lucida grande"></div>
+  </div>
+  <div class="span1">
+    <g:plusone size="medium"></g:plusone>
   </div>
 </div>
 <div class="row">
@@ -252,6 +255,19 @@
 
 <footer>
   <div class="row">
+    <div class="span10 offset1">
+      <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-5694205610454375";
+        /* FirstTest */
+        google_ad_slot = "7850174638";
+        google_ad_width = 728;
+        google_ad_height = 90;
+        //-->
+      </script>
+      <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+    </div>
+  </div>
+  <div class="row">
     <div id="footer" class="span12"></div>
   </div>
   <div class="row">
@@ -296,7 +312,7 @@
 <script type="text/javascript">
   // Google Analytics
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-21408785-1']);
+  _gaq.push(['_setAccount', 'UA-30386018-1']);
   _gaq.push(['_trackPageview']);
 
   (function() {
@@ -330,6 +346,17 @@
     js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
+  
+  // Google+
+  (function() {
+    var po = document.createElement('script');
+    po.type = 'text/javascript';
+    po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(po, s);
+  })();
+
 </script>
 </body>
 </html>
