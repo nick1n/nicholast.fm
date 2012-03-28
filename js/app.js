@@ -232,6 +232,7 @@ function finished() {
       tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
       bbCode += "[b]" + (month + 1) + "-" + year.substr(2) + ":[/b] [artist]" + artists[i].artist + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].plays + " plays)[/url]\n";
     }
+    bbCode += "\n";
     bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
     for (var i = 0; tracks[i] != undefined && tracks[0].plays == tracks[i].plays; ++i) {
       bbCode += "[b]" + (month + 1) + "-" + year.substr(2) + ":[/b] [artist]" + tracks[i].artist + "[/artist] - [track artist=" + tracks[i].artist + "]" + tracks[i].track + "[/track]\n";
@@ -245,6 +246,7 @@ function finished() {
       tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
       bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + artists[i].artist + "[/artist] ([b]" + artists[i].plays + "[/b] plays)\n";
     }
+    bbCode += "\n";
     bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
     for (var i = 0; tracks[i] != undefined && tracks[0].plays == tracks[i].plays; ++i) {
       bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + tracks[i].artist + "[/artist] : [track artist=" + tracks[i].artist + "]" + tracks[i].track + "[/track] ([b]" + tracks[i].plays + "[/b] plays)\n";
