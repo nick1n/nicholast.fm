@@ -1,84 +1,85 @@
 body {
-  /*background-color: #E3E3E3;*/
+  /* background-color: #F5F5F5; */
+  background-color: #EEEEEE;
   font-family: "Lucida Sans Unicode", "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
+  overflow-y: scroll;
 }
 
-#MonthlyTopTracks a:link, #ArtistRecommendations a:link {  /* unvisited link */
+a {
   color: #1B1B1B;
-  text-decoration: none;}
+}
 
-#MonthlyTopTracks a:visited, #ArtistRecommendations a:visited  {  /* visited link */
-  color: #1B1B1B;
-  text-decoration: none;}
-
-#MonthlyTopTracks a:hover, #ArtistRecommendations a:hover {  /* mouse over link */
+a:hover {
   color: #0187C5;
-  text-decoration: underline;}
+  text-decoration: underline;
+}
 
-#MonthlyTopTracks a:active, #ArtistRecommendations a:active {  /* selected link */
-  color: #0187C5;
-  text-decoration: underline;}
+thead {
+  cursor: pointer;
+}
 
-#main-tabbed .artist a, #main-tabbed .track a {
-  color: #0187C5;}
+caption {
+  text-align: left;
+}
 
 #user {
-  float:left;
-  margin-bottom:.75em;
-  width:auto;}
+  width: auto;
+}
+
 #clear-user {
-  line-height:15px;}
+  line-height:15px;
+}
+
 .controls .clear-user {
   background-color:transparent;
-  border:0px solid transparent;}
-
-#main-tabbed .plays {
-  color: #cccccc;}
-
-#main-tabbed .plays a {
-  color: #cccccc;
-  text-decoration:underline;}
+  border:0px solid transparent;
+}
 
 .center {
-  text-align: center;}
+  text-align: center;
+}
 
 textarea[readonly] {
   cursor: auto;
+  width: 80%;
 }
 
 #flags {
-  display:block;
-  margin:0 auto;
-  width:281px;}
+  display: none;
+}
 
 #logo-container {
   background-color:#000000;
-  height:94px;
   margin:20px 0;
   overflow:hidden;
   position:relative;
-  width:940px;}
+}
 
 #logo-container .logo-bg {
   display:none;
   float:left;
   position:relative;
-  width:94px;}
+}
 
 #logo-container #logo {
-  height:94px;
   left:0px;
   position:absolute;
-  top:0px;}
+  top:0px;
+}
 
 #footer {
   border-top:1px solid #DDDDDD;
   margin-top:35px;
-  padding:1em 0em 1em 0em;}
+  padding:1em 0em 1em 0em;
+}
 
+.container {
+  background-color: #FFF;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+}
 
-
-
-
-
-
+#main {
+  margin-top:20px;
+  margin-bottom:20px;}
