@@ -72,6 +72,9 @@
     height: 45px;
     width: 450px;
   }
+  body {
+    background-color: #FFF !important;
+  }
 /* end custom styles */
   .visible-phone {
     display: block;
