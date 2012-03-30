@@ -735,6 +735,11 @@ Uncomment this to have the clear-user button clear the album art too
     // javascript to replicate placeholder function
   }
   
+  // Updates position of the tooltip 
+  setTimeout(function() {
+    $("#user").tooltip('show');
+  }, 500);
+  
   //Testing...
   //$("#user").val("nick1n");
   //logoInit();

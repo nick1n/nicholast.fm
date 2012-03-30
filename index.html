@@ -28,6 +28,18 @@
 </div>
 
 <div class="row">
+  <div class="span1 offset7">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://nicholast.fm" data-via="nicholastdotfm" data-related="nicholastdotfm">Tweet</a>
+  </div>
+  <div class="span1">
+    <g:plusone size="medium"></g:plusone>
+  </div>
+  <div class="span2">
+     <div class="fb-like" data-href="http://nicholast.fm" data-send="true" data-layout="button_count" data-width="150" data-show-faces="true" data-font="lucida grande"></div>
+  </div>
+</div>
+
+<div class="row">
   <div class="span6 offset1">
   <form class="form-inline" onsubmit="return false;">
   <fieldset>
@@ -38,17 +50,8 @@
         </div>
       </div>
     </div>
-    </fieldset>
-    </form>
-  </div>
-  <div class="span1">
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://nicholast.fm" data-via="nicholastdotfm" data-related="nicholastdotfm">Tweet</a>
-  </div>
-  <div class="span1">
-    <g:plusone size="medium"></g:plusone>
-  </div>
-  <div class="span2">
-     <div class="fb-like" data-href="http://nicholast.fm" data-send="true" data-layout="button_count" data-width="150" data-show-faces="true" data-font="lucida grande"></div>
+  </fieldset>
+  </form>
   </div>
 </div>
 
@@ -180,10 +183,10 @@
         <option value="200">Top 200</option>
       </select>
       <button class="btn btn-primary submit" data-loading-text="loading..." type="submit" id="getTrackRecommendations">Submit</button>
-      <div id="trDisplay" class="hide">
-        <span id="trList"></span>
-      </div>
     </form>
+    <div id="trDisplay" class="row hide">
+      <span id="trList" class="span10"></span>
+    </div>
 
     </div>
     <!-- end Track Recommendations -->
@@ -261,6 +264,7 @@
 <footer>
   <div class="row">
     <div class="span10 offset1">
+      <br>
       <div class="visible-desktop" align="center">
         <!-- For testing <div style="width:728px; height:90px; border:1px solid black">Desktop Ad</div>-->
         <script type="text/javascript"><!--
