@@ -3,7 +3,7 @@
 <head>
   <title>Last.fm Stats - nicholast.fm</title>
   
-  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <link href="css/bootstrap.css" rel="stylesheet">
@@ -41,12 +41,12 @@
 
 <div class="row">
   <div class="span6 offset1">
-  <form class="form-inline" onsubmit="return false;">
+  <form id="userForm" class="form-inline">
   <fieldset>
     <div class="control-group">
       <div class="controls">
         <div class="input-prepend input-append">
-          <span class="add-on"><i class="icon-user"></i></span><input id="user" size="16" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username"><span class="add-on clear-user"><a id="clear-user" class="close">&times;</a></span>
+          <span class="add-on"><i class="icon-user"></i></span><input id="user" size="16" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username"><span id="clear-user" class="add-on clear-user"><a class="close">&times;</a></span>
         </div>
       </div>
     </div>
@@ -59,9 +59,9 @@
   <div class="span10 offset1" id="main-tabbed">
     <div id="tabbable">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#MonthlyTopTracks" data-toggle="tab">Monthly Top Tracks</a></li>
-        <li><a href="#ArtistRecommendations" data-toggle="tab">Artist Recommendations</a></li>
-        <li><a href="#TrackRecommendations" data-toggle="tab">Track Recommendations</a></li>
+        <li id="getTracks" class="active"><a href="#MonthlyTopTracks" data-toggle="tab">Monthly Top Tracks</a></li>
+        <li id="getArtistRecommendations"><a href="#ArtistRecommendations" data-toggle="tab">Artist Recommendations</a></li>
+        <li id="getTrackRecommendations"><a href="#TrackRecommendations" data-toggle="tab">Track Recommendations</a></li>
         <li><a href="#About" data-toggle="tab">About</a></li>
       </ul>
       <div class="tab-content">
@@ -85,7 +85,7 @@
         <option value="11">December</option>
       </select>
       <select id="year"></select>
-      <button class="btn btn-primary submit" data-loading-text="loading..." id="getTracks">Submit</button>
+      <button class="btn btn-primary submit" data-loading-text="loading...">Submit</button>
     </form>
     <div id="trackInfo" class="hide">
       <div class="row">
@@ -110,23 +110,23 @@
       </div>
       <div class="row">
         <div class="span10">
-          <b>BB Code:</b><br/>
+          <b>BB Code:</b><br>
           <textarea id="bbcode" rows="8" cols="70" readonly></textarea>
         </div>
       </div>
       <div class="row">
         <div class="span10">
-          <b>Old BB Code:</b> (Based on <a href="http://www.last.fm/user/kurtrips">kurtrips</a>' heathaze.org BB Code)<br/>
+          <b>Old BB Code:</b> (Based on <a href="http://www.last.fm/user/kurtrips">kurtrips</a>' heathaze.org BB Code)<br>
           <textarea id="oldbbcode" rows="8" cols="70" readonly></textarea>
         </div>
       </div>
       <div class="row">
         <div class="span5">
-          <b>Top Artists:</b><br/>
+          <b>Top Artists:</b><br>
           <span id="artistList"></span>
         </div>
         <div class="span5">
-          <b>Top Tracks:</b><br/>
+          <b>Top Tracks:</b><br>
           <span id="trackList"></span>
         </div>
       </div>
@@ -154,7 +154,7 @@
         <option value="100">Top 100</option>
         <option value="200">Top 200</option>
       </select>
-      <button class="btn btn-primary submit" data-loading-text="loading..." type="submit" id="getArtistRecommendations">Submit</button>
+      <button class="btn btn-primary submit" data-loading-text="loading..." type="submit">Submit</button>
     </form>
     <div id="arDisplay" class="row hide">
       <span id="arList" class="span10"></span>
@@ -182,7 +182,7 @@
         <option value="100">Top 100</option>
         <option value="200">Top 200</option>
       </select>
-      <button class="btn btn-primary submit" data-loading-text="loading..." type="submit" id="getTrackRecommendations">Submit</button>
+      <button class="btn btn-primary submit" data-loading-text="loading..." type="submit">Submit</button>
     </form>
     <div id="trDisplay" class="row hide">
       <span id="trList" class="span10"></span>
@@ -198,7 +198,7 @@
     <div class="row">
       <div class="span10">
         <h1>nicholast.fm is brought to you by:</h1>
-        <hr/>
+        <hr>
       </div>
     </div>
 
@@ -233,7 +233,7 @@
     </div>
     <div class="row">
       <div class="span10">
-        <p>Found a bug? Report it on our <a href="https://github.com/namklabs/nicholast.fm/issues?labels=Issue&state=open">github.com issue queue</a></p>
+        <p>Found a bug? Report it on our <a href="https://github.com/namklabs/nicholast.fm/issues?labels=Issue&state=open" class="link">github.com issue queue</a></p>
       </div>
     </div>
     <div class="row">
@@ -308,7 +308,7 @@
   </div>
   <div class="row">
     <div class="span7 offset1">
-      <p>nicholast.fm is by <a href="http://www.last.fm/user/nick1n" target="_blank">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank">Nick</a></p>
+      <p>nicholast.fm is by <a href="http://www.last.fm/user/nick1n" target="_blank" class="link">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank" class="link">Nick</a></p>
       <p>Copyright &copy; 2012</p>
     </div>
     <div class="span3">

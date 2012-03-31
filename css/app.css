@@ -9,6 +9,10 @@ a {
   color: #1B1B1B;
 }
 
+a.link {
+  color: #0187C5;
+}
+
 a:hover {
   color: #0187C5;
   text-decoration: underline;
@@ -26,13 +30,16 @@ caption {
   width: auto;
 }
 
-#clear-user {
+.close {
   line-height:15px;
 }
 
-.controls .clear-user {
-  background-color:transparent;
-  border:0px solid transparent;
+.tooltip-arrow {
+  border-right-color: #05C !important;
+}
+
+.tooltip-inner {
+  background-color: #05C;
 }
 
 .center {

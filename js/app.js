@@ -28,9 +28,6 @@ var isRunning = false;
 
 // starting function, the function that lets all last.fm hell break loose.
 function getTracks(user) {
-  if (isRunning) {
-    return;
-  }
   isRunning = true;
   $(".submit").button('loading');
   
@@ -273,9 +270,6 @@ var recommendedArtists = [];
 var arSortColumn = 'M';
 
 function getArtistRecommendations(user) {
-  if (isRunning) {
-    return;
-  }
   isRunning = true;
   $(".submit").button('loading');
   
@@ -435,9 +429,6 @@ var recommendedTracks = [];
 var trSortColumn = 'M';
 
 function getTrackRecommendations(user) {
-  if (isRunning) {
-    return;
-  }
   isRunning = true;
   $(".submit").button('loading');
   
@@ -658,6 +649,16 @@ function activate(whichFeature) {
     window[whichFeature]();
 }
 
+function formSubmit() {
+  if ($("#user").val() == "") {
+    $("#userForm .control-group").addClass("error");
+    $("#user").focus();
+  } else {
+    try { activate($("li.active").attr("id")); } catch(e) {}
+  }
+  return false;
+}
+
 var delay = (function() {
   var timer = 0;
   return function(callback, ms) {
@@ -703,24 +704,19 @@ Uncomment this to have the clear-user button clear the album art too
     }
     if ($("#user").val() == "") {
       $("#user").tooltip('show');
-      $(".submit").addClass("disabled").attr("disabled", "disabled");
+      $(".submit").addClass("disabled");//.attr("disabled", "disabled");
       $("#clear-user").fadeOut(250);
     } else {
       $("#user").tooltip('hide');
-      $(".submit").removeClass("disabled").removeAttr("disabled");
+      $(".submit").removeClass("disabled");//.removeAttr("disabled");
       $("#clear-user").fadeIn(250);
     }
     user = $("#user").val();
   }).keyup();
   
   // handles activation of features, like getting Monthly Top Tracks, etc.
-  $(".submit").click(function() {
-    if ($("#user").val() == "") {
-      $("#user").parents(".control-group").addClass("error");
-    } else {
-      activate($(this).attr("id"));
-    }
-  });
+  $(".submit").click(formSubmit);
+  $("#userForm").submit(formSubmit);
   
   // The flag counter is currently hidden
   // make flag counter section less obnoxious, but have a nice fade-in when moused over
