@@ -64,17 +64,10 @@ function getTimeZone(data) {
   
   // Find the from and to dates
   // need to fix this only works when you are in the same timezone as the scrobbling was
-  var date = new Date();
   year = $("#year").val();
-  date.setFullYear(year);
   month = parseInt($("#month").val());
-  date.setMonth(month);
-  date.setDate(1);
-  date.setHours(0);
-  date.setMinutes(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-  fromDate = (date.getTime() - offset) / 1000;
+  var date = new Date(year, month, 1);
+  fromDate = (date.getTime() - offset) / 1000 - 1;
   date.setMonth(date.getMonth() + 1);
   toDate = (date.getTime() - offset) / 1000;
   
@@ -223,16 +216,18 @@ function finished() {
   
   // generate my bb code
   var bbCode = "";
+  var codeMonth = month + 1;
+  codeMonth = (codeMonth > 9 ? codeMonth : '0' + codeMonth);
   if (artists[0] != undefined) {
     bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
     for (var i = 0; artists[i] != undefined && artists[0].plays == artists[i].plays; ++i) {
       tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
-      bbCode += "[b]" + (month + 1) + "-" + year.substr(2) + ":[/b] [artist]" + artists[i].artist + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].plays + " plays)[/url]\n";
+      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + artists[i].artist + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].plays + " plays)[/url]\n";
     }
     bbCode += "\n";
     bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
     for (var i = 0; tracks[i] != undefined && tracks[0].plays == tracks[i].plays; ++i) {
-      bbCode += "[b]" + (month + 1) + "-" + year.substr(2) + ":[/b] [artist]" + tracks[i].artist + "[/artist] - [track artist=" + tracks[i].artist + "]" + tracks[i].track + "[/track]\n";
+      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + tracks[i].artist + "[/artist] - [track artist=" + tracks[i].artist + "]" + tracks[i].track + "[/track]\n";
     }
     $("#bbcode").html(bbCode);
     
@@ -734,8 +729,13 @@ Uncomment this to have the clear-user button clear the album art too
   // Updates position of the tooltip 
   setTimeout(function() {
     $("#user").tooltip('show');
-  }, 500);
+  }, 1000);
   
+  // Hides the BB code for mobile screens sizes by default.
+  if ($(window).width() <= 767) {
+    $('#collapseOne').removeClass('in').addClass('collapse');
+  }
+
   //Testing...
   //$("#user").val("nick1n");
   //logoInit();

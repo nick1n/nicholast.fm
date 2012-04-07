@@ -106,18 +106,38 @@
       <div class="row">
         <div class="span10">
           <b>Song Repetition:</b> <span id="songRepetition"></span>
+          <br><br>
         </div>
       </div>
       <div class="row">
         <div class="span10">
-          <b>BB Code:</b><br>
-          <textarea id="bbcode" rows="8" cols="70" readonly></textarea>
-        </div>
-      </div>
-      <div class="row">
-        <div class="span10">
-          <b>Old BB Code:</b> (Based on <a href="http://www.last.fm/user/kurtrips">kurtrips</a>' heathaze.org BB Code)<br>
-          <textarea id="oldbbcode" rows="8" cols="70" readonly></textarea>
+          <div class="accordion" id="accordion">
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                  <b>BB Code:</b>
+                </a>
+              </div>
+              <div id="collapseOne" class="accordion-body in">
+                <div class="accordion-inner">
+                  <textarea id="bbcode" rows="8" cols="70" readonly></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                  <b>Old BB Code:</b>
+                </a>
+              </div>
+              <div id="collapseTwo" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  (Based on <a href="http://www.last.fm/user/kurtrips">kurtrips</a>' heathaze.org BB Code)
+                  <textarea id="oldbbcode" rows="8" cols="70" readonly></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -327,13 +347,13 @@
 <script src="js/bootstrap-tab.js"></script>
 <script src="js/bootstrap-tooltip.js"></script>
 <script src="js/bootstrap-button.js"></script>
+<script src="js/bootstrap-collapse.js"></script>
 <!--<script src="js/bootstrap-transition.js"></script>-->
 <!--<script src="js/bootstrap-alert.js"></script>-->
 <!--<script src="js/bootstrap-modal.js"></script>-->
 <!--<script src="js/bootstrap-dropdown.js"></script>-->
 <!--<script src="js/bootstrap-scrollspy.js"></script>-->
 <!--<script src="js/bootstrap-popover.js"></script>-->
-<!--<script src="js/bootstrap-collapse.js"></script>-->
 <!--<script src="js/bootstrap-carousel.js"></script>-->
 <!--<script src="js/bootstrap-typeahead.js"></script>-->
 

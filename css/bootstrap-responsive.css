@@ -75,6 +75,37 @@
   body {
     background-color: #FFF !important;
   }
+
+  /* makes the nav-tabs into nav-stacked */
+  .nav-tabs > li {
+    float: none;
+  }
+  .nav-tabs > li > a {
+    margin-right: 0;
+  }
+  .nav-tabs {
+    border-bottom: 0;
+  }
+  .nav-tabs > li > a {
+    border: 1px solid #ddd;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+  }
+  .nav-tabs > li:first-child > a {
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+  }
+  .nav-tabs > li:last-child > a {
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
+  }
+  .nav-tabs > li > a:hover {
+    border-color: #ddd;
+    z-index: 2;
+  }
 /* end custom styles */
   .visible-phone {
     display: block;
