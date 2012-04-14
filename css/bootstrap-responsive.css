@@ -58,6 +58,13 @@
 .hidden-desktop {
   display: none;
 }
+
+/* custom styles */
+.share-row {
+  height: 24px;
+}
+/* custom styles */
+
 @media (max-width: 767px) {
 /* custom styles */
   #main #logo-container #logo {
@@ -74,6 +81,10 @@
   }
   body {
     background-color: #FFF !important;
+  }
+  
+  .share-row {
+    height: 72px;
   }
 
   /* makes the nav-tabs into nav-stacked */

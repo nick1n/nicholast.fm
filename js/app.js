@@ -680,15 +680,9 @@ $(function() {
   $("#clear-user").click(function() {
     $("#user").val("").keyup();
     $("#user").focus();
-/*  $("#logo-container .logo-bg").fadeOut("500", function() {
-      $(this).remove();
-    }); 
-Uncomment this to have the clear-user button clear the album art too
-*/
   }).hide();
   
   // activate tooltips
-  //$("[data-original-title]").tooltip({placement: "right"});
   $("#user").tooltip({ trigger : 'manual', placement : 'right' });
   
   // makes sure you don't submit the form without entering a username
@@ -699,11 +693,11 @@ Uncomment this to have the clear-user button clear the album art too
     }
     if ($("#user").val() == "") {
       $("#user").tooltip('show');
-      $(".submit").addClass("disabled");//.attr("disabled", "disabled");
+      $(".submit").addClass("disabled");
       $("#clear-user").fadeOut(250);
     } else {
       $("#user").tooltip('hide');
-      $(".submit").removeClass("disabled");//.removeAttr("disabled");
+      $(".submit").removeClass("disabled");
       $("#clear-user").fadeIn(250);
     }
     user = $("#user").val();
@@ -712,25 +706,12 @@ Uncomment this to have the clear-user button clear the album art too
   // handles activation of features, like getting Monthly Top Tracks, etc.
   $(".submit").click(formSubmit);
   $("#userForm").submit(formSubmit);
-  
-  // The flag counter is currently hidden
-  // make flag counter section less obnoxious, but have a nice fade-in when moused over
-  //$("#flags").fadeTo(0, .1).hover(function() {
-  //  $(this).stop().fadeTo(250, 1);
-  //}, function() {
-  //  $(this).stop().fadeTo(250, .1);
-  //});
-  
+
   // make sure placeholders show up
   if (!elementSupportsAttribute('input', 'placeholder')) {
     // javascript to replicate placeholder function
   }
-  
-  // Updates position of the tooltip 
-  setTimeout(function() {
-    $("#user").tooltip('show');
-  }, 1000);
-  
+
   // Hides the BB code for mobile screens sizes by default.
   if ($(window).width() <= 767) {
     $('#collapseOne').removeClass('in').addClass('collapse');
