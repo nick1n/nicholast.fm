@@ -145,6 +145,11 @@
     height: 60px;
     width: 600px;
   }
+  .container {
+    -webkit-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
+  }
 /* end custom styles */
   .visible-tablet {
     display: block;
@@ -581,6 +586,11 @@
   #main #logo-container {
     height: 78px;
     width: 780px;
+  }
+  .container {
+    -webkit-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
   }
 /* end custom styles */
   .nav-collapse.collapse {
