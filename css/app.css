@@ -91,3 +91,8 @@ textarea[readonly] {
   margin-top:20px;
   margin-bottom:20px;
 }
+
+/* with bootstrap 2.0.4 it enlarges the donate button */
+input {
+  width: auto;
+}

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>Last.fm Stats - nicholast.fm</title>
   
-  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <meta http-equiv="Content-Type" content="text/html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <link href="css/bootstrap.css" rel="stylesheet">
@@ -11,6 +12,7 @@
   <link href="css/app.css" rel="stylesheet">
   <!--[if lt IE 9]>
     <link href="css/app-ie.css" rel="stylesheet">
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   
   <link rel="shortcut icon" href="favicon.ico">
@@ -46,7 +48,7 @@
     <div class="control-group">
       <div class="controls">
         <div class="input-prepend input-append">
-          <span class="add-on"><i class="icon-user"></i></span><input id="user" size="16" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username"><span id="clear-user" class="add-on clear-user"><a class="close">&times;</a></span>
+          <span class="add-on"><i class="icon-user"></i></span><input id="user" size="16" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username"><span id="clear-user" class="add-on"><a class="close">&times;</a></span>
         </div>
       </div>
     </div>
@@ -121,19 +123,17 @@
               <div id="collapseOne" class="accordion-body in">
                 <div class="accordion-inner">
                   <textarea id="bbcode" rows="8" cols="70" readonly></textarea>
-                  <br><br>
                 </div>
               </div>
             </div>
             <div class="accordion-group">
               <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                  <b>Old BB Code:</b>
+                  <b>Old BB Code:</b> (Based on kurtrips' heathaze.org BB Code)
                 </a>
               </div>
               <div id="collapseTwo" class="accordion-body collapse">
                 <div class="accordion-inner">
-                  (Based on <a href="http://www.last.fm/user/kurtrips">kurtrips</a>' heathaze.org BB Code)
                   <textarea id="oldbbcode" rows="8" cols="70" readonly></textarea>
                 </div>
               </div>
@@ -286,8 +286,7 @@
   <div class="row">
     <div class="span10 offset1">
       <br>
-      <div class="visible-desktop" align="center">
-        <!-- For testing <div style="width:728px; height:90px; border:1px solid black">Desktop Ad</div>-->
+      <div id="ad-desktop" class="visible-desktop" align="center">
         <script type="text/javascript"><!--
           google_ad_client = "ca-pub-5694205610454375";
           /* FirstTest */
@@ -298,8 +297,7 @@
         </script>
         <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
       </div>
-      <div class="visible-tablet" align="center">
-        <!-- For testing <div style="width:468px; height:60px; border:1px solid black">Tablet Ad</div>-->
+      <div id="ad-tablet" class="visible-tablet" align="center">
         <script type="text/javascript"><!--
           google_ad_client = "ca-pub-5694205610454375";
           /* TabletAd */
@@ -310,8 +308,7 @@
         </script>
         <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
       </div>
-      <div class="visible-phone" align="center">
-        <!-- For testing <div style="width:320px; height:50px; border:1px solid black">Mobile Ad</div>-->
+      <div id="ad-phone" class="visible-phone" align="center">
         <script type="text/javascript"><!--
           google_ad_client = "ca-pub-5694205610454375";
           /* MobileAd */
@@ -344,7 +341,7 @@
 <!-- jQuery 1.7.2 -->
 <script src="js/jquery.js"></script>
 
-<!-- Bootstrap 2.0.2 -->
+<!-- Bootstrap 2.0.4 -->
 <script src="js/bootstrap-transition.js"></script>
 <script src="js/bootstrap-tab.js"></script>
 <script src="js/bootstrap-tooltip.js"></script>

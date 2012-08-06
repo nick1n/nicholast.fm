@@ -683,11 +683,16 @@ $(function() {
   }).hide();
   
   // activate tooltips
-  $("#user").tooltip({ trigger : 'manual', placement : 'right' });
+  $("#user").tooltip({ animation : false, trigger : 'manual', placement : 'right' });
+  $("#user").focus(function() {
+    if ($("#user").val() == "") {
+      $("#user").tooltip('show');
+    }
+  });
   
   // makes sure you don't submit the form without entering a username
   var user = null;
-  $("#user").keyup(function(data) {
+  $("#user").keyup(function() {
     if (user == $("#user").val()) {
       return;
     }
@@ -727,13 +732,7 @@ $(function() {
 var resizeTimer = 0;
 $(window).resize(function() {
   if ($("#user").val() == "") {
-    $("#user").tooltip('hide');
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function() {
-      if ($("#user").val() == "") {
-        $("#user").tooltip('show');
-      }
-    }, 250);
+    $("#user").tooltip('show');
   }
 });
 
