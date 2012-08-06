@@ -85,6 +85,8 @@ textarea[readonly] {
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
   border-radius: 50px;
+  /*-moz-border-radius: 90px 10px / 10px 90px;
+  border-radius: 90px 10px / 10px 90px;*/
 }
 
 #main {

@@ -725,11 +725,18 @@ $(function() {
   //Testing...
   //$("#user").val("nick1n");
   //logoInit();
+  
+  // dynamically add google ads...
+  var ad_script = document.createElement('script');
+  //ad_script.type = 'text/javascript';
+  ad_script.async = true;
+  ad_script.src = "http://pagead2.googlesyndication.com/pagead/show_ads.js";
+  document.getElementById('ad-desktop').appendChild(ad_script);
+  // this might of worked, it loaded the js file, but it wasn't showing up in the dom node tree
+  //$('#ad-desktop').append($(ad_script));
 });
 
 // Stops the tooltip from being in the wrong position
-// and a little delay to stop it from blinking when resizing the window
-var resizeTimer = 0;
 $(window).resize(function() {
   if ($("#user").val() == "") {
     $("#user").tooltip('show');

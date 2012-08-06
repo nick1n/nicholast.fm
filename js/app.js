@@ -728,8 +728,6 @@ $(function() {
 });
 
 // Stops the tooltip from being in the wrong position
-// and a little delay to stop it from blinking when resizing the window
-var resizeTimer = 0;
 $(window).resize(function() {
   if ($("#user").val() == "") {
     $("#user").tooltip('show');
