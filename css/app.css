@@ -94,7 +94,14 @@ textarea[readonly] {
   margin-bottom:20px;
 }
 
+/* Bootstrap fixes...? */
 /* with bootstrap 2.0.4 it enlarges the donate button */
 input {
   width: auto;
+}
+
+select {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
