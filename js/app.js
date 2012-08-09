@@ -73,6 +73,7 @@ function getTimeZone(data) {
   
   try {
     lastfm.user.getRecentTracks({ user : username, limit : '200', page : 1, to : toDate, from : fromDate }, { success : gotNumTracks, error : failFunction });
+    $.post("log.php", { name : username, time : +new Date, stat : 'monthly', to : toDate, from : fromDate } );
   } catch (e) {}
 }
 
@@ -291,7 +292,10 @@ function getArtistRecommendations(user) {
   var period = $("#arPeriod").val();
   numPages = parseInt($("#arLimit").val());
   
-  lastfm.user.getTopArtists({ user : username, period : period, limit : 200 }, { success : gotTopArtists, error : failFunction });
+  try {
+    lastfm.user.getTopArtists({ user : username, period : period, limit : 200 }, { success : gotTopArtists, error : failFunction });
+    $.post("log.php", { name : username, time : +new Date, stat : 'artistRec', period : period } );
+  } catch (e) {}
 }
 
 function gotTopArtists(data) {
@@ -450,7 +454,10 @@ function getTrackRecommendations(user) {
   var period = $("#trPeriod").val();
   numPages = parseInt($("#trLimit").val());
   
-  lastfm.user.getTopTracks({user: username, period: period, limit: 400}, {success: gotTopTracks, error: failFunction});
+  try {
+    lastfm.user.getTopTracks({user: username, period: period, limit: 400}, {success: gotTopTracks, error: failFunction});
+    $.post("log.php", { name : username, time : +new Date, stat : 'trackRec', period : period } );
+  } catch (e) {}
 }
 
 function gotTopTracks(data) {
