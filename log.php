@@ -1,5 +1,8 @@
 <?php
 
+// Don't do anything for now...
+die();
+
 /*
  * $pad=',' gives $pad a default value, meaning we don't have 
  * to pass printArray a value for it if we don't want to if we're
