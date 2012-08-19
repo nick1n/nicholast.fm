@@ -196,10 +196,10 @@ function finished() {
   }
   
   // generate large artist list .......
-  var tempUser = encodeURIComponent(username).replace(/%20/g, '+');
+  var tempUser = encodeName(username);
   var tempArtist = "";
   for (var i = 0; i < artists.length && i < 50; ++i) {
-    tempArtist = encodeURIComponent(artists[i].artist).replace(/%20/g, '+');
+    tempArtist = encodeName(artists[i].artist);
     innerStr += "<tr><td class=\"artist\">" + artists[i].artist.link("http://www.last.fm/music/" + tempArtist) + " <span class=\"plays\">" + ("(" + artists[i].plays + " plays)").link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist) + "</span></td></tr>";
   }
   $("#artistList").html(innerStr + "</table>");
@@ -208,8 +208,8 @@ function finished() {
   var tempTrack = "";
   innerStr = "<table>";
   for (var i = 0; i < tracks.length && i < 50; ++i) {
-    tempArtist = encodeURIComponent(tracks[i].artist).replace(/%20/g, '+');
-    tempTrack = encodeURIComponent(tracks[i].track).replace(/%20/g, '+');
+    tempArtist = encodeName(tracks[i].artist);
+    tempTrack = encodeName(tracks[i].track);
     
     innerStr += "<tr><td class=\"track\">" + tracks[i].artist.link("http://www.last.fm/music/" + tempArtist) + " - " + tracks[i].track.link("http://www.last.fm/music/" + tempArtist + "/_/" + tempTrack) + " <span class=\"plays\">" + ("(" + tracks[i].plays + " plays)").link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist) + "</span></td></tr>";
   }
@@ -222,7 +222,7 @@ function finished() {
   if (artists[0] != undefined) {
     bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
     for (var i = 0; artists[i] != undefined && artists[0].plays == artists[i].plays; ++i) {
-      tempArtist = encodeURIComponent(artists[i].artist).replace(/%20/g, '+');
+      tempArtist = encodeName(artists[i].artist);
       bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + artists[i].artist + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].plays + " plays)[/url]\n";
     }
     bbCode += "\n";
@@ -236,7 +236,7 @@ function finished() {
     bbCode = "";
     bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
     for (var i = 0; artists[i] != undefined && artists[0].plays == artists[i].plays; ++i) {
-      tempArtist = encodeURIComponent(artists[i].artist).replace(/%20/g, '+');
+      tempArtist = encodeName(artists[i].artist);
       bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + artists[i].artist + "[/artist] ([b]" + artists[i].plays + "[/b] plays)\n";
     }
     bbCode += "\n";
@@ -668,6 +668,10 @@ function formSubmit() {
     try { activate($("li.active").attr("id")); } catch(e) {}
   }
   return false;
+}
+
+function encodeName(name) {
+  return encodeURIComponent(name).replace(/%20/g, '+').replace(/%2B/g, '%252B');
 }
 
 var delay = (function() {
