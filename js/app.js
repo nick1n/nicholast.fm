@@ -196,10 +196,10 @@ function finished() {
   }
   
   // generate large artist list .......
-  var tempUser = encodeURI(username.replace(/ /g, "+"));
+  var tempUser = encodeURIComponent(username).replace(/%20/g, '+');
   var tempArtist = "";
   for (var i = 0; i < artists.length && i < 50; ++i) {
-    tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
+    tempArtist = encodeURIComponent(artists[i].artist).replace(/%20/g, '+');
     innerStr += "<tr><td class=\"artist\">" + artists[i].artist.link("http://www.last.fm/music/" + tempArtist) + " <span class=\"plays\">" + ("(" + artists[i].plays + " plays)").link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist) + "</span></td></tr>";
   }
   $("#artistList").html(innerStr + "</table>");
@@ -208,8 +208,8 @@ function finished() {
   var tempTrack = "";
   innerStr = "<table>";
   for (var i = 0; i < tracks.length && i < 50; ++i) {
-    tempArtist = encodeURI(tracks[i].artist.replace(/ /g, "+"));
-    tempTrack = encodeURI(tracks[i].track.replace(/ /g, "+"));
+    tempArtist = encodeURIComponent(tracks[i].artist).replace(/%20/g, '+');
+    tempTrack = encodeURIComponent(tracks[i].track).replace(/%20/g, '+');
     
     innerStr += "<tr><td class=\"track\">" + tracks[i].artist.link("http://www.last.fm/music/" + tempArtist) + " - " + tracks[i].track.link("http://www.last.fm/music/" + tempArtist + "/_/" + tempTrack) + " <span class=\"plays\">" + ("(" + tracks[i].plays + " plays)").link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist) + "</span></td></tr>";
   }
@@ -222,7 +222,7 @@ function finished() {
   if (artists[0] != undefined) {
     bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
     for (var i = 0; artists[i] != undefined && artists[0].plays == artists[i].plays; ++i) {
-      tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
+      tempArtist = encodeURIComponent(artists[i].artist).replace(/%20/g, '+');
       bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + artists[i].artist + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].plays + " plays)[/url]\n";
     }
     bbCode += "\n";
@@ -236,7 +236,7 @@ function finished() {
     bbCode = "";
     bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
     for (var i = 0; artists[i] != undefined && artists[0].plays == artists[i].plays; ++i) {
-      tempArtist = encodeURI(artists[i].artist.replace(/ /g, "+"));
+      tempArtist = encodeURIComponent(artists[i].artist).replace(/%20/g, '+');
       bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + artists[i].artist + "[/artist] ([b]" + artists[i].plays + "[/b] plays)\n";
     }
     bbCode += "\n";
@@ -610,13 +610,24 @@ function elementSupportsAttribute(element, attribute) {
 function logo(data) {
   var tracks = 0;
   var art = "";
-  
-  tracks = data.topalbums.album.length;
+  var counter = 0;
+  var url = "";
+  var test = false;
+  if (data.topalbums.album)
+    tracks = data.topalbums.album.length;
+  else
+    return;
   
   for (var i = 0; i < tracks; i++) {
     try {
-      art += "<img src=\"" + data.topalbums.album[i].image[2]["#text"] + "\" class=\"logo-bg\">";
-    } catch (e) {}
+      url = data.topalbums.album[i].image[2]["#text"];
+      if (url.indexOf('noimage') == -1) {
+        art += "<img src=\"" + url + "\" class=\"logo-bg\">";
+        ++counter;
+      }
+    } catch (e) { }
+    if (counter == 10)
+      break;
   }
   
   //alert( art );
@@ -635,9 +646,7 @@ function logoInit() {
   username = $("#user").val();
   try {
     lastfm.user.getTopAlbums({ user : username, limit : '20' }, { success : logo, error : failFunction });
-  } catch (e) {
-    return;
-  }
+  } catch (e) { }
 }
 
 function activate(whichFeature) {
