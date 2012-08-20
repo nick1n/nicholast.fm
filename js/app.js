@@ -724,6 +724,7 @@ $(function() {
       $("#user").tooltip('hide');
       $(".submit").removeClass("disabled");
       $("#clear-user").fadeIn(250);
+      $("#userForm .control-group").removeClass("error");
     }
     user = $("#user").val();
   }).keyup();
