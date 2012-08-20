@@ -7,8 +7,7 @@
   <meta http-equiv="Content-Type" content="text/html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <link href="css/bootstrap.css" rel="stylesheet">
-  <link href="css/bootstrap-responsive.css" rel="stylesheet">
+  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css" rel="stylesheet">
   <link href="css/app.css" rel="stylesheet">
   <!--[if lt IE 9]>
     <link href="css/app-ie.css" rel="stylesheet">
@@ -338,8 +337,9 @@
 </div><!-- end #main.container -->
 
 <!-- scripts at the bottom of the body for faster loading -->
-<!-- jQuery 1.7.2 -->
-<script src="js/jquery.js"></script>
+<!-- jQuery 1.8.0 -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery.js"><\/script>')</script>
 
 <!-- Bootstrap 2.0.4 -->
 <script src="js/bootstrap-transition.js"></script>
