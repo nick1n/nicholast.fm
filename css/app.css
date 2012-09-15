@@ -1,7 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
+
 body {
   /* background-color: #F5F5F5; */
   background-color: #EEE;
-  font-family: "Lucida Sans Unicode", "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
+  font-family: 'Ubuntu', Tahoma, sans-serif;
   overflow-y: scroll;
 }
 
@@ -92,6 +94,10 @@ textarea[readonly] {
   margin-bottom:20px;
 }
 
+.nav-tabs > .active > a {
+  box-shadow: 0 5px 8px #DDD inset;
+}
+
 /* Our custom responsive css */
 .share-row {
   height: 24px;
@@ -114,11 +120,11 @@ textarea[readonly] {
   }
 
   body {
-    background-color: #FFF !important;
+    background-color: #FFF;
   }
 
   .share-row {
-    height: 72px;
+    height: 82px;
   }
 
   /* makes the nav-tabs into nav-stacked */
@@ -135,7 +141,7 @@ textarea[readonly] {
   }
 
   .nav-tabs > li > a {
-    border: 1px solid #ddd;
+    border: 1px solid #ddd !important;
     -webkit-border-radius: 0;
        -moz-border-radius: 0;
             border-radius: 0;
@@ -239,14 +245,7 @@ textarea[readonly] {
   }
 }
 
-/* Bootstrap fixes...? */
-/* with bootstrap 2.0.4 it enlarges the donate button */
-input {
-  width: auto;
-}
-
+/* Bootstrap 2.1.1 tweak */
 select {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+	padding-right: 4px;
 }

@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Type" content="text/html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css" rel="stylesheet">
+  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
   <link href="css/app.css" rel="stylesheet">
   <!--[if lt IE 9]>
     <link href="css/app-ie.css" rel="stylesheet">
@@ -47,7 +47,9 @@
     <div class="control-group">
       <div class="controls">
         <div class="input-prepend input-append">
-          <span class="add-on"><i class="icon-user"></i></span><input id="user" size="16" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username"><span id="clear-user" class="add-on"><a class="close">&times;</a></span>
+          <span class="add-on"><i class="icon-user"></i></span>
+          <input id="user" size="16" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username">
+          <span id="clear-user" class="add-on"><a class="close">&times;</a></span>
         </div>
       </div>
     </div>
@@ -337,24 +339,12 @@
 </div><!-- end #main.container -->
 
 <!-- scripts at the bottom of the body for faster loading -->
-<!-- jQuery 1.8.0 -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<!-- jQuery 1.8.1 -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/jquery.js"><\/script>')</script>
 
-<!-- Bootstrap 2.0.4 -->
-<script src="js/bootstrap-transition.js"></script>
-<script src="js/bootstrap-tab.js"></script>
-<script src="js/bootstrap-tooltip.js"></script>
-<script src="js/bootstrap-button.js"></script>
-<script src="js/bootstrap-collapse.js"></script>
-<!--<script src="js/bootstrap-transition.js"></script>-->
-<!--<script src="js/bootstrap-alert.js"></script>-->
-<!--<script src="js/bootstrap-modal.js"></script>-->
-<!--<script src="js/bootstrap-dropdown.js"></script>-->
-<!--<script src="js/bootstrap-scrollspy.js"></script>-->
-<!--<script src="js/bootstrap-popover.js"></script>-->
-<!--<script src="js/bootstrap-carousel.js"></script>-->
-<!--<script src="js/bootstrap-typeahead.js"></script>-->
+<!-- Bootstrap 2.1.1 Javascript Plugins: Transition, Tab, Tooltip, Button, Collapse -->
+<script src="js/bootstrap.min.js"></script>
 
 <!-- Last.fm API Javascript Library -->
 <script src="js/lastfm.api.md5.js"></script>
