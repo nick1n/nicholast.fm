@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -41,21 +41,26 @@
 </div>
 
 <div class="row">
-  <div class="span6 offset1">
-  <form id="userForm" class="form-inline">
-  <fieldset>
-    <div class="control-group">
-      <div class="controls">
+  <div class="span4 offset1">
+    <form id="userForm" class="form-inline">
+      <div class="control-group">
         <div class="input-prepend input-append">
           <span class="add-on"><i class="icon-user"></i></span>
           <input id="user" size="16" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username">
-          <span id="clear-user" class="add-on"><a class="close">&times;</a></span>
+          <span id="clear-user" class="add-on"><a class="close">×</a></span>
         </div>
       </div>
-    </div>
-  </fieldset>
-  </form>
+    </form>
   </div>
+  <!--[if lt IE 9]>
+  <div class="span6">
+    <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <strong>Warning!</strong>
+      This browser isn't fully supported, please update to a new browser.
+    </div>
+  </div>
+  <![endif]-->
 </div>
 
 <div class="row">
@@ -340,7 +345,7 @@
 
 <!-- scripts at the bottom of the body for faster loading -->
 <!-- jQuery 1.8.1 -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/jquery.js"><\/script>')</script>
 
 <!-- Bootstrap 2.1.1 Javascript Plugins: Transition, Tab, Tooltip, Button, Collapse -->

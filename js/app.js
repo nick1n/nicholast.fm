@@ -622,7 +622,7 @@ function logo(data) {
     try {
       url = data.topalbums.album[i].image[2]["#text"];
       if (url.indexOf('noimage') == -1) {
-        art += "<img src=\"" + url + "\" class=\"logo-bg\">";
+        art += "<img src=\"" + url + "\" class=\"logo-bg\" style=\"left:" + counter * 10 + "%\">";
         ++counter;
       }
     } catch (e) { }
@@ -634,7 +634,7 @@ function logo(data) {
   $("#logo-container").prepend(art);
   var delay = 150;
   $.each($(".logo-bg"), function(i, x) {
-    $(this).fadeTo(250 + (delay * i), .70);
+    $(this).fadeTo(250 + (delay * i), .75);
   });
 }
 

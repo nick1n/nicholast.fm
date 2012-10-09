@@ -1,7 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
 
 body {
-  /* background-color: #F5F5F5; */
   background-color: #EEE;
   font-family: 'Ubuntu', Tahoma, sans-serif;
   overflow-y: scroll;
@@ -32,10 +31,6 @@ caption {
   width: auto;
 }
 
-.close {
-  line-height:15px;
-}
-
 .tooltip-arrow {
   border-right-color: #05C !important;
 }
@@ -62,18 +57,22 @@ textarea[readonly] {
   margin:20px 0;
   overflow:hidden;
   position:relative;
+  line-height: 0;
 }
 
 #logo-container .logo-bg {
   display:none;
-  float:left;
-  position:relative;
+  position: absolute;
+  width: 10%;
+}
+
+#logo-container a {
+  position: relative;
 }
 
 #logo-container #logo {
-  left:0px;
-  position:absolute;
-  top:0px;
+  width: 100%;
+  vertical-align: top;
 }
 
 #footer {
@@ -95,30 +94,19 @@ textarea[readonly] {
 }
 
 .nav-tabs > .active > a {
-  box-shadow: 0 5px 8px #DDD inset;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1) inset;
+}
+
+.alert {
+  margin-bottom: 10px;
 }
 
 /* Our custom responsive css */
 .share-row {
-  height: 24px;
+  height: 26px;
 }
 
 @media (max-width: 767px) {
-  #main #logo-container #logo {
-    height: 45px;
-    width: 450px;
-  }
-
-  #main #logo-container .logo-bg {
-    height: 45px;
-    width: 45px;
-  }
-
-  #main #logo-container {
-    height: 45px;
-    width: 450px;
-  }
-
   body {
     background-color: #FFF;
   }
@@ -165,83 +153,11 @@ textarea[readonly] {
   }
 }
 
-@media (min-width: 768px) and (max-width: 979px) {
-  #main #logo-container #logo {
-    height: 60px;
-    width: 600px;
-  }
-
-  #main #logo-container .logo-bg {
-    height: 60px;
-    width: 60px;
-  }
-
-  #main #logo-container {
-    height: 60px;
-    width: 600px;
-  }
-
+@media (min-width: 768px) {
   .container {
     -webkit-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
     box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
-  }
-}
-
-@media (max-width: 480px) {
-  #main #logo-container #logo {
-    height: 26px;
-    width: 260px;
-  }
-
-  #main #logo-container .logo-bg {
-    height: 26px;
-    width: 26px;
-  }
-
-  #main #logo-container {
-    height: 26px;
-    width: 260px;
-  }
-}
-
-@media (min-width: 980px) {
-  #main #logo-container #logo {
-    height: 78px;
-    width: 780px;
-  }
-
-  #main #logo-container .logo-bg {
-    height: 78px;
-    width: 78px;
-  }
-
-  #main #logo-container {
-    height: 78px;
-    width: 780px;
-  }
-
-  .container {
-    -webkit-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
-  }
-}
-
-@media (min-width: 1200px) {
-  #main #logo-container #logo {
-    height: 97px;
-    width: 970px;
-  }
-
-  #main #logo-container .logo-bg {
-    height: 97px;
-    width: 97px;
-  }
-
-  #main #logo-container {
-    height: 97px;
-    width: 970px;
   }
 }
 
