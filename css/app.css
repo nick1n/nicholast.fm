@@ -19,6 +19,10 @@ a:hover {
   text-decoration: underline;
 }
 
+a.close {
+  font-size: 24px;
+}
+
 thead {
   cursor: pointer;
 }
