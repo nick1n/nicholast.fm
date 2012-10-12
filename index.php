@@ -79,20 +79,29 @@
 
     <form id="form" class="form-inline" onSubmit="return false;">
       <select id="month">
-        <option value="0">Janurary</option>
-        <option value="1">Feburary</option>
-        <option value="2">March</option> 
-        <option value="3">April</option>
-        <option value="4">May</option>
-        <option value="5">June</option>
-        <option value="6">July</option>
-        <option value="7">August</option>
-        <option value="8">September</option>
-        <option value="9">October</option>
-        <option value="10">November</option>
-        <option value="11">December</option>
+<?php
+  // Dynamic Month Selector
+  $month = date("m");
+  for ($m = 0; $m < 12; $m++) {
+    echo "<option value=\"$m\"";
+    if ($month == $m + 1)
+      echo " selected";
+    echo ">" . date("F", mktime(0, 0, 0, $m + 1, 1, 2000)) . "</option>\n";
+  }
+?>
       </select>
-      <select id="year"></select>
+      <select id="year">
+<?php
+  // Dynamic Year Selector
+  $year = date("Y");
+  for ($y = 2005; $y <= $year; $y++) {
+    echo "<option value=\"$y\"";
+    if ($year == $y)
+      echo " selected";
+    echo ">$y</option>\n";
+  }
+?>
+      </select>
       <button class="btn btn-primary submit" data-loading-text="loading...">Submit</button>
     </form>
     <div id="trackInfo" class="hide">

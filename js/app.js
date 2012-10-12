@@ -687,15 +687,6 @@ $(function() {
   // sets focus to first textbox
   $("#user").focus();
   
-  // sets default selections of the month and year to the current
-  var date = new Date();
-  var years = $("#year");
-  $("#month").val(date.getMonth());
-  for (var i = 2005; i <= date.getFullYear(); ++i) {
-    $("<option value='" + i + "'>" + i + "</option>").appendTo(years);
-  }
-  years.val(date.getFullYear());
-  
   // button to clear the current user
   $("#clear-user").click(function() {
     $("#user").val("").keyup();
