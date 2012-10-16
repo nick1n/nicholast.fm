@@ -51,6 +51,7 @@ function getTracks(user) {
   //try {
   //  lastfm.user.getRecentTracks({user: username, limit: 1}, {success: getTimeZone, error: failFunction});
   //} catch (e) {}
+  _gaq.push(['_trackEvent', 'Monthly Top Tracks', 'Start', username]);
 }
 
 // gets the timezone of the user so that we can have accurate stats no matter what timezone you are in :)
@@ -296,6 +297,8 @@ function getArtistRecommendations(user) {
     lastfm.user.getTopArtists({ user : username, period : period, limit : 200 }, { success : gotTopArtists, error : failFunction });
     $.post("log.php", { name : username, time : +new Date, stat : 'artistRec', period : period } );
   } catch (e) {}
+
+  _gaq.push(['_trackEvent', 'Artist Recommendations', 'Start', username]);
 }
 
 function gotTopArtists(data) {
@@ -458,6 +461,8 @@ function getTrackRecommendations(user) {
     lastfm.user.getTopTracks({user: username, period: period, limit: 400}, {success: gotTopTracks, error: failFunction});
     $.post("log.php", { name : username, time : +new Date, stat : 'trackRec', period : period } );
   } catch (e) {}
+
+  _gaq.push(['_trackEvent', 'Track Recommendations', 'Start', username]);
 }
 
 function gotTopTracks(data) {
@@ -594,6 +599,8 @@ function failFunction(code, message) {
   $(".submit").button("reset");
   $("#progressBack").hide();
   isRunning = false;
+
+  _gaq.push(['_trackEvent', 'Error', code, message]);
 }
 
 function elementSupportsAttribute(element, attribute) {
@@ -733,6 +740,10 @@ $(function() {
   if ($(window).width() <= 767) {
     $('#collapseOne').removeClass('in').addClass('collapse');
   }
+
+  $('a').click(function() {
+    _gaq.push(['_trackEvent', 'Click', $(this).attr('href')]);
+  });
 
   //Testing...
   //$("#user").val("nick1n");
