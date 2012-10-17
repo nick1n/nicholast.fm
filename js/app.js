@@ -233,7 +233,7 @@ function finished() {
     for (var i = 0; tracks[i] != undefined && tracks[0].plays == tracks[i].plays; ++i) {
       bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + tracks[i].artist + "[/artist] - [track artist=" + tracks[i].artist + "]" + tracks[i].track + "[/track]\n";
     }
-    $("#bbcode").html(bbCode);
+    $("textarea#bbcode").html(bbCode);
     
     // generate old bb code (styled from lastfm.heathaze.org)
     bbCode = "";
@@ -247,7 +247,7 @@ function finished() {
     for (var i = 0; tracks[i] != undefined && tracks[0].plays == tracks[i].plays; ++i) {
       bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + tracks[i].artist + "[/artist] : [track artist=" + tracks[i].artist + "]" + tracks[i].track + "[/track] ([b]" + tracks[i].plays + "[/b] plays)\n";
     }
-    $("#oldbbcode").html(bbCode);
+    $("textarea#oldbbcode").html(bbCode);
   }
   
   $("#mttMonth").html("Monthly Stats For " + getMonthName(month));
@@ -754,7 +754,7 @@ $(function() {
 
   // Hides the BB code for mobile screens sizes by default.
   if ($(window).width() <= 767) {
-    $('#BBCode').removeClass('in').addClass('collapse');
+    $('div#BBCode').removeClass('in').addClass('collapse');
   }
 
   $('a').click(function() {
