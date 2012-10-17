@@ -23,6 +23,7 @@ var uniqueArtists = {};
 var year = 0;
 var month = 0;
 var isRunning = false;
+var startTime;
 
 /////////////////////// User's Monthly Top Tracks Code //////////////////
 
@@ -30,6 +31,7 @@ var isRunning = false;
 function getTracks(user) {
   isRunning = true;
   $(".submit").button('loading');
+  startTime = new Date().getTime();
   
   username = $("#user").val();
   numTracks = 0;
@@ -51,7 +53,6 @@ function getTracks(user) {
   //try {
   //  lastfm.user.getRecentTracks({user: username, limit: 1}, {success: getTimeZone, error: failFunction});
   //} catch (e) {}
-  _gaq.push(['_trackEvent', 'Monthly Top Tracks', 'Start', username]);
 }
 
 // gets the timezone of the user so that we can have accurate stats no matter what timezone you are in :)
@@ -74,8 +75,9 @@ function getTimeZone(data) {
   
   try {
     lastfm.user.getRecentTracks({ user : username, limit : '200', page : 1, to : toDate, from : fromDate }, { success : gotNumTracks, error : failFunction });
-    $.post("log.php", { name : username, time : +new Date, stat : 'monthly', to : toDate, from : fromDate } );
   } catch (e) {}
+
+  _gaq.push(['_trackEvent', 'Monthly Top Tracks', 'Start', username, year * 100 + month]);
 }
 
 // initial track info from last.fm
@@ -253,6 +255,10 @@ function finished() {
   $("#trackInfo").show();
   $("#progressBack").hide();
   
+  var timeSpent = new Date().getTime() - startTime;
+  if (timeSpent > 100)
+    _gaq.push(['_trackTiming', 'Monthly Top Tracks', 'Timing', timeSpent, username, 100])
+
   isRunning = false;
   $(".submit").button('reset');
 }
@@ -269,6 +275,7 @@ var arSortColumn = 'M';
 function getArtistRecommendations(user) {
   isRunning = true;
   $(".submit").button('loading');
+  startTime = new Date().getTime();
   
   /*
   numTracks = 0;
@@ -295,10 +302,10 @@ function getArtistRecommendations(user) {
   
   try {
     lastfm.user.getTopArtists({ user : username, period : period, limit : 200 }, { success : gotTopArtists, error : failFunction });
-    $.post("log.php", { name : username, time : +new Date, stat : 'artistRec', period : period } );
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', 'Artist Recommendations', 'Start', username]);
+  period = parseInt(period) || 0;
+  _gaq.push(['_trackEvent', 'Artist Recommendations', 'Start', username, period * 1000 + numPages]);
 }
 
 function gotTopArtists(data) {
@@ -419,6 +426,10 @@ function arOnClick(col) {
     innerStr += "<tr><td>" + recommendedArtists[i].artist.link("http://" + recommendedArtists[i].url) + "</td><td>" + recommendedArtists[i].plays + "</td></tr>";
   }
   $("#arList").html(innerStr + "</table>");
+
+  var timeSpent = new Date().getTime() - startTime;
+  if (timeSpent > 100)
+    _gaq.push(['_trackTiming', 'Monthly Top Tracks', 'Timing', timeSpent, username, 100])
 }
 
 //////////////// Track Recommendations Code //////////////////////////////////////
@@ -433,6 +444,7 @@ var trSortColumn = 'M';
 function getTrackRecommendations(user) {
   isRunning = true;
   $(".submit").button('loading');
+  startTime = new Date().getTime();
   
   /*
   numTracks = 0;
@@ -459,10 +471,10 @@ function getTrackRecommendations(user) {
   
   try {
     lastfm.user.getTopTracks({user: username, period: period, limit: 400}, {success: gotTopTracks, error: failFunction});
-    $.post("log.php", { name : username, time : +new Date, stat : 'trackRec', period : period } );
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', 'Track Recommendations', 'Start', username]);
+  period = parseInt(period) || 0;
+  _gaq.push(['_trackEvent', 'Track Recommendations', 'Start', username, period * 1000 + numPages]);
 }
 
 function gotTopTracks(data) {
@@ -573,6 +585,10 @@ function trOnClick(col) {
     innerStr += "<tr><td class=\"artist\"><a href=\"http://" + recommendedTracks[i].artisturl + "\">" + recommendedTracks[i].artist + "</a> - <a href=\"http://" + recommendedTracks[i].trackurl + "\">" + recommendedTracks[i].track + "</a></td> <td class=\"plays\">" + recommendedTracks[i].match.toFixed(2) + "</td> <td class=\"plays\">" + recommendedTracks[i].recommendations + "</td></tr>";
   }
   $("#trList").html(innerStr + "</tbody></table>");
+
+  var timeSpent = new Date().getTime() - startTime;
+  if (timeSpent > 100)
+    _gaq.push(['_trackTiming', 'Monthly Top Tracks', 'Timing', timeSpent, username, 100])
 }
 
 //// end of last.fm api code ////
@@ -738,7 +754,7 @@ $(function() {
 
   // Hides the BB code for mobile screens sizes by default.
   if ($(window).width() <= 767) {
-    $('#collapseOne').removeClass('in').addClass('collapse');
+    $('#BBCode').removeClass('in').addClass('collapse');
   }
 
   $('a').click(function() {

@@ -131,11 +131,11 @@
           <div class="accordion" id="accordion">
             <div class="accordion-group">
               <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#BBCode">
                   <b>BB Code:</b>
                 </a>
               </div>
-              <div id="collapseOne" class="accordion-body in">
+              <div id="BBCode" class="accordion-body in">
                 <div class="accordion-inner">
                   <textarea id="bbcode" rows="8" cols="70" readonly></textarea>
                 </div>
@@ -143,11 +143,11 @@
             </div>
             <div class="accordion-group">
               <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#OldBBCode">
                   <b>Old BB Code:</b> (Based on kurtrips' heathaze.org BB Code)
                 </a>
               </div>
-              <div id="collapseTwo" class="accordion-body collapse">
+              <div id="OldBBCode" class="accordion-body collapse">
                 <div class="accordion-inner">
                   <textarea id="oldbbcode" rows="8" cols="70" readonly></textarea>
                 </div>
