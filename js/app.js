@@ -87,7 +87,7 @@ function getTimeZone(data) {
     });
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', executing, username, year + ' ' + month]);
+  _gaq.push(['_trackEvent', executing, username, year + ' ' + getMonthName(month)]);
 }
 
 // initial track info from last.fm
@@ -279,7 +279,7 @@ function finished() {
   
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, username, timeSpent, year + ' ' + month, 100])
+    _gaq.push(['_trackTiming', executing, username, timeSpent, year + ' ' + getMonthName(month), 100])
 
   executing = null;
   $(".submit").button('reset');
