@@ -87,7 +87,7 @@ function getTimeZone(data) {
     });
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', executing, username, year + ' ' + getMonthName(month)]);
+  _gaq.push(['_trackEvent', executing, username, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month)]);
 }
 
 // initial track info from last.fm
@@ -279,7 +279,7 @@ function finished() {
   
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, username, timeSpent, year + ' ' + getMonthName(month), 100])
+    _gaq.push(['_trackTiming', executing, username, timeSpent, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), 100])
 
   executing = null;
   $(".submit").button('reset');
@@ -844,6 +844,14 @@ $(window).resize(function() {
     $("#user").tooltip('show');
   }
 });
+
+// Simple helper functions
+function padMonth(m) {
+  return padNumber('00', m);
+};
+function padNumber(str, num) {
+  return str.substr(0, str.length - ('' + num).length) + num;
+};
 
 // By: nickf
 // Src: http://stackoverflow.com/questions/1643320/get-month-name-from-date-using-javascript
