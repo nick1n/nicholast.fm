@@ -23,6 +23,7 @@ var uniqueArtists = {};
 var year = 0;
 var month = 0;
 var executing = null;
+var period = 0;
 var startTime;
 
 /////////////////////// User's Monthly Top Tracks Code //////////////////
@@ -278,7 +279,7 @@ function finished() {
   
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, 'Timing', timeSpent, username, 100])
+    _gaq.push(['_trackTiming', executing, username, timeSpent, year + ' ' + month, 100])
 
   executing = null;
   $(".submit").button('reset');
@@ -318,7 +319,7 @@ function getArtistRecommendations(user) {
   $("#progressBack").show();
   
   username = $("#user").val();
-  var period = $("#arPeriod").val();
+  period = $("#arPeriod").val();
   numPages = parseInt($("#arLimit").val());
   
   try {
@@ -429,7 +430,7 @@ function arFinished() {
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, 'Timing', timeSpent, username, 100])
+    _gaq.push(['_trackTiming', executing, username, timeSpent, period + ' ' + numPages, 100])
   
   $(".submit").button('reset');
   executing = null;
@@ -499,7 +500,7 @@ function getTrackRecommendations(user) {
   
   username = $("#user").val();
   
-  var period = $("#trPeriod").val();
+  period = $("#trPeriod").val();
   numPages = parseInt($("#trLimit").val());
   
   try {
@@ -604,7 +605,7 @@ function trFinished() {
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, 'Timing', timeSpent, username, 100])
+    _gaq.push(['_trackTiming', executing, username, timeSpent, period + ' ' + numPages, 100])
   
   $(".submit").button('reset');
   executing = null;
@@ -669,12 +670,15 @@ function failFunction(code, message) {
    * 26 : Suspended API key - Access for your account has been suspended, please contact Last.fm
    * 29 : Rate limit exceeded - Your IP has made too many requests in a short period
    */
+  if (executing == null)
+    return;
+
   alert("Failed:\nCode: " + code + "\n" + message);
   $(".submit").button("reset");
   $("#progressBack").hide();
 
   _gaq.push(['_trackEvent', 'Error', code + ": " + message,
-    executing + ', ' + username + ', ' + numTracks + ', ' + pagesFinished + ', ' + numPages + ', ' + fromDate + ', ' + toDate + ', ' + year + ', ' + month]);
+    executing + ', ' + username + ', ' + numTracks + ', ' + pagesFinished + ', ' + period + ', ' + numPages + ', ' + fromDate + ', ' + toDate + ', ' + year + ', ' + month]);
 
   executing = null;
 }
@@ -848,8 +852,8 @@ var monthNames = [
   "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
 ];
 function getMonthName(month) {
-  return this.monthNames[month];
+  return this.monthNames[this.month];
 };
 function getShortMonthName(month) {
-  return this.getMonthName(month).substr(0, 3);
+  return this.getMonthName(this.month).substr(0, 3);
 };
