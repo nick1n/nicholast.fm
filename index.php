@@ -46,7 +46,7 @@
       <div class="control-group">
         <div class="input-prepend input-append">
           <span class="add-on"><i class="icon-user"></i></span>
-          <input id="user" size="16" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username">
+          <input id="user" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username">
           <span id="clear-user" class="add-on"><a class="close">×</a></span>
         </div>
       </div>

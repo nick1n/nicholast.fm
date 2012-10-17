@@ -2,8 +2,15 @@
 
 body {
   background-color: #EEE;
-  font-family: 'Ubuntu', Tahoma, sans-serif;
   overflow-y: scroll;
+}
+
+body,
+input,
+button,
+select,
+textarea {
+  font-family: 'Ubuntu', Tahoma, sans-serif;
 }
 
 a {
@@ -32,7 +39,7 @@ caption {
 }
 
 #user {
-  width: auto;
+  width: 135px;
 }
 
 .tooltip-arrow {

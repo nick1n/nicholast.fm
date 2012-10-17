@@ -22,14 +22,14 @@ var uniqueTracks = {};
 var uniqueArtists = {};
 var year = 0;
 var month = 0;
-var isRunning = false;
+var executing = null;
 var startTime;
 
 /////////////////////// User's Monthly Top Tracks Code //////////////////
 
 // starting function, the function that lets all last.fm hell break loose.
 function getTracks(user) {
-  isRunning = true;
+  executing = 'Monthly Top Tracks';
   $(".submit").button('loading');
   startTime = new Date().getTime();
   
@@ -74,10 +74,19 @@ function getTimeZone(data) {
   toDate = (date.getTime() - offset) / 1000;
   
   try {
-    lastfm.user.getRecentTracks({ user : username, limit : '200', page : 1, to : toDate, from : fromDate }, { success : gotNumTracks, error : failFunction });
+    lastfm.user.getRecentTracks({
+      user : username,
+      limit : '200',
+      page : 1,
+      to : toDate,
+      from : fromDate
+    }, {
+      success : gotNumTracks,
+      error : failFunction
+    });
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', 'Monthly Top Tracks', 'Start', username, year * 100 + month]);
+  _gaq.push(['_trackEvent', executing, username, year + ' ' + month]);
 }
 
 // initial track info from last.fm
@@ -109,7 +118,16 @@ function gotNumTracks(data) {
 
 // a proxy function for delaying all the last.fm api calls
 function getRecentTracks(page) {
-  lastfm.user.getRecentTracks({ user : username, limit : '200', page : page, to : toDate, from : fromDate }, { success : gotTracks, error : failFunction });
+  lastfm.user.getRecentTracks({
+    user : username,
+    limit : '200',
+    page : page,
+    to : toDate,
+    from : fromDate
+  }, {
+    success : gotTracks,
+    error : failFunction
+  });
 }
 
 // got some track info from last.fm lets parse it :)
@@ -214,7 +232,10 @@ function finished() {
     tempArtist = encodeName(tracks[i].artist);
     tempTrack = encodeName(tracks[i].track);
     
-    innerStr += "<tr><td class=\"track\">" + tracks[i].artist.link("http://www.last.fm/music/" + tempArtist) + " - " + tracks[i].track.link("http://www.last.fm/music/" + tempArtist + "/_/" + tempTrack) + " <span class=\"plays\">" + ("(" + tracks[i].plays + " plays)").link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist) + "</span></td></tr>";
+    innerStr +=
+      "<tr>" +
+        "<td class=\"track\">" + tracks[i].artist.link("http://www.last.fm/music/" + tempArtist) + " - " + tracks[i].track.link("http://www.last.fm/music/" + tempArtist + "/_/" + tempTrack) + " <span class=\"plays\">" + ("(" + tracks[i].plays + " plays)").link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist) + "</span></td>" +
+      "</tr>";
   }
   $("#trackList").html(innerStr + "</table>");
   
@@ -257,9 +278,9 @@ function finished() {
   
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', 'Monthly Top Tracks', 'Timing', timeSpent, username, 100])
+    _gaq.push(['_trackTiming', executing, 'Timing', timeSpent, username, 100])
 
-  isRunning = false;
+  executing = null;
   $(".submit").button('reset');
 }
 
@@ -273,7 +294,7 @@ var recommendedArtists = [];
 var arSortColumn = 'M';
 
 function getArtistRecommendations(user) {
-  isRunning = true;
+  executing = 'Artist Recommendations';
   $(".submit").button('loading');
   startTime = new Date().getTime();
   
@@ -301,11 +322,17 @@ function getArtistRecommendations(user) {
   numPages = parseInt($("#arLimit").val());
   
   try {
-    lastfm.user.getTopArtists({ user : username, period : period, limit : 200 }, { success : gotTopArtists, error : failFunction });
+    lastfm.user.getTopArtists({
+      user : username,
+      period : period,
+      limit : 200
+    }, {
+      success : gotTopArtists,
+      error : failFunction
+    });
   } catch (e) {}
 
-  period = parseInt(period) || 0;
-  _gaq.push(['_trackEvent', 'Artist Recommendations', 'Start', username, period * 1000 + numPages]);
+  _gaq.push(['_trackEvent', executing, username, period + ' ' + numPages]);
 }
 
 function gotTopArtists(data) {
@@ -333,7 +360,13 @@ function gotTopArtists(data) {
 }
 
 function getSimilarArtists(i) {
-  lastfm.artist.getSimilar({ artist : topArtists[i].name, autocorrect : 1 }, { success : gotTopSimilarArtists, error : failFunction });
+  lastfm.artist.getSimilar({
+    artist : topArtists[i].name,
+    autocorrect : 1
+  }, {
+    success : gotTopSimilarArtists,
+    error : failFunction
+  });
 }
 
 function gotTopSimilarArtists(data) {
@@ -393,9 +426,13 @@ function arFinished() {
   
   $("#arDisplay").show();
   $("#progressBack").hide();
+
+  var timeSpent = new Date().getTime() - startTime;
+  if (timeSpent > 100)
+    _gaq.push(['_trackTiming', executing, 'Timing', timeSpent, username, 100])
   
   $(".submit").button('reset');
-  isRunning = false;
+  executing = null;
 }
 
 function arSort(a, b) {
@@ -426,10 +463,6 @@ function arOnClick(col) {
     innerStr += "<tr><td>" + recommendedArtists[i].artist.link("http://" + recommendedArtists[i].url) + "</td><td>" + recommendedArtists[i].plays + "</td></tr>";
   }
   $("#arList").html(innerStr + "</table>");
-
-  var timeSpent = new Date().getTime() - startTime;
-  if (timeSpent > 100)
-    _gaq.push(['_trackTiming', 'Monthly Top Tracks', 'Timing', timeSpent, username, 100])
 }
 
 //////////////// Track Recommendations Code //////////////////////////////////////
@@ -442,7 +475,7 @@ var recommendedTracks = [];
 var trSortColumn = 'M';
 
 function getTrackRecommendations(user) {
-  isRunning = true;
+  executing = 'Track Recommendations';
   $(".submit").button('loading');
   startTime = new Date().getTime();
   
@@ -470,11 +503,17 @@ function getTrackRecommendations(user) {
   numPages = parseInt($("#trLimit").val());
   
   try {
-    lastfm.user.getTopTracks({user: username, period: period, limit: 400}, {success: gotTopTracks, error: failFunction});
+    lastfm.user.getTopTracks({
+      user: username,
+      period: period,
+      limit: 400
+    }, {
+      success: gotTopTracks,
+      error: failFunction
+    });
   } catch (e) {}
 
-  period = parseInt(period) || 0;
-  _gaq.push(['_trackEvent', 'Track Recommendations', 'Start', username, period * 1000 + numPages]);
+  _gaq.push(['_trackEvent', executing, username, period + ' ' + numPages]);
 }
 
 function gotTopTracks(data) {
@@ -502,7 +541,14 @@ function gotTopTracks(data) {
 }
 
 function getSimilarTracks(i) {
-  lastfm.track.getSimilar({artist: topArtists[i].artist.name, track: topArtists[i].name, autocorrect: 1}, {success: gotTopSimilarTracks, error: failFunction});
+  lastfm.track.getSimilar({
+    artist : topArtists[i].artist.name,
+    track : topArtists[i].name,
+    autocorrect : 1
+  }, {
+    success : gotTopSimilarTracks,
+    error : failFunction
+  });
 }
 
 function gotTopSimilarTracks(data) {
@@ -516,7 +562,14 @@ function gotTopSimilarTracks(data) {
         // if not in it, look for it in the list of recommended artist
         if (uniqueArtists[combinedName] == undefined) {
           // if not in it add that artist to it and add one recommendation
-          uniqueArtists[combinedName] = {artist: data.similartracks.track[i].artist.name, track: data.similartracks.track[i].name, recommendations: 1, match: parseFloat(data.similartracks.track[i].match), artisturl: data.similartracks.track[i].artist.url, trackurl: data.similartracks.track[i].url}; // artist == name && plays == recommendations
+          uniqueArtists[combinedName] = {
+            artist : data.similartracks.track[i].artist.name,
+            track : data.similartracks.track[i].name,
+            recommendations : 1,
+            match : parseFloat(data.similartracks.track[i].match),
+            artisturl : data.similartracks.track[i].artist.url,
+            trackurl : data.similartracks.track[i].url
+          }; // artist == name && plays == recommendations
         } else {
           ++uniqueArtists[combinedName].recommendations;
           uniqueArtists[combinedName].match += parseFloat(data.similartracks.track[i].match);
@@ -548,9 +601,13 @@ function trFinished() {
   
   $("#trDisplay").show();
   $("#progressBack").hide();
+
+  var timeSpent = new Date().getTime() - startTime;
+  if (timeSpent > 100)
+    _gaq.push(['_trackTiming', executing, 'Timing', timeSpent, username, 100])
   
   $(".submit").button('reset');
-  isRunning = false;
+  executing = null;
 }
 
 function trSort(a, b) {
@@ -582,13 +639,14 @@ function trOnClick(col) {
   innerStr += "<th onClick=\"trOnClick('M');\"><b>Match</b>" + (col == 'M' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th>";
   innerStr += "<th onClick=\"trOnClick('R');\"><b>Recommendations</b>" + (col == 'R' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th></tr></thead><tbody>";
   for (var i = 0; i < recommendedTracks.length && i < 50; ++i) {
-    innerStr += "<tr><td class=\"artist\"><a href=\"http://" + recommendedTracks[i].artisturl + "\">" + recommendedTracks[i].artist + "</a> - <a href=\"http://" + recommendedTracks[i].trackurl + "\">" + recommendedTracks[i].track + "</a></td> <td class=\"plays\">" + recommendedTracks[i].match.toFixed(2) + "</td> <td class=\"plays\">" + recommendedTracks[i].recommendations + "</td></tr>";
+    innerStr +=
+      "<tr>" +
+        "<td class=\"artist\"><a href=\"http://" + recommendedTracks[i].artisturl + "\">" + recommendedTracks[i].artist + "</a> - <a href=\"http://" + recommendedTracks[i].trackurl + "\">" + recommendedTracks[i].track + "</a></td>" +
+        "<td class=\"plays\">" + recommendedTracks[i].match.toFixed(2) + "</td>" +
+        "<td class=\"plays\">" + recommendedTracks[i].recommendations + "</td>" +
+      "</tr>";
   }
   $("#trList").html(innerStr + "</tbody></table>");
-
-  var timeSpent = new Date().getTime() - startTime;
-  if (timeSpent > 100)
-    _gaq.push(['_trackTiming', 'Monthly Top Tracks', 'Timing', timeSpent, username, 100])
 }
 
 //// end of last.fm api code ////
@@ -614,9 +672,11 @@ function failFunction(code, message) {
   alert("Failed:\nCode: " + code + "\n" + message);
   $(".submit").button("reset");
   $("#progressBack").hide();
-  isRunning = false;
 
-  _gaq.push(['_trackEvent', 'Error', code, message]);
+  _gaq.push(['_trackEvent', 'Error', code + ": " + message,
+    executing + ', ' + username + ', ' + numTracks + ', ' + pagesFinished + ', ' + numPages + ', ' + fromDate + ', ' + toDate + ', ' + year + ', ' + month]);
+
+  executing = null;
 }
 
 function elementSupportsAttribute(element, attribute) {
@@ -668,7 +728,13 @@ function logoInit() {
   });
   username = $("#user").val();
   try {
-    lastfm.user.getTopAlbums({ user : username, limit : '20' }, { success : logo, error : failFunction });
+    lastfm.user.getTopAlbums({
+      user : username,
+      limit : '20'
+    }, {
+      success : logo,
+      error : failFunction
+    });
   } catch (e) { }
 }
 
@@ -679,7 +745,7 @@ function activate(whichFeature) {
   
   // this is how you invoke a function via a string stored in a variable.
   // In this case, the string is from the ID attribute of the submit button pressed
-  if (!isRunning)
+  if (executing == null)
     window[whichFeature]();
 }
 
@@ -758,7 +824,9 @@ $(function() {
   }
 
   $('a').click(function() {
-    _gaq.push(['_trackEvent', 'Click', $(this).attr('href')]);
+    var href = $(this).attr('href');
+    if (href)
+      _gaq.push(['_trackEvent', 'Click', href, username]);
   });
 
   //Testing...
