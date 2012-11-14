@@ -112,18 +112,112 @@ textarea[readonly] {
   margin-bottom: 10px;
 }
 
-/* Our custom responsive css */
+/*
+ * Social share buttons
+ * CSS based from: Mark Dotto's github-buttons
+ */
 .share-row {
-  height: 26px;
+  margin-bottom: 20px;
+  text-align: right;
 }
 
+.share-row a {
+  padding: 2px 5px;
+  color: #555;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #fff;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: 3px;
+  background-color: #e6e6e6;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#eaeaea));
+  background-image: -webkit-linear-gradient(#fafafa, #eaeaea);
+  background-image: -moz-linear-gradient(top, #fafafa, #eaeaea);
+  background-image: -ms-linear-gradient(#fafafa, #eaeaea);
+  background-image: -o-linear-gradient(#fafafa, #eaeaea);
+  background-image: linear-gradient(#fafafa, #eaeaea);
+  background-repeat: no-repeat;
+  border: 1px solid #d4d4d4;
+  border-bottom-color: #bcbcbc;
+  font-size: 16px;
+}
+
+.btn-twitter i {
+  color: #00ACED;
+}
+
+.btn-facebook i {
+  color: #3B5998;
+}
+
+.btn-lastfm i {
+  color: #d51007;
+}
+
+.share-row a:hover,
+.share-row a:focus,
+.share-row a:active {
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+}
+
+.share-row a:hover i,
+.share-row a:focus i,
+.share-row a:active i {
+  color: #fff;
+}
+
+.share-row a.btn-twitter:hover,
+.share-row a.btn-twitter:focus,
+.share-row a.btn-twitter:active {
+  border-color: #007EA5;
+  background-color: #00A0D1;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00A0D1), to(#008EB9));
+  background-image: -webkit-linear-gradient(#00A0D1, #008EB9);
+  background-image: -moz-linear-gradient(top, #00A0D1, #008EB9);
+  background-image: -ms-linear-gradient(#00A0D1, #008EB9);
+  background-image: -o-linear-gradient(#00A0D1, #008EB9);
+  background-image: linear-gradient(#00A0D1, #008EB9);
+}
+
+.share-row a.btn-facebook:hover,
+.share-row a.btn-facebook:focus,
+.share-row a.btn-facebook:active {
+  border-color: #133783;
+  background-color: #3B5998;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#6D84B4), to(#3B5998));
+  background-image: -webkit-linear-gradient(#6D84B4, #3B5998);
+  background-image: -moz-linear-gradient(top, #6D84B4, #3B5998);
+  background-image: -ms-linear-gradient(#6D84B4, #3B5998);
+  background-image: -o-linear-gradient(#6D84B4, #3B5998);
+  background-image: linear-gradient(#6D84B4, #3B5998);
+}
+
+.share-row a.btn-lastfm:hover,
+.share-row a.btn-lastfm:focus,
+.share-row a.btn-lastfm:active {
+  border-color: #990801;
+  background-color: #DB1505;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#DB1505), to(#A50600));
+  background-image: -webkit-linear-gradient(#DB1505, #A50600);
+  background-image: -moz-linear-gradient(top, #DB1505, #A50600);
+  background-image: -ms-linear-gradient(#DB1505, #A50600);
+  background-image: -o-linear-gradient(#DB1505, #A50600);
+  background-image: linear-gradient(#DB1505, #A50600);
+}
+
+.share-row a:active {
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 5px rgba(0,0,0,.10);
+     -moz-box-shadow: inset 0 2px 5px rgba(0,0,0,.10);
+          box-shadow: inset 0 2px 5px rgba(0,0,0,.10);
+}
+
+/* Our custom responsive css */
 @media (max-width: 767px) {
   body {
     background-color: #FFF;
-  }
-
-  .share-row {
-    height: 82px;
   }
 
   /* makes the nav-tabs into nav-stacked */

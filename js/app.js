@@ -87,7 +87,7 @@ function getTimeZone(data) {
     });
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', executing, username, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month)]);
+  _gaq.push(['_trackEvent', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), username]);
 }
 
 // initial track info from last.fm
@@ -279,7 +279,7 @@ function finished() {
   
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, username, timeSpent, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), 100])
+    _gaq.push(['_trackTiming', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), timeSpent, username, 100])
 
   executing = null;
   $(".submit").button('reset');
@@ -333,7 +333,7 @@ function getArtistRecommendations(user) {
     });
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', executing, username, period + ' ' + numPages]);
+  _gaq.push(['_trackEvent', executing, period + ' ' + numPages, username]);
 }
 
 function gotTopArtists(data) {
@@ -430,7 +430,7 @@ function arFinished() {
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, username, timeSpent, period + ' ' + numPages, 100])
+    _gaq.push(['_trackTiming', executing, period + ' ' + numPages, timeSpent, username, 100])
   
   $(".submit").button('reset');
   executing = null;
@@ -514,7 +514,7 @@ function getTrackRecommendations(user) {
     });
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', executing, username, period + ' ' + numPages]);
+  _gaq.push(['_trackEvent', executing, period + ' ' + numPages, username]);
 }
 
 function gotTopTracks(data) {
@@ -605,7 +605,7 @@ function trFinished() {
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, username, timeSpent, period + ' ' + numPages, 100])
+    _gaq.push(['_trackTiming', executing, period + ' ' + numPages, timeSpent, username, 100])
   
   $(".submit").button('reset');
   executing = null;
@@ -677,7 +677,7 @@ function failFunction(code, message) {
   $(".submit").button("reset");
   $("#progressBack").hide();
 
-  _gaq.push(['_trackEvent', 'Error', code + ": " + message,
+  _gaq.push(['_trackEvent', 'Error', code + ": " + message + ", " +
     executing + ', ' + username + ', ' + numTracks + ', ' + pagesFinished + ', ' + period + ', ' + numPages + ', ' + fromDate + ', ' + toDate + ', ' + year + ', ' + month]);
 
   executing = null;
@@ -865,3 +865,17 @@ function getMonthName(month) {
 function getShortMonthName(month) {
   return this.getMonthName(this.month).substr(0, 3);
 };
+
+// Google Analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-30386018-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script');
+  ga.type = 'text/javascript';
+  ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(ga, s);
+})();

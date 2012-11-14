@@ -4,14 +4,17 @@
   <meta charset="utf-8">
   <title>Last.fm Stats - nicholast.fm</title>
   
-  <meta http-equiv="Content-Type" content="text/html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/icomoon.css">
   <link href="css/app.css" rel="stylesheet">
   <!--[if lt IE 9]>
     <link href="css/app-ie.css" rel="stylesheet">
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <!--[if lt IE 8]>
+    <script src="js/lte-ie7.js"></script>
   <![endif]-->
   
   <link rel="shortcut icon" href="favicon.ico">
@@ -29,14 +32,10 @@
 </div>
 
 <div class="row share-row">
-  <div class="span1 offset7">
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://nicholast.fm" data-via="nicholastdotfm" data-related="nicholastdotfm">Tweet</a>
-  </div>
-  <div class="span1">
-    <g:plusone size="medium"></g:plusone>
-  </div>
-  <div class="span2">
-     <div class="fb-like" data-href="http://nicholast.fm" data-send="true" data-layout="button_count" data-width="150" data-show-faces="true" data-font="lucida grande"></div>
+  <div class="span4 offset7">
+    <a href="http://twitter.com/nicholastdotfm" class="btn-twitter" target="_blank"><i class="icon-twitter"></i> Follow</a>
+    <a href="http://www.facebook.com/nicholast.fm" class="btn-facebook" target="_blank"><i class="icon-facebook"></i> Like</a>
+    <a href="http://www.last.fm/group/nicholast.fm" class="btn-lastfm" target="_blank"><i class="icon-lastfm"></i> Join</a>
   </div>
 </div>
 
@@ -264,12 +263,12 @@
     </div>
     <div class="row">
       <div class="span10">
-        <p>Many thanks to last.fm, bootstrap, nickf, flagcounter, jQuery, and Felix Bruns' javascript last.fm api lib</p>
+        <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, and Felix Bruns' javascript last.fm api lib</p>
       </div>
     </div>
     <div class="row">
       <div class="span10">
-        <p>Found a bug? Report it on our <a href="https://github.com/namklabs/nicholast.fm/issues?labels=Issue&state=open" class="link">github.com issue queue</a></p>
+        <p>Found a bug? Report it on our <a href="https://github.com/namklabs/nicholast.fm/issues?labels=Issue&amp;state=open" class="link">github.com issue queue</a></p>
       </div>
     </div>
     <div class="row">
@@ -301,7 +300,7 @@
   <div class="row">
     <div class="span10 offset1">
       <br>
-      <div id="ad-desktop" class="visible-desktop" align="center">
+      <div id="ad-desktop" class="visible-desktop center">
         <script type="text/javascript"><!--
           google_ad_client = "ca-pub-5694205610454375";
           /* FirstTest */
@@ -312,7 +311,7 @@
         </script>
         <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
       </div>
-      <div id="ad-tablet" class="visible-tablet" align="center">
+      <div id="ad-tablet" class="visible-tablet center">
         <script type="text/javascript"><!--
           google_ad_client = "ca-pub-5694205610454375";
           /* TabletAd */
@@ -323,7 +322,7 @@
         </script>
         <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
       </div>
-      <div id="ad-phone" class="visible-phone" align="center">
+      <div id="ad-phone" class="visible-phone center">
         <script type="text/javascript"><!--
           google_ad_client = "ca-pub-5694205610454375";
           /* MobileAd */
@@ -345,7 +344,7 @@
       <p>Copyright &copy; 2012</p>
     </div>
     <div class="span3">
-      <p>Many thanks to last.fm, bootstrap, nickf, flagcounter, jQuery, and Felix Bruns' javascript last.fm api lib</p><br>
+      <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, and Felix Bruns' javascript last.fm api lib</p><br>
     </div>
   </div>
 </footer>
@@ -353,11 +352,11 @@
 </div><!-- end #main.container -->
 
 <!-- scripts at the bottom of the body for faster loading -->
-<!-- jQuery 1.8.1 -->
+<!-- jQuery 1.8.2 -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/jquery.js"><\/script>')</script>
 
-<!-- Bootstrap 2.1.1 Javascript Plugins: Transition, Tab, Tooltip, Button, Collapse -->
+<!-- Bootstrap 2.2.1 Javascript Plugins: Transition, Tab, Tooltip, Button, Collapse -->
 <script src="js/bootstrap.min.js"></script>
 
 <!-- Last.fm API Javascript Library -->
@@ -367,55 +366,5 @@
 <!-- Custom Javascript -->
 <script src="js/app.js"></script>
 
-<!-- Widgets -->
-<script type="text/javascript">
-  // Google Analytics
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-30386018-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script');
-    ga.type = 'text/javascript';
-    ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(ga, s);
-  })();
-  
-  // Twitter Tweet
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s);
-    js.id = id;
-    js.async = true;
-    js.src = "http://platform.twitter.com/widgets.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'twitter-wjs'));
-  
-  // Facebook Like/Send
-  // outputs a lot of errors to console :-/
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s);
-    js.id = id;
-    js.async = true;
-    js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-  
-  // Google+
-  (function() {
-    var po = document.createElement('script');
-    po.type = 'text/javascript';
-    po.async = true;
-    po.src = 'https://apis.google.com/js/plusone.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(po, s);
-  })();
-
-</script>
 </body>
 </html>
