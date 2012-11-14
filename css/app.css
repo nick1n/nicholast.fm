@@ -140,6 +140,7 @@ textarea[readonly] {
   border: 1px solid #d4d4d4;
   border-bottom-color: #bcbcbc;
   font-size: 16px;
+  margin-right: 4px;
 }
 
 .btn-twitter i {
@@ -169,8 +170,7 @@ textarea[readonly] {
 }
 
 .share-row a.btn-twitter:hover,
-.share-row a.btn-twitter:focus,
-.share-row a.btn-twitter:active {
+.share-row a.btn-twitter:focus {
   border-color: #007EA5;
   background-color: #00A0D1;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00A0D1), to(#008EB9));
@@ -182,8 +182,7 @@ textarea[readonly] {
 }
 
 .share-row a.btn-facebook:hover,
-.share-row a.btn-facebook:focus,
-.share-row a.btn-facebook:active {
+.share-row a.btn-facebook:focus {
   border-color: #133783;
   background-color: #3B5998;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#6D84B4), to(#3B5998));
@@ -195,8 +194,7 @@ textarea[readonly] {
 }
 
 .share-row a.btn-lastfm:hover,
-.share-row a.btn-lastfm:focus,
-.share-row a.btn-lastfm:active {
+.share-row a.btn-lastfm:focus {
   border-color: #990801;
   background-color: #DB1505;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#DB1505), to(#A50600));
@@ -208,7 +206,7 @@ textarea[readonly] {
 }
 
 .share-row a:active {
-  background-image: none;
+  background-image: none !important;
   -webkit-box-shadow: inset 0 2px 5px rgba(0,0,0,.10);
      -moz-box-shadow: inset 0 2px 5px rgba(0,0,0,.10);
           box-shadow: inset 0 2px 5px rgba(0,0,0,.10);
