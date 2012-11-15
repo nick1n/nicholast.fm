@@ -87,7 +87,7 @@ function getTimeZone(data) {
     });
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), username]);
+  _gaq.push(['_trackEvent', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), username.toLocaleLowerCase()]);
 }
 
 // initial track info from last.fm
@@ -279,7 +279,7 @@ function finished() {
   
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), timeSpent, username, 100])
+    _gaq.push(['_trackTiming', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), timeSpent, username.toLocaleLowerCase(), 100])
 
   executing = null;
   $(".submit").button('reset');
@@ -333,7 +333,7 @@ function getArtistRecommendations(user) {
     });
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', executing, period + ' ' + numPages, username]);
+  _gaq.push(['_trackEvent', executing, period + ' ' + numPages, username.toLocaleLowerCase()]);
 }
 
 function gotTopArtists(data) {
@@ -430,7 +430,7 @@ function arFinished() {
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, period + ' ' + numPages, timeSpent, username, 100])
+    _gaq.push(['_trackTiming', executing, period + ' ' + numPages, timeSpent, username.toLocaleLowerCase(), 100])
   
   $(".submit").button('reset');
   executing = null;
@@ -514,7 +514,7 @@ function getTrackRecommendations(user) {
     });
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', executing, period + ' ' + numPages, username]);
+  _gaq.push(['_trackEvent', executing, period + ' ' + numPages, username.toLocaleLowerCase()]);
 }
 
 function gotTopTracks(data) {
@@ -605,7 +605,7 @@ function trFinished() {
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, period + ' ' + numPages, timeSpent, username, 100])
+    _gaq.push(['_trackTiming', executing, period + ' ' + numPages, timeSpent, username.toLocaleLowerCase(), 100])
   
   $(".submit").button('reset');
   executing = null;
@@ -677,8 +677,9 @@ function failFunction(code, message) {
   $(".submit").button("reset");
   $("#progressBack").hide();
 
-  _gaq.push(['_trackEvent', 'Error', code + ": " + message + ", " +
-    executing + ', ' + username + ', ' + numTracks + ', ' + pagesFinished + ', ' + period + ', ' + numPages + ', ' + fromDate + ', ' + toDate + ', ' + year + ', ' + month]);
+  _gaq.push(['_trackEvent', 'Error', code + ": " + message, username.toLocaleLowerCase()]);
+  // should be logging this error info:
+  //  executing + ', ' + username.toLocaleLowerCase() + ', ' + numTracks + ', ' + pagesFinished + ', ' + period + ', ' + numPages + ', ' + fromDate + ', ' + toDate + ', ' + year + ', ' + month
 
   executing = null;
 }
@@ -830,7 +831,7 @@ $(function() {
   $('a').click(function() {
     var href = $(this).attr('href');
     if (href)
-      _gaq.push(['_trackEvent', 'Click', href, username]);
+      _gaq.push(['_trackEvent', 'Click', href, username.toLocaleLowerCase()]);
   });
 
   //Testing...
