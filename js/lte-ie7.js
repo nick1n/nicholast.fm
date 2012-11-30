@@ -12,7 +12,13 @@ window.onload = function() {
 			'icon-comment' : '&#xe003;',
 			'icon-music' : '&#xe004;',
 			'icon-facebook' : '&#xe005;',
-			'icon-twitter' : '&#xe006;'
+			'icon-twitter' : '&#xe006;',
+			'icon-chevron-down' : '&#xe007;',
+			'icon-chevron-up' : '&#xe008;',
+			'icon-arrow-right' : '&#xe009;',
+			'icon-arrow-left' : '&#xe00a;',
+			'icon-search' : '&#xe00b;',
+			'icon-remove' : '&#xe00c;'
 		},
 		els = document.getElementsByTagName('*'),
 		i, attr, html, c, el;
@@ -24,7 +30,7 @@ window.onload = function() {
 		}
 		c = el.className;
 		c = c.match(/icon-[^\s'"]+/);
-		if (c) {
+		if (c && icons[c[0]]) {
 			addIcon(el, icons[c[0]]);
 		}
 	}

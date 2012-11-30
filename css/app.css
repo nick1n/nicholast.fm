@@ -30,14 +30,6 @@ a.close {
   font-size: 24px;
 }
 
-thead {
-  cursor: pointer;
-}
-
-caption {
-  text-align: left;
-}
-
 #user {
   width: 135px;
 }
@@ -57,10 +49,6 @@ caption {
 textarea[readonly] {
   cursor: auto;
   width: 80%;
-}
-
-#flags {
-  display: none;
 }
 
 #logo-container {
@@ -89,19 +77,19 @@ textarea[readonly] {
 #footer {
   border-top: 1px solid #DDD;
   margin-top:35px;
-  padding:1em 0em 1em 0em;
+  padding: 1em 0em;
 }
 
 .container {
+  margin-top: 20px;
+  margin-bottom: 20px;
   background-color: #FFF;
   -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px;
-}
-
-#main {
-  margin-top:20px;
-  margin-bottom:20px;
+     -moz-border-radius: 50px;
+          border-radius: 50px;
+  -webkit-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
+     -moz-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
 }
 
 .nav-tabs > .active > a {
@@ -230,7 +218,15 @@ textarea[readonly] {
 /* Our custom responsive css */
 @media (max-width: 767px) {
   body {
-    background-color: #FFF;
+    padding: 0;
+  }
+
+  .container {
+    margin: 0;
+    padding: 8px;
+    -webkit-border-radius: 25px;
+       -moz-border-radius: 25px;
+            border-radius: 25px;
   }
 
   /* makes the nav-tabs into nav-stacked */
@@ -272,14 +268,59 @@ textarea[readonly] {
 }
 
 @media (min-width: 768px) {
-  .container {
-    -webkit-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
+  body {
+    margin-bottom: 400px;
   }
+}
+
+/* Custom Fuel UX datagrid.css */
+.datagrid .sorted,
+.datagrid .sortable:hover {
+  color: #333333;
+  text-shadow: 'none';
+  background-color: #f1f1f1;
+  background-image: -moz-linear-gradient(top, #f9f9f9, #e5e5e5);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f9f9f9), to(#e5e5e5));
+  background-image: -webkit-linear-gradient(top, #f9f9f9, #e5e5e5);
+  background-image: -o-linear-gradient(top, #f9f9f9, #e5e5e5);
+  background-image: linear-gradient(to bottom, #f9f9f9, #e5e5e5);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='argb(#f9f9f9)', endColorstr='argb(#e5e5e5)', GradientType=0);
+  border-color: #e5e5e5 #e5e5e5 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+.datagrid .sorted i {
+  float: right;
+}
+.datagrid .sortable {
+  cursor: pointer;
+}
+.datagrid .grid-controls {
+  margin-top: 7px;
+}
+.datagrid .grid-controls select {
+  margin: 0 5px;
+  width: 60px;
+}
+.datagrid .grid-controls > span {
+  font-weight: normal;
+  vertical-align: middle;
+  position: relative;
+}
+.datagrid .grid-controls .search {
+  margin-top: 7px;
+}
+.datagrid .grid-controls input[type=number]::-webkit-inner-spin-button,
+.datagrid .grid-controls input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.datagrid .grid-pager input {
+  margin: 0;
+  width: 60px;
 }
 
 /* Bootstrap 2.1.1 tweak */
 select {
-	padding-right: 4px;
+	padding: 4px;
 }

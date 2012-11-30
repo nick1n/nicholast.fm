@@ -594,11 +594,51 @@ function gotTopSimilarTracks(data) {
 
 function trFinished() {
   recommendedTracks = [];
-  for (var artist in uniqueArtists) {
-    recommendedTracks.push(uniqueArtists[artist]);
+  for (var i in uniqueArtists) {
+    recommendedTracks.push({
+      artist : EncodeHtml(uniqueArtists[i].artist).link(uniqueArtists[i].artisturl),
+      track : EncodeHtml(uniqueArtists[i].track).link(uniqueArtists[i].trackurl),
+      recommendations : uniqueArtists[i].recommendations,
+      match : uniqueArtists[i].match.toFixed(2)
+    });
   }
-  
-  trOnClick('M');
+
+  recommendedTracks.sort(trSort);
+
+  // Current Problems with the Datagrid:
+  /////////////////////////////////////
+  // sorting is case sensitive
+  // sorts artist's url and not artist's name
+  // search searches artist's url and not just the artist's name
+  // Match and Recommendations default to asc when first clicked on
+  // doesn't show/indicate the initial sort
+  ///////////////////////////////////////
+
+  // INITIALIZING THE DATAGRID
+  var dataSource = new StaticDataSource({
+      columns: [{
+          property: 'artist', //function(data) { return data.toLocaleLowerCase() },
+          label: 'Artist',
+          sortable: true
+      }, {
+          property: 'track', //function(data) { return data.toLocaleLowerCase() },
+          label: 'Track',
+          sortable: true
+      }, {
+          property: 'match',
+          label: 'Match',
+          sortable: true
+      }, {
+          property: 'recommendations',
+          label: 'Recommendations',
+          sortable: true
+      }],
+      data: recommendedTracks
+  });
+
+  $('#trList').datagrid({
+      dataSource: dataSource
+  });
   
   $("#trDisplay").show();
   $("#progressBack").hide();
@@ -628,26 +668,6 @@ function trSort(a, b) {
     if (aat > bat) return 1;
   }
   return ret;
-}
-
-function trOnClick(col) {
-  trSortColumn = col;
-  
-  recommendedTracks.sort(trSort);
-  
-  innerStr = "<table class=\"table table-striped table-bordered table-condensed\"><caption><h2>Recommended Tracks:</h2></caption><thead><tr>";
-  innerStr += "<th onClick=\"trOnClick('A');\"><b>Artist</b>" + (col == 'A' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th>";
-  innerStr += "<th onClick=\"trOnClick('M');\"><b>Match</b>" + (col == 'M' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th>";
-  innerStr += "<th onClick=\"trOnClick('R');\"><b>Recommendations</b>" + (col == 'R' ? " <i class=\"icon-chevron-down\"></i>" : "") + "</th></tr></thead><tbody>";
-  for (var i = 0; i < recommendedTracks.length && i < 50; ++i) {
-    innerStr +=
-      "<tr>" +
-        "<td class=\"artist\"><a href=\"http://" + recommendedTracks[i].artisturl + "\">" + recommendedTracks[i].artist + "</a> - <a href=\"http://" + recommendedTracks[i].trackurl + "\">" + recommendedTracks[i].track + "</a></td>" +
-        "<td class=\"plays\">" + recommendedTracks[i].match.toFixed(2) + "</td>" +
-        "<td class=\"plays\">" + recommendedTracks[i].recommendations + "</td>" +
-      "</tr>";
-  }
-  $("#trList").html(innerStr + "</tbody></table>");
 }
 
 //// end of last.fm api code ////
@@ -682,6 +702,10 @@ function failFunction(code, message) {
   //  executing + ', ' + username.toLocaleLowerCase() + ', ' + numTracks + ', ' + pagesFinished + ', ' + period + ', ' + numPages + ', ' + fromDate + ', ' + toDate + ', ' + year + ', ' + month
 
   executing = null;
+}
+
+function EncodeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 }
 
 function elementSupportsAttribute(element, attribute) {
@@ -830,7 +854,7 @@ $(function() {
 
   $('a').click(function() {
     var href = $(this).attr('href');
-    if (href)
+    if (href && href != "#")
       _gaq.push(['_trackEvent', 'Click', href, username.toLocaleLowerCase()]);
   });
 

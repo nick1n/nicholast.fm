@@ -21,8 +21,7 @@
   <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.png">
 </head>
 <body>
-<div id="fb-root"></div>
-<div class="container" id="main">
+<div class="container">
 <div class="row">
   <div class="span10 offset1">
     <div id="logo-container">
@@ -211,7 +210,7 @@
       </select>
       <select id="trLimit">
         <!-- For Testing -->
-        <!--<option value="5">Top 5</option>-->
+        <option value="5">Top 5</option>
         <!-- For Testing -->
         <option value="50">Top 50</option>
         <option value="100">Top 100</option>
@@ -220,7 +219,47 @@
       <button class="btn btn-primary submit" data-loading-text="loading..." type="submit">Submit</button>
     </form>
     <div id="trDisplay" class="row hide">
-      <span id="trList" class="span10"></span>
+      <div class="span10">
+        <table id="trList" class="table table-striped table-condensed table-hover datagrid">
+          <thead>
+            <tr>
+              <th>
+                <h2 class="pull-left">Recommended Tracks:</h2>
+                <div class="grid-controls pull-right">
+                  <div class="input-append search">
+                    <input type="text" class="input-medium" placeholder="Search">
+                    <button class="btn"><i class="icon-search"></i></button>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+
+          <tfoot>
+            <tr>
+              <th>
+                <div class="grid-controls pull-left">
+                  <span><span class="grid-start"></span> - <span class="grid-end"></span> of <span class="grid-count"></span></span>
+                  <select class="grid-pagesize">
+                    <option>10</option>
+                    <option selected>20</option>
+                    <option>50</option>
+                    <option>100</option>
+                  </select>
+                  <span>Per Page</span>
+                </div>
+                <div class="grid-controls grid-pager pull-right">
+                  <button class="btn grid-prevpage"><i class="icon-arrow-left"></i></button>
+                  <span>Page</span>
+                  <input type="number">
+                  <span>of <span class="grid-pages"></span></span>
+                  <button class="btn grid-nextpage"><i class="icon-arrow-right"></i></button>
+                </div>
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
 
     </div>
@@ -291,9 +330,7 @@
       <div id="progressBar" class="bar" style="width: 0%;"></div>
     </div>
   </div><!-- end #main-tabbed.span8 -->
-  <div id="flags">
-    <a href="http://s08.flagcounter.com/more/HQj4"><img src="http://s08.flagcounter.com/count/HQj4/bg=FFFFFF/txt=000000/border=CCCCCC/columns=3/maxflags=248/viewers=3/labels=1/pageviews=0/" alt="free counters"></a>
-  </div>
+  <img class="hide" src="http://s08.flagcounter.com/mini/HQj4/bg_FFFFFF/txt_000000/border_CCCCCC/flags_0/">
 </div><!-- end .row -->
 
 <footer>
@@ -352,12 +389,20 @@
 </div><!-- end #main.container -->
 
 <!-- scripts at the bottom of the body for faster loading -->
-<!-- jQuery 1.8.2 -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<!-- jQuery 1.8.3 -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/jquery.js"><\/script>')</script>
 
 <!-- Bootstrap 2.2.1 Javascript Plugins: Transition, Tab, Tooltip, Button, Collapse -->
 <script src="js/bootstrap.min.js"></script>
+
+<!-- Underscore.js 1.4.2 -->
+<script src="js/underscore-min.js"></script>
+
+<!-- Fuel UX 2.1.1 -->
+<script src="js/datasource.js"></script>
+<script src="js/search.js"></script>
+<script src="js/datagrid.js"></script>
 
 <!-- Last.fm API Javascript Library -->
 <script src="js/lastfm.api.md5.js"></script>
