@@ -421,7 +421,7 @@ function arFinished() {
   var recommendedArtists = [];
   for (var i in uniqueArtists) {
     recommendedArtists.push({
-      artist : EncodeHtml(uniqueArtists[i].artist).link(uniqueArtists[i].url),
+      artist : EncodeHtml(uniqueArtists[i].artist).link(checkHttp(uniqueArtists[i].url)),
       match : uniqueArtists[i].match.toFixed(3),
       recommendations : uniqueArtists[i].recommendations,
       searchable : {
@@ -605,8 +605,8 @@ function trFinished() {
   var recommendedTracks = [];
   for (var i in uniqueArtists) {
     recommendedTracks.push({
-      artist : EncodeHtml(uniqueArtists[i].artist).link(uniqueArtists[i].artisturl),
-      track : EncodeHtml(uniqueArtists[i].track).link(uniqueArtists[i].trackurl),
+      artist : EncodeHtml(uniqueArtists[i].artist).link(checkHttp(uniqueArtists[i].artisturl)),
+      track : EncodeHtml(uniqueArtists[i].track).link(checkHttp(uniqueArtists[i].trackurl)),
       recommendations : uniqueArtists[i].recommendations,
       match : uniqueArtists[i].match.toFixed(3),
       searchable : {
@@ -712,6 +712,11 @@ function failFunction(code, message) {
 
 function EncodeHtml(s) {
   return s.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+}
+
+function checkHttp(s) {
+  if (s.lastIndexOf('http://', 0) === 0) return s;
+  return 'http://' + s;
 }
 
 function elementSupportsAttribute(element, attribute) {
