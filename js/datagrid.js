@@ -29,12 +29,9 @@
 		this.$tbody = $('<tbody>').insertAfter(this.$thead);
 		this.$colheader = $('<tr>').appendTo(this.$thead);
 
-		this.options = $.extend({}, $.fn.datagrid.defaults, options);
+		this.options = $.extend(true, {}, $.fn.datagrid.defaults, options);
 		this.options.dataOptions.pageSize = parseInt(this.$pagesize.val(), 10);
 		this.columns = this.options.dataSource.columns();
-
-		//if (this.$searchcontrol) this.$searchcontrol.search();
-		//if (this.$combobox) this.$combobox.combobox();
 
 		this.$nextpagebtn.on('click', $.proxy(this.next, this));
 		this.$prevpagebtn.on('click', $.proxy(this.previous, this));
@@ -52,15 +49,26 @@
 		constructor: Datagrid,
 
 		renderColumns: function () {
+			var self = this;
+
 			this.$footer.attr('colspan', this.columns.length);
 			this.$topheader.attr('colspan', this.columns.length);
 
 			var colHTML = '';
 
 			$.each(this.columns, function (index, column) {
-				colHTML += '<th data-property="' + column.property + '"';
-				if (column.sortable) colHTML += ' class="sortable"';
-				colHTML += '>' + column.label + '</th>';
+				colHTML += '<th data-property="' + column.property;
+				if (column.title) colHTML += '" title="' + column.title;
+				if (column.sortable) {
+					colHTML += '" data-sortable="' + column.sortable + '" class="sortable';
+					if (column.defaultSort) colHTML += ' sorted';
+				}
+				if (column.span) colHTML += ' span' + column.span;
+				colHTML += '">' + column.label;
+				if (column.defaultSort) {
+					colHTML += '<i class="' + (column.sortable === 'asc' ? 'icon-chevron-up' : 'icon-chevron-down') + '"></i>'
+				}
+				colHTML += '</th>';
 			});
 
 			this.$colheader.append(colHTML);
@@ -149,11 +157,12 @@
 			var direction = this.options.dataOptions.sortDirection;
 			var sort = this.options.dataOptions.sortProperty;
 			var property = $target.data('property');
+			var sortable = $target.data('sortable');
 
 			if (sort === property) {
 				this.options.dataOptions.sortDirection = (direction === 'asc') ? 'desc' : 'asc';
 			} else {
-				this.options.dataOptions.sortDirection = 'asc';
+				this.options.dataOptions.sortDirection = sortable;
 				this.options.dataOptions.sortProperty = property;
 			}
 
@@ -202,9 +211,6 @@
 
 			if (!data) {
 				$this.data('datagrid', (data = new Datagrid(this, options)));
-			} else {
-				data.options.dataSource = options.dataSource;
-				data.renderData();
 			}
 			if (typeof option === 'string') data[option]();
 		});

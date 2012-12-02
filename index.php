@@ -182,7 +182,7 @@
       </select>
       <select id="arLimit">
         <!-- For Testing -->
-        <!--<option value="5">Top 5</option>-->
+        <option value="5">Top 5</option>
         <!-- For Testing -->
         <option value="50">Top 50</option>
         <option value="100">Top 100</option>
@@ -191,7 +191,7 @@
       <button class="btn btn-primary submit" data-loading-text="loading..." type="submit">Submit</button>
     </form>
     <div id="arDisplay" class="row hide">
-      <span id="arList" class="span10"></span>
+      <span id="ar-datagrid" class="span10"></span>
     </div>
 
     </div>
@@ -219,47 +219,7 @@
       <button class="btn btn-primary submit" data-loading-text="loading..." type="submit">Submit</button>
     </form>
     <div id="trDisplay" class="row hide">
-      <div class="span10">
-        <table id="trList" class="table table-striped table-condensed table-hover datagrid">
-          <thead>
-            <tr>
-              <th>
-                <h2 class="pull-left">Recommended Tracks:</h2>
-                <div class="grid-controls pull-right">
-                  <div class="input-append search">
-                    <input type="text" class="input-medium" placeholder="Search">
-                    <button class="btn"><i class="icon-search"></i></button>
-                  </div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-
-          <tfoot>
-            <tr>
-              <th>
-                <div class="grid-controls pull-left">
-                  <span><span class="grid-start"></span> - <span class="grid-end"></span> of <span class="grid-count"></span></span>
-                  <select class="grid-pagesize">
-                    <option>10</option>
-                    <option selected>20</option>
-                    <option>50</option>
-                    <option>100</option>
-                  </select>
-                  <span>Per Page</span>
-                </div>
-                <div class="grid-controls grid-pager pull-right">
-                  <button class="btn grid-prevpage"><i class="icon-arrow-left"></i></button>
-                  <span>Page</span>
-                  <input type="number">
-                  <span>of <span class="grid-pages"></span></span>
-                  <button class="btn grid-nextpage"><i class="icon-arrow-right"></i></button>
-                </div>
-              </th>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+      <div id="tr-datagrid" class="span10"></div>
     </div>
 
     </div>
@@ -330,7 +290,51 @@
       <div id="progressBar" class="bar" style="width: 0%;"></div>
     </div>
   </div><!-- end #main-tabbed.span8 -->
+
   <img class="hide" src="http://s08.flagcounter.com/mini/HQj4/bg_FFFFFF/txt_000000/border_CCCCCC/flags_0/">
+
+  <!-- Custom Templates for data layouts :) -->
+  <div id="template-datagrid" class="hide">
+    <table class="table table-striped table-condensed table-hover datagrid">
+      <thead>
+        <tr>
+          <th>
+            <div id="caption" class="pull-left"></div>
+            <div class="grid-controls pull-right">
+              <div class="input-append search">
+                <input type="text" class="input-medium" placeholder="Search">
+                <button class="btn"><i class="icon-search"></i></button>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+
+      <tfoot>
+        <tr>
+          <th>
+            <div class="grid-controls pull-left">
+              <span><span class="grid-start"></span> - <span class="grid-end"></span> of <span class="grid-count"></span></span>
+              <select class="grid-pagesize">
+                <option>10</option>
+                <option selected>20</option>
+                <option>50</option>
+                <option>100</option>
+              </select>
+              <span>Per Page</span>
+            </div>
+            <div class="grid-controls grid-pager pull-right">
+              <button class="btn grid-prevpage"><i class="icon-arrow-left"></i></button>
+              <span>Page</span>
+              <input type="number">
+              <span>of <span class="grid-pages"></span></span>
+              <button class="btn grid-nextpage"><i class="icon-arrow-right"></i></button>
+            </div>
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 </div><!-- end .row -->
 
 <footer>
