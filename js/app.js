@@ -145,6 +145,7 @@ function gotTracks(data) {
       uniqueTracks[track] = {
         artist : artist,
         track : data.recenttracks.track[i].name,
+        url : data.recenttracks.track[i].url,
         plays : 1
       };
     }
@@ -153,6 +154,7 @@ function gotTracks(data) {
     } else {
       uniqueArtists[artist] = {
         artist : artist,
+        url : data.recenttracks.track[i].url,
         plays : 1
       };
     }
@@ -173,72 +175,149 @@ function gotTracks(data) {
 // sorts it by number of plays descending and if the plays are the same
 // sorts it by artist and track names ascending (...or not...sometimes)
 function trackSort(a, b) {
-  var ret = b.plays - a.plays;
-  if (ret == 0) {
-    var aat = (a.artist + " " + a.track).toLowerCase();
-    var bat = (b.artist + " " + b.track).toLowerCase();
-    if (aat < bat)
-      return -1;
-    if (aat > bat)
-      return 1;
-  }
-  return ret;
+  if (a.searchable.plays < b.searchable.plays) return 1;
+  if (a.searchable.plays > b.searchable.plays) return -1;
+  var aat = a.searchable.artist + " " + a.searchable.track;
+  var bat = b.searchable.artist + " " + b.searchable.track;
+  if (aat < bat) return -1;
+  if (aat > bat) return 1;
+  return 0;
 }
 
 function artistSort(a, b) {
-  var ret = b.plays - a.plays;
-  if (ret == 0) {
-    var aat = a.artist.toLowerCase();
-    var bat = b.artist.toLowerCase();
-    if (aat < bat)
-      return -1;
-    if (aat > bat)
-      return 1;
-  }
-  return ret;
+  if (a.searchable.plays < b.searchable.plays) return 1;
+  if (a.searchable.plays > b.searchable.plays) return -1;
+  if (a.searchable.artist < b.searchable.artist) return -1;
+  if (a.searchable.artist > b.searchable.artist) return 1;
+  return 0;
 }
 
 // finally finished receiving all track info from last.fm
 function finished() {
+  var tempUser = encodeName(username);
+  var tempArtist = "";
+
   // sort the unique tracks and artists
-  var tracks = [];
-  for (var track in uniqueTracks) {
-    tracks.push(uniqueTracks[track]);
-  }
-  tracks.sort(trackSort);
   var artists = [];
-  for (var artist in uniqueArtists) {
-    artists.push(uniqueArtists[artist]);
+  for (var i in uniqueArtists) {
+    tempArtist = uniqueArtists[i].url.substr(0, uniqueArtists[i].url.indexOf("/_/"));
+    artists.push({
+      artist : EncodeHtml(uniqueArtists[i].artist).link(checkHttp(tempArtist)),
+      plays : ('<span class="hide-text">(</span>' + uniqueArtists[i].plays + '<span class="hide-text"> plays)</span>').link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist.substr(tempArtist.lastIndexOf('/') + 1)),
+      searchable : {
+        artist : uniqueArtists[i].artist.toLocaleLowerCase(),
+        plays : uniqueArtists[i].plays
+      },
+      bbcode : {
+        artist : uniqueArtists[i].artist,
+        plays : uniqueArtists[i].plays
+      }
+    });
   }
   artists.sort(artistSort);
+
+  var tracks = [];
+  for (var i in uniqueTracks) {
+    tempArtist = uniqueTracks[i].url.substr(0, uniqueTracks[i].url.indexOf("/_/"));
+    tracks.push({
+      artist : EncodeHtml(uniqueTracks[i].artist).link(checkHttp(tempArtist)) + '<span class="hide-text"> -</span>',
+      track : EncodeHtml(uniqueTracks[i].track).link(checkHttp(uniqueTracks[i].url)),
+      plays : ('<span class="hide-text">(</span>' + uniqueTracks[i].plays + '<span class="hide-text"> plays)</span>').link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist.substr(tempArtist.lastIndexOf('/') + 1)),
+      searchable : {
+        artist : uniqueTracks[i].artist.toLocaleLowerCase(),
+        track : uniqueTracks[i].track.toLocaleLowerCase(),
+        plays : uniqueTracks[i].plays
+      },
+      bbcode : {
+        artist : uniqueTracks[i].artist,
+        track : uniqueTracks[i].track,
+        plays : uniqueTracks[i].plays
+      }
+    });
+  }
+  tracks.sort(trackSort);
   
   $("#totalUniqueTracks").html(tracks.length);
   if (numTracks > 0) {
     $("#songRepetition").html((numTracks / tracks.length).toFixed(2));
   }
-  
-  // generate large artist list .......
-  var tempUser = encodeName(username);
-  var tempArtist = "";
-  for (var i = 0; i < artists.length && i < 50; ++i) {
+
+  // generate top 10 artists list ...
+  for (var i = 0; i < artists.length && i < 10; ++i) {
     tempArtist = encodeName(artists[i].artist);
-    innerStr += "<tr><td class=\"artist\">" + EncodeHtml(artists[i].artist).link("http://www.last.fm/music/" + tempArtist) + " <span class=\"plays\">" + ("(" + artists[i].plays + " plays)").link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist) + "</span></td></tr>";
+    innerStr +=
+      '<tr>' +
+        '<td>' + (i + 1) + '. ' + artists[i].artist + ' ' + artists[i].plays.replace(/hide-text/g, '') + '</td>' +
+      '</tr>';
   }
-  $("#artistList").html(innerStr + "</table>");
-  
-  // generate large track list .......
-  var tempTrack = "";
-  innerStr = "<table>";
-  for (var i = 0; i < tracks.length && i < 50; ++i) {
+  $("#artistList").html(innerStr + '</table>');
+
+  // generate artist datagrid ...
+  $("#artist-datagrid").html($("#template-datagrid").html());
+  $("#artist-datagrid #caption").html("<h3>Top Artists:</h3>");
+
+  var dataSource = new StaticDataSource({
+      columns: [{
+          property: 'artist',
+          label: 'Artist',
+          sortable: 'asc',
+          span: 9
+      }, {
+          property: 'plays',
+          label: 'Plays',
+          sortable: 'desc',
+          defaultSort: true,
+          span: 3
+      }],
+      data: artists
+  });
+
+  $('#artist-datagrid .datagrid').datagrid({
+      dataSource: dataSource
+  });
+
+  // generate top 10 tracks list ...
+  var tempTrack = '';
+  innerStr = '<table>';
+  for (var i = 0; i < tracks.length && i < 10; ++i) {
     tempArtist = encodeName(tracks[i].artist);
     tempTrack = encodeName(tracks[i].track);
     
     innerStr +=
-      "<tr>" +
-        "<td class=\"track\">" + EncodeHtml(tracks[i].artist).link("http://www.last.fm/music/" + tempArtist) + " - " + EncodeHtml(tracks[i].track).link("http://www.last.fm/music/" + tempArtist + "/_/" + tempTrack) + " <span class=\"plays\">" + ("(" + tracks[i].plays + " plays)").link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist) + "</span></td>" +
-      "</tr>";
+      '<tr>' +
+        '<td>' + (i + 1) + '. ' + tracks[i].artist.replace(/hide-text/g, '') + ' ' + tracks[i].track + ' ' + tracks[i].plays.replace(/hide-text/g, '') + '</td>' +
+      '</tr>';
   }
-  $("#trackList").html(innerStr + "</table>");
+  $("#trackList").html(innerStr + '</table>');
+
+  // generate track datagrid ...
+  $("#track-datagrid").html($("#template-datagrid").html());
+  $("#track-datagrid #caption").html("<h3>Top Tracks:</h3>");
+
+  dataSource = new StaticDataSource({
+      columns: [{
+          property: 'artist',
+          label: 'Artist',
+          sortable: 'asc',
+          span: 2
+      }, {
+          property: 'track',
+          label: 'Track',
+          sortable: 'asc',
+          span: 2
+      }, {
+          property: 'plays',
+          label: 'Plays',
+          sortable: 'desc',
+          defaultSort: true,
+          span: 1
+      }],
+      data: tracks
+  });
+
+  $('#track-datagrid .datagrid').datagrid({
+      dataSource: dataSource
+  });
   
   // generate my bb code
   var bbCode = "";
@@ -246,28 +325,28 @@ function finished() {
   codeMonth = (codeMonth > 9 ? codeMonth : '0' + codeMonth);
   if (artists[0]) {
     bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
-    for (var i = 0; artists[i] && artists[0].plays == artists[i].plays; ++i) {
-      tempArtist = encodeName(artists[i].artist);
-      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(artists[i].artist) + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].plays + " plays)[/url]\n";
+    for (var i = 0; artists[i] && artists[0].bbcode.plays == artists[i].bbcode.plays; ++i) {
+      tempArtist = encodeName(artists[i].bbcode.artist);
+      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(artists[i].bbcode.artist) + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].bbcode.plays + " plays)[/url]\n";
     }
     bbCode += "\n";
     bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
-    for (var i = 0; tracks[i] && tracks[0].plays == tracks[i].plays; ++i) {
-      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(tracks[i].artist) + "[/artist] - [track artist=" + EncodeHtml(tracks[i].artist) + "]" + EncodeHtml(tracks[i].track) + "[/track]\n";
+    for (var i = 0; tracks[i] && tracks[0].bbcode.plays == tracks[i].bbcode.plays; ++i) {
+      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(tracks[i].bbcode.artist) + "[/artist] - [track artist=" + EncodeHtml(tracks[i].bbcode.artist) + "]" + EncodeHtml(tracks[i].bbcode.track) + "[/track]\n";
     }
     $("textarea#bbcode").html(bbCode);
     
     // generate old bb code (styled from lastfm.heathaze.org)
     bbCode = "";
     bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
-    for (var i = 0; artists[i] && artists[0].plays == artists[i].plays; ++i) {
-      tempArtist = encodeName(artists[i].artist);
-      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + EncodeHtml(artists[i].artist) + "[/artist] ([b]" + artists[i].plays + "[/b] plays)\n";
+    for (var i = 0; artists[i] && artists[0].bbcode.plays == artists[i].bbcode.plays; ++i) {
+      tempArtist = encodeName(artists[i].bbcode.artist);
+      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + EncodeHtml(artists[i].bbcode.artist) + "[/artist] ([b]" + artists[i].bbcode.plays + "[/b] plays)\n";
     }
     bbCode += "\n";
     bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
-    for (var i = 0; tracks[i] && tracks[0].plays == tracks[i].plays; ++i) {
-      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + EncodeHtml(tracks[i].artist) + "[/artist] : [track artist=" + EncodeHtml(tracks[i].artist) + "]" + EncodeHtml(tracks[i].track) + "[/track] ([b]" + tracks[i].plays + "[/b] plays)\n";
+    for (var i = 0; tracks[i] && tracks[0].bbcode.plays == tracks[i].bbcode.plays; ++i) {
+      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + EncodeHtml(tracks[i].bbcode.artist) + "[/artist] : [track artist=" + EncodeHtml(tracks[i].bbcode.artist) + "]" + EncodeHtml(tracks[i].bbcode.track) + "[/track] ([b]" + tracks[i].bbcode.plays + "[/b] plays)\n";
     }
     $("textarea#oldbbcode").html(bbCode);
   }
@@ -422,8 +501,8 @@ function arFinished() {
   for (var i in uniqueArtists) {
     recommendedArtists.push({
       artist : EncodeHtml(uniqueArtists[i].artist).link(checkHttp(uniqueArtists[i].url)),
-      match : uniqueArtists[i].match.toFixed(3),
-      recommendations : uniqueArtists[i].recommendations,
+      match : uniqueArtists[i].match.toFixed(3) + '<span class="hide-text"> match</span>',
+      recommendations : '<span class="hide-text">(</span>' + uniqueArtists[i].recommendations + '<span class="hide-text"> recommendations)</span>',
       searchable : {
         artist : uniqueArtists[i].artist.toLocaleLowerCase()
       }
@@ -474,13 +553,13 @@ function arFinished() {
 }
 
 function arSort(a, b) {
-  var ret = b.match - a.match;
-  if (ret == 0) ret = b.recommendations - a.recommendations;
-  if (ret == 0) {
-    if (a.searchable.artist < b.searchable.artist) return -1;
-    if (a.searchable.artist > b.searchable.artist) return 1;
-  }
-  return ret;
+  if (a.match < b.match) return 1;
+  if (a.match > b.match) return -1;
+  if (a.recommendations < b.recommendations) return 1;
+  if (a.recommendations > b.recommendations) return -1;
+  if (a.searchable.artist < b.searchable.artist) return -1;
+  if (a.searchable.artist > b.searchable.artist) return 1;
+  return 0;
 }
 
 //////////////// Track Recommendations Code //////////////////////////////////////
@@ -605,10 +684,10 @@ function trFinished() {
   var recommendedTracks = [];
   for (var i in uniqueArtists) {
     recommendedTracks.push({
-      artist : EncodeHtml(uniqueArtists[i].artist).link(checkHttp(uniqueArtists[i].artisturl)),
+      artist : EncodeHtml(uniqueArtists[i].artist).link(checkHttp(uniqueArtists[i].artisturl)) + '<span class="hide-text"> -</span>',
       track : EncodeHtml(uniqueArtists[i].track).link(checkHttp(uniqueArtists[i].trackurl)),
-      recommendations : uniqueArtists[i].recommendations,
-      match : uniqueArtists[i].match.toFixed(3),
+      recommendations : '<span class="hide-text">(</span>' + uniqueArtists[i].recommendations + '<span class="hide-text"> recommendations)</span>',
+      match : uniqueArtists[i].match.toFixed(3) + '<span class="hide-text"> match</span>',
       searchable : {
         artist : uniqueArtists[i].artist.toLocaleLowerCase(),
         track : uniqueArtists[i].track.toLocaleLowerCase()
@@ -664,16 +743,17 @@ function trFinished() {
   executing = null;
 }
 
+
 function trSort(a, b) {
-  var ret = b.match - a.match;
-  if (ret == 0) ret = b.recommendations - a.recommendations;
-  if (ret == 0) {
-    var aat = a.searchable.artist + " " + a.searchable.track;
-    var bat = b.searchable.artist + " " + b.searchable.track;
-    if (aat < bat) return -1;
-    if (aat > bat) return 1;
-  }
-  return ret;
+  if (a.match < b.match) return 1;
+  if (a.match > b.match) return -1;
+  if (a.recommendations < b.recommendations) return 1;
+  if (a.recommendations > b.recommendations) return -1;
+  var aat = a.searchable.artist + " " + a.searchable.track;
+  var bat = b.searchable.artist + " " + b.searchable.track;
+  if (aat < bat) return -1;
+  if (aat > bat) return 1;
+  return 0;
 }
 
 //// end of last.fm api code ////

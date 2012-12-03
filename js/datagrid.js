@@ -61,7 +61,11 @@
 				if (column.title) colHTML += '" title="' + column.title;
 				if (column.sortable) {
 					colHTML += '" data-sortable="' + column.sortable + '" class="sortable';
-					if (column.defaultSort) colHTML += ' sorted';
+					if (column.defaultSort) {
+						colHTML += ' sorted';
+						self.options.dataOptions.sortDirection = column.sortable;
+						self.options.dataOptions.sortProperty = column.property;
+					}
 				}
 				if (column.span) colHTML += ' span' + column.span;
 				colHTML += '">' + column.label;
@@ -110,9 +114,6 @@
 
 		renderData: function () {
 			var self = this;
-
-			//this.$tbody.html(this.placeholderRowHTML(this.options.loadingHTML));
-			//this.$footerchildren.hide();
 
 			this.options.dataSource.data(this.options.dataOptions, function (data) {
 				var itemdesc = (data.count === 1) ? self.options.itemText : self.options.itemsText;
@@ -200,7 +201,6 @@
 
 	};
 
-
 	// DATAGRID PLUGIN DEFINITION
 
 	$.fn.datagrid = function (option) {
@@ -218,7 +218,6 @@
 
 	$.fn.datagrid.defaults = {
 		dataOptions: { pageIndex: 0, pageSize: 10 },
-		loadingHTML: '<div class="progress progress-striped active" style="width:50%;margin:auto;"><div class="bar" style="width:100%;"></div></div>',
 		itemsText: 'items',
 		itemText: 'item'
 	};

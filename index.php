@@ -156,13 +156,25 @@
       </div>
       <div class="row">
         <div class="span5">
-          <b>Top Artists:</b><br>
-          <span id="artistList"></span>
+          <b>Top 10 Artists:</b><br>
+          <div id="artistList"></div>
         </div>
         <div class="span5">
-          <b>Top Tracks:</b><br>
-          <span id="trackList"></span>
+          <b>Top 10 Tracks:</b><br>
+          <div id="trackList"></div>
         </div>
+      </div>
+      <div class="row">
+        <div class="span10"><hr></div>
+      </div>
+      <div class="row">
+        <div id="artist-datagrid" class="span10"></div>
+      </div>
+      <div class="row">
+        <div class="span10"><hr></div>
+      </div>
+      <div class="row">
+        <div id="track-datagrid" class="span10"></div>
       </div>
     </div>
 
@@ -262,7 +274,7 @@
     </div>
     <div class="row">
       <div class="span10">
-        <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, and Felix Bruns' javascript last.fm api lib</p>
+        <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, and Felix Bruns' javascript last.fm api lib</p>
       </div>
     </div>
     <div class="row">
@@ -385,7 +397,7 @@
       <p>Copyright &copy; 2012</p>
     </div>
     <div class="span3">
-      <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, and Felix Bruns' javascript last.fm api lib</p><br>
+      <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, and Felix Bruns' javascript last.fm api lib</p><br>
     </div>
   </div>
 </footer>

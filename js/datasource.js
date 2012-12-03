@@ -29,6 +29,7 @@ StaticDataSource.prototype = {
 					if (item.searchable && item.searchable[options.sortProperty]) return item.searchable[options.sortProperty];
 					return item[options.sortProperty];
 				});
+				// this reverse is messing up the sort everytime we sort a column in descending order
 				if (options.sortDirection === 'desc') self._data.reverse();
 			}
 

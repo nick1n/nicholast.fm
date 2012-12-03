@@ -51,6 +51,10 @@ textarea[readonly] {
   width: 80%;
 }
 
+#artistList {
+  margin-bottom: 14px;
+}
+
 #logo-container {
   background-color: #000;
   margin:20px 0;
