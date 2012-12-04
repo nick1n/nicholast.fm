@@ -48,7 +48,11 @@ a.close {
 
 textarea[readonly] {
   cursor: auto;
-  width: 80%;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 #artistList {

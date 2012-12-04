@@ -19,30 +19,46 @@ StaticDataSource.prototype = {
 		return this._columns;
 	},
 
+	sortBy: function (item, prop) {
+		if (item.searchable && item.searchable[prop]) return item.searchable[prop];
+		return item[prop];
+	},
+
 	data: function (options, callback) {
 		var self = this;
 
 		setTimeout(function () {
 			// SORTING
 			if (options.sortProperty) {
-				self._data = _.sortBy(self._data, function(item) {
-					if (item.searchable && item.searchable[options.sortProperty]) return item.searchable[options.sortProperty];
-					return item[options.sortProperty];
-				});
-				// this reverse is messing up the sort everytime we sort a column in descending order
-				if (options.sortDirection === 'desc') self._data.reverse();
+
+				self._data.sort(function(a, b) {
+					var sorta, sortb;
+					for (var i = 0; i < options.sortProperty.length; ++i) {
+						sorta = self.sortBy(a, options.sortProperty[i]);
+						sortb = self.sortBy(b, options.sortProperty[i]);
+						if (options.sortDirection[i] == 'desc') {
+							if (sorta < sortb) return 1;
+							if (sorta > sortb) return -1;
+						} else {
+							if (sorta < sortb) return -1;
+							if (sorta > sortb) return 1;
+						}
+					}
+					return 0;
+				})
 			}
 
 			// SEARCHING
-			var data = _.filter(self._data, function (item) {
-				if (options.search) {
+			var data = [];
+			if (options.search) {
+				$.each(self._data, function (id, item) {
 					for (var i in item.searchable) {
-						if (~item.searchable[i].toString().indexOf(options.search)) return true;
+						if (~item.searchable[i].toString().indexOf(options.search)) data.push(item);
 					}
-					return false;
-				}
-				return true;
-			});
+				});
+			} else {
+				$.extend(data, self._data);
+			}
 
 			// PAGING
 			var count = data.length;

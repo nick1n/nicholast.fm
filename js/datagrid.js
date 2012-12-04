@@ -63,8 +63,8 @@
 					colHTML += '" data-sortable="' + column.sortable + '" class="sortable';
 					if (column.defaultSort) {
 						colHTML += ' sorted';
-						self.options.dataOptions.sortDirection = column.sortable;
-						self.options.dataOptions.sortProperty = column.property;
+						self.options.dataOptions.sortDirection.unshift(column.sortable);
+						self.options.dataOptions.sortProperty.unshift(column.property);
 					}
 				}
 				if (column.span) colHTML += ' span' + column.span;
@@ -155,20 +155,24 @@
 			var $target = $(e.target);
 			if (!$target.hasClass('sortable')) return;
 
-			var direction = this.options.dataOptions.sortDirection;
-			var sort = this.options.dataOptions.sortProperty;
+			var direction = this.options.dataOptions.sortDirection[0];
+			var sort = this.options.dataOptions.sortProperty[0];
 			var property = $target.data('property');
 			var sortable = $target.data('sortable');
 
 			if (sort === property) {
-				this.options.dataOptions.sortDirection = (direction === 'asc') ? 'desc' : 'asc';
+				this.options.dataOptions.sortDirection[0] = (direction === 'asc') ? 'desc' : 'asc';
 			} else {
-				this.options.dataOptions.sortDirection = sortable;
-				this.options.dataOptions.sortProperty = property;
+				this.options.dataOptions.sortDirection.unshift(sortable);
+				this.options.dataOptions.sortProperty.unshift(property);
+				if (this.options.dataOptions.sortDirection.length > 3) {
+					this.options.dataOptions.sortDirection.pop();
+					this.options.dataOptions.sortProperty.pop();
+				}
 			}
 
 			this.options.dataOptions.pageIndex = 0;
-			this.updateColumns($target, this.options.dataOptions.sortDirection);
+			this.updateColumns($target, this.options.dataOptions.sortDirection[0]);
 			this.renderData();
 		},
 
@@ -217,7 +221,12 @@
 	};
 
 	$.fn.datagrid.defaults = {
-		dataOptions: { pageIndex: 0, pageSize: 10 },
+		dataOptions: {
+			pageIndex: 0,
+			pageSize: 10,
+			sortDirection: [],
+			sortProperty: []
+		},
 		itemsText: 'items',
 		itemText: 'item'
 	};

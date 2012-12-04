@@ -194,7 +194,7 @@
       </select>
       <select id="arLimit">
         <!-- For Testing -->
-        <option value="5">Top 5</option>
+        <!--<option value="5">Top 5</option>-->
         <!-- For Testing -->
         <option value="50">Top 50</option>
         <option value="100">Top 100</option>
@@ -222,7 +222,7 @@
       </select>
       <select id="trLimit">
         <!-- For Testing -->
-        <option value="5">Top 5</option>
+        <!--<option value="5">Top 5</option>-->
         <!-- For Testing -->
         <option value="50">Top 50</option>
         <option value="100">Top 100</option>
@@ -411,9 +411,6 @@
 
 <!-- Bootstrap 2.2.1 Javascript Plugins: Transition, Tab, Tooltip, Button, Collapse -->
 <script src="js/bootstrap.min.js"></script>
-
-<!-- Underscore.js 1.4.2 -->
-<script src="js/underscore-min.js"></script>
 
 <!-- Fuel UX 2.1.1 -->
 <script src="js/datasource.js"></script>
