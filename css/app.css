@@ -48,7 +48,7 @@ a.close {
 
 textarea[readonly] {
   cursor: auto;
-  width: 100%;
+  width: 98%;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
       -ms-box-sizing: border-box;

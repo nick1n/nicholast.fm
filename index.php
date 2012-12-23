@@ -32,9 +32,9 @@
 
 <div class="row share-row">
   <div class="span4 offset7">
-    <a href="http://twitter.com/nicholastdotfm" class="btn-twitter" target="_blank"><i class="icon-twitter"></i> Follow</a>
-    <a href="http://www.facebook.com/nicholast.fm" class="btn-facebook" target="_blank"><i class="icon-facebook"></i> Like</a>
     <a href="http://www.last.fm/group/nicholast.fm" class="btn-lastfm" target="_blank"><i class="icon-lastfm"></i> Join</a>
+    <a href="http://www.facebook.com/nicholast.fm" class="btn-facebook" target="_blank"><i class="icon-facebook"></i> Like</a>
+    <a href="http://twitter.com/nicholastdotfm" class="btn-twitter" target="_blank"><i class="icon-twitter"></i> Follow</a>
   </div>
 </div>
 
@@ -55,7 +55,7 @@
     <div class="alert alert-error">
       <button type="button" class="close" data-dismiss="alert">×</button>
       <strong>Warning!</strong>
-      This browser isn't fully supported, please update to a new browser.
+      This browser isn't fully supported, please update to a newer browser.
     </div>
   </div>
   <![endif]-->
@@ -255,7 +255,7 @@
           <p>"Fine."</p>
           <p>
             <a class="btn btn-primary btn-large" href="http://www.last.fm/user/nick1n" target="_blank">
-             <i class="icon-white icon-music"></i> Check out Ness on Last.fm 
+             <i class="icon-music icon-white"></i> Check out Ness on Last.fm
             </a>
           </p>
         </div>
@@ -266,7 +266,7 @@
           <p>"Let's do dis!"</p>
           <p>
             <a class="btn btn-primary btn-large" href="http://twitter.namklabs.com" target="_blank">
-             <i class="icon-white icon-comment"></i> Check out Kramer on Twitter 
+             <i class="icon-comment icon-white"></i> Check out Kramer on Twitter
             </a>
           </p>
         </div>
