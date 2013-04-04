@@ -265,7 +265,7 @@ function finished() {
     tempArtist = uniqueAlbums[i].url.substr(0, uniqueAlbums[i].url.indexOf("/_/"));
     albums.push({
       artist : EncodeHtml(uniqueAlbums[i].artist).link(checkHttp(tempArtist)) + '<span class="hide-text"> -</span>',
-      album : EncodeHtml(uniqueAlbums[i].album).link(checkHttp(tempArtist + '/' + encodeName(uniqueAlbums[i].album))), //TODO: this url isn't correct, album link is last.fm/.../[artist]/[album]
+      album : EncodeHtml(uniqueAlbums[i].album).link(checkHttp(tempArtist + '/' + encodeName(uniqueAlbums[i].album))),
       plays : ('<span class="hide-text">(</span>' + uniqueAlbums[i].plays + '<span class="hide-text"> plays)</span>').link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist.substr(tempArtist.lastIndexOf('/') + 1)),
       searchable : {
         artist : uniqueAlbums[i].artist.toLocaleLowerCase(),
