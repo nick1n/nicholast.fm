@@ -155,26 +155,39 @@
         </div>
       </div>
       <div class="row">
-        <div class="span5">
-          <b>Top 10 Artists:</b><br>
-          <div id="artistList"></div>
-        </div>
-        <div class="span5">
-          <b>Top 10 Tracks:</b><br>
+        <div class="span10">
+          <p><b>Top 10 Tracks:</b> <a href="#toptracks">(more)</a></p>
           <div id="trackList"></div>
         </div>
       </div>
+      <br>
       <div class="row">
-        <div class="span10"><hr></div>
+        <div class="span5">
+          <p><b>Top 10 Artists:</b> <a href="#topartists">(more)</a></p>
+          <div id="artistList"></div>
+        </div>
+        <div class="span5">
+          <p><b>Top 10 Albums:</b> <a href="#topalbums">(more)</a></p>
+          <div id="albumList"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="toptracks" class="span10"><hr></div>
+      </div>
+      <div class="row">
+        <div id="track-datagrid" class="span10"></div>
+      </div>
+      <div class="row">
+        <div id="topartists" class="span10"><hr></div>
       </div>
       <div class="row">
         <div id="artist-datagrid" class="span10"></div>
       </div>
       <div class="row">
-        <div class="span10"><hr></div>
+        <div id="topalbums" class="span10"><hr></div>
       </div>
       <div class="row">
-        <div id="track-datagrid" class="span10"></div>
+        <div id="album-datagrid" class="span10"></div>
       </div>
     </div>
 

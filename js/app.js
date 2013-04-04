@@ -20,6 +20,7 @@ var fromDate = 0;
 var toDate = 0;
 var uniqueTracks = {};
 var uniqueArtists = {};
+var uniqueAlbums = {};
 var year = 0;
 var month = 0;
 var executing = null;
@@ -138,7 +139,9 @@ function gotTracks(data) {
   
   for (var i = 0; i < data.recenttracks.track.length; ++i) {
     var artist = data.recenttracks.track[i].artist["#text"];
+    var album = artist + " - " + data.recenttracks.track[i].album["#text"];
     var track = artist + " - " + data.recenttracks.track[i].name;
+
     if (uniqueTracks[track]) {
       ++uniqueTracks[track].plays;
     } else {
@@ -149,6 +152,18 @@ function gotTracks(data) {
         plays : 1
       };
     }
+
+    if (uniqueAlbums[album]) {
+      ++uniqueAlbums[album].plays;
+    } else {
+      uniqueAlbums[album] = {
+        artist : artist,
+        album : data.recenttracks.track[i].album["#text"],
+        url : data.recenttracks.track[i].url,
+        plays : 1
+      };
+    }
+
     if (uniqueArtists[artist]) {
       ++uniqueArtists[artist].plays;
     } else {
@@ -189,6 +204,14 @@ function artistSort(a, b) {
   if (a.searchable.plays > b.searchable.plays) return -1;
   if (a.searchable.artist < b.searchable.artist) return -1;
   if (a.searchable.artist > b.searchable.artist) return 1;
+  return 0;
+}
+
+function albumSort(a, b) {
+  if (a.searchable.plays < b.searchable.plays) return 1;
+  if (a.searchable.plays > b.searchable.plays) return -1;
+  if (a.searchable.album < b.searchable.album) return -1;
+  if (a.searchable.album > b.searchable.album) return 1;
   return 0;
 }
 
@@ -236,7 +259,28 @@ function finished() {
     });
   }
   tracks.sort(trackSort);
-  
+
+  var albums = [];
+  for (var i in uniqueAlbums) {
+    tempArtist = uniqueAlbums[i].url.substr(0, uniqueAlbums[i].url.indexOf("/_/"));
+    albums.push({
+      artist : EncodeHtml(uniqueAlbums[i].artist).link(checkHttp(tempArtist)) + '<span class="hide-text"> -</span>',
+      album : EncodeHtml(uniqueAlbums[i].album).link(checkHttp(tempArtist + '/' + encodeName(uniqueAlbums[i].album))), //TODO: this url isn't correct, album link is last.fm/.../[artist]/[album]
+      plays : ('<span class="hide-text">(</span>' + uniqueAlbums[i].plays + '<span class="hide-text"> plays)</span>').link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist.substr(tempArtist.lastIndexOf('/') + 1)),
+      searchable : {
+        artist : uniqueAlbums[i].artist.toLocaleLowerCase(),
+        album : uniqueAlbums[i].album.toLocaleLowerCase(),
+        plays : uniqueAlbums[i].plays
+      },
+      bbcode : {
+        artist : uniqueAlbums[i].artist,
+        album : uniqueAlbums[i].album,
+        plays : uniqueAlbums[i].plays
+      }
+    });
+  }
+  albums.sort(albumSort);
+
   $("#totalUniqueTracks").html(tracks.length);
   if (numTracks > 0) {
     $("#songRepetition").html((numTracks / tracks.length).toFixed(2));
@@ -276,6 +320,49 @@ function finished() {
       dataSource: dataSource
   });
 
+  // generate top 10 albums list ...
+  var tempTrack = '';
+  innerStr = '<table>';
+  for (var i = 0; i < albums.length && i < 10; ++i) {
+    tempArtist = encodeName(albums[i].artist);
+    tempTrack = encodeName(albums[i].album);
+    
+    innerStr +=
+      '<tr>' +
+        '<td>' + (i + 1) + '. ' + albums[i].artist.replace(/hide-text/g, '') + ' ' + albums[i].album + ' ' + albums[i].plays.replace(/hide-text/g, '') + '</td>' +
+      '</tr>';
+  }
+  $("#albumList").html(innerStr + '</table>');
+
+  // generate album datagrid ...
+  $("#album-datagrid").html($("#template-datagrid").html());
+  $("#album-datagrid #caption").html("<h3>Top Albums:</h3>");
+
+  dataSource = new StaticDataSource({
+      columns: [{
+          property: 'artist',
+          label: 'Artist',
+          sortable: 'asc',
+          span: 2
+      }, {
+          property: 'album',
+          label: 'Album',
+          sortable: 'asc',
+          span: 2
+      }, {
+          property: 'plays',
+          label: 'Plays',
+          sortable: 'desc',
+          defaultSort: true,
+          span: 1
+      }],
+      data: albums
+  });
+
+  $('#album-datagrid .datagrid').datagrid({
+      dataSource: dataSource
+  });
+  
   // generate top 10 tracks list ...
   var tempTrack = '';
   innerStr = '<table>';
@@ -324,29 +411,43 @@ function finished() {
   var codeMonth = month + 1;
   codeMonth = (codeMonth > 9 ? codeMonth : '0' + codeMonth);
   if (artists[0]) {
+    bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
+    for (var i = 0; tracks[i] && tracks[0].bbcode.plays == tracks[i].bbcode.plays; ++i) {
+      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(tracks[i].bbcode.artist) + "[/artist] - [track artist=" + EncodeHtml(tracks[i].bbcode.artist) + "]" + EncodeHtml(tracks[i].bbcode.track) + "[/track]\n";
+    }
+
+    bbCode += "\n";
     bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
     for (var i = 0; artists[i] && artists[0].bbcode.plays == artists[i].bbcode.plays; ++i) {
       tempArtist = encodeName(artists[i].bbcode.artist);
       bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(artists[i].bbcode.artist) + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].bbcode.plays + " plays)[/url]\n";
     }
+
     bbCode += "\n";
-    bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
-    for (var i = 0; tracks[i] && tracks[0].bbcode.plays == tracks[i].bbcode.plays; ++i) {
-      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(tracks[i].bbcode.artist) + "[/artist] - [track artist=" + EncodeHtml(tracks[i].bbcode.artist) + "]" + EncodeHtml(tracks[i].bbcode.track) + "[/track]\n";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Albums[/url]\n";
+    for (var i = 0; albums[i] && albums[0].bbcode.plays == albums[i].bbcode.plays; ++i) {
+      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(albums[i].bbcode.artist) + "[/artist] - [album artist=" + EncodeHtml(albums[i].bbcode.artist) + "]" + EncodeHtml(albums[i].bbcode.album) + "[/album]\n";
     }
     $("textarea#bbcode").html(bbCode);
     
     // generate old bb code (styled from lastfm.heathaze.org)
     bbCode = "";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
+    for (var i = 0; tracks[i] && tracks[0].bbcode.plays == tracks[i].bbcode.plays; ++i) {
+      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + EncodeHtml(tracks[i].bbcode.artist) + "[/artist] : [track artist=" + EncodeHtml(tracks[i].bbcode.artist) + "]" + EncodeHtml(tracks[i].bbcode.track) + "[/track] ([b]" + tracks[i].bbcode.plays + "[/b] plays)\n";
+    }
+
+    bbCode += "\n";
     bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
     for (var i = 0; artists[i] && artists[0].bbcode.plays == artists[i].bbcode.plays; ++i) {
       tempArtist = encodeName(artists[i].bbcode.artist);
       bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + EncodeHtml(artists[i].bbcode.artist) + "[/artist] ([b]" + artists[i].bbcode.plays + "[/b] plays)\n";
     }
+
     bbCode += "\n";
-    bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
-    for (var i = 0; tracks[i] && tracks[0].bbcode.plays == tracks[i].bbcode.plays; ++i) {
-      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + EncodeHtml(tracks[i].bbcode.artist) + "[/artist] : [track artist=" + EncodeHtml(tracks[i].bbcode.artist) + "]" + EncodeHtml(tracks[i].bbcode.track) + "[/track] ([b]" + tracks[i].bbcode.plays + "[/b] plays)\n";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Albums[/url]\n";
+    for (var i = 0; albums[i] && albums[0].bbcode.plays == albums[i].bbcode.plays; ++i) {
+      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + EncodeHtml(albums[i].bbcode.artist) + "[/artist] : [album artist=" + EncodeHtml(albums[i].bbcode.artist) + "]" + EncodeHtml(albums[i].bbcode.album) + "[/album] ([b]" + albums[i].bbcode.plays + "[/b] plays)\n";
     }
     $("textarea#oldbbcode").html(bbCode);
   }
