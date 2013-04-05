@@ -6,7 +6,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/icomoon.css">
   <link href="css/app.css" rel="stylesheet">
   <!--[if lt IE 9]>
@@ -318,48 +318,6 @@
 
   <img class="hide" src="http://s08.flagcounter.com/mini/HQj4/bg_FFFFFF/txt_000000/border_CCCCCC/flags_0/">
 
-  <!-- Custom Templates for data layouts :) -->
-  <div id="template-datagrid" class="hide">
-    <table class="table table-striped table-condensed table-hover datagrid">
-      <thead>
-        <tr>
-          <th>
-            <div id="caption" class="pull-left"></div>
-            <div class="grid-controls pull-right">
-              <div class="input-append search">
-                <input type="text" class="input-medium" placeholder="Search">
-                <button class="btn"><i class="icon-search"></i></button>
-              </div>
-            </div>
-          </th>
-        </tr>
-      </thead>
-
-      <tfoot>
-        <tr>
-          <th>
-            <div class="grid-controls pull-left">
-              <span><span class="grid-start"></span> - <span class="grid-end"></span> of <span class="grid-count"></span></span>
-              <select class="grid-pagesize">
-                <option>10</option>
-                <option selected>20</option>
-                <option>50</option>
-                <option>100</option>
-              </select>
-              <span>Per Page</span>
-            </div>
-            <div class="grid-controls grid-pager pull-right">
-              <button class="btn grid-prevpage"><i class="icon-arrow-left"></i></button>
-              <span>Page</span>
-              <input type="number">
-              <span>of <span class="grid-pages"></span></span>
-              <button class="btn grid-nextpage"><i class="icon-arrow-right"></i></button>
-            </div>
-          </th>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
 </div><!-- end .row -->
 
 <footer>
@@ -407,7 +365,7 @@
   <div class="row">
     <div class="span7 offset1">
       <p>nicholast.fm is by <a href="http://www.last.fm/user/nick1n" target="_blank" class="link">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank" class="link">Nick</a></p>
-      <p>Copyright &copy; 2012</p>
+      <p>Copyright &copy; 2013</p>
     </div>
     <div class="span3">
       <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, and Felix Bruns' javascript last.fm api lib</p><br>
@@ -418,12 +376,12 @@
 </div><!-- end #main.container -->
 
 <!-- scripts at the bottom of the body for faster loading -->
-<!-- jQuery 1.8.3 -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/jquery.js"><\/script>')</script>
+<!-- jQuery 1.9.1 -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
 
-<!-- Bootstrap 2.2.1 Javascript Plugins: Transition, Tab, Tooltip, Button, Collapse -->
-<script src="js/bootstrap.min.js"></script>
+<!-- Bootstrap 2.3.1 Javascript Plugins: Transition, Tab, Tooltip, Button, Collapse -->
+<script src="js/bootstrap-2.3.1.min.js"></script>
 
 <!-- Fuel UX 2.1.1 -->
 <script src="js/datasource.js"></script>
@@ -436,6 +394,49 @@
 
 <!-- Custom Javascript -->
 <script src="js/app.js"></script>
+
+<!-- Custom Templates -->
+<script id="template-datagrid" type="text/template">
+  <table class="table table-striped table-condensed table-hover datagrid">
+    <thead>
+      <tr>
+        <th>
+          <div id="caption" class="pull-left"></div>
+          <div class="grid-controls pull-right">
+            <div class="input-append search">
+              <input type="text" class="input-medium" placeholder="Search">
+              <button class="btn"><i class="icon-search"></i></button>
+            </div>
+          </div>
+        </th>
+      </tr>
+    </thead>
+
+    <tfoot>
+      <tr>
+        <th>
+          <div class="grid-controls pull-left">
+            <span><span class="grid-start"></span> - <span class="grid-end"></span> of <span class="grid-count"></span></span>
+            <select class="grid-pagesize">
+              <option>10</option>
+              <option selected>20</option>
+              <option>50</option>
+              <option>100</option>
+            </select>
+            <span>Per Page</span>
+          </div>
+          <div class="grid-controls grid-pager pull-right">
+            <button class="btn grid-prevpage"><i class="icon-arrow-left"></i></button>
+            <span>Page</span>
+            <input type="number">
+            <span>of <span class="grid-pages"></span></span>
+            <button class="btn grid-nextpage"><i class="icon-arrow-right"></i></button>
+          </div>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</script>
 
 </body>
 </html>
