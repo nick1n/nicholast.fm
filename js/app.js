@@ -605,7 +605,9 @@ function arFinished() {
       match : uniqueArtists[i].match.toFixed(3) + '<span class="hide-text"> match</span>',
       recommendations : '<span class="hide-text">(</span>' + uniqueArtists[i].recommendations + '<span class="hide-text"> recommendations)</span>',
       searchable : {
-        artist : uniqueArtists[i].artist.toLocaleLowerCase()
+        artist : uniqueArtists[i].artist.toLocaleLowerCase(),
+        match : uniqueArtists[i].match.toFixed(3),
+        recommendations : uniqueArtists[i].recommendations
       }
     });
   }
@@ -654,10 +656,10 @@ function arFinished() {
 }
 
 function arSort(a, b) {
-  if (a.match < b.match) return 1;
-  if (a.match > b.match) return -1;
-  if (a.recommendations < b.recommendations) return 1;
-  if (a.recommendations > b.recommendations) return -1;
+  if (a.searchable.match < b.searchable.match) return 1;
+  if (a.searchable.match > b.searchable.match) return -1;
+  if (a.searchable.recommendations < b.searchable.recommendations) return 1;
+  if (a.searchable.recommendations > b.searchable.recommendations) return -1;
   if (a.searchable.artist < b.searchable.artist) return -1;
   if (a.searchable.artist > b.searchable.artist) return 1;
   return 0;
@@ -791,7 +793,9 @@ function trFinished() {
       match : uniqueArtists[i].match.toFixed(3) + '<span class="hide-text"> match</span>',
       searchable : {
         artist : uniqueArtists[i].artist.toLocaleLowerCase(),
-        track : uniqueArtists[i].track.toLocaleLowerCase()
+        track : uniqueArtists[i].track.toLocaleLowerCase(),
+        recommendations : uniqueArtists[i].recommendations,
+        match : uniqueArtists[i].match.toFixed(3)
       }
     });
   }
@@ -846,10 +850,10 @@ function trFinished() {
 
 
 function trSort(a, b) {
-  if (a.match < b.match) return 1;
-  if (a.match > b.match) return -1;
-  if (a.recommendations < b.recommendations) return 1;
-  if (a.recommendations > b.recommendations) return -1;
+  if (a.searchable.match < b.searchable.match) return 1;
+  if (a.searchable.match > b.searchable.match) return -1;
+  if (a.searchable.recommendations < b.searchable.recommendations) return 1;
+  if (a.searchable.recommendations > b.searchable.recommendations) return -1;
   var aat = a.searchable.artist + " " + a.searchable.track;
   var bat = b.searchable.artist + " " + b.searchable.track;
   if (aat < bat) return -1;
