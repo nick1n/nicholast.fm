@@ -156,18 +156,18 @@
       </div>
       <div class="row">
         <div class="span10">
-          <p><b>Top 10 Tracks:</b> <a href="#toptracks">(more)</a></p>
+          <p><a href="#toptracks"><b>Top 10 Tracks:</b> (more)</a></p>
           <div id="trackList"></div>
         </div>
       </div>
       <br>
       <div class="row">
         <div class="span5">
-          <p><b>Top 10 Artists:</b> <a href="#topartists">(more)</a></p>
+          <p><a href="#topartists"><b>Top 10 Artists:</b> (more)</a></p>
           <div id="artistList"></div>
         </div>
         <div class="span5">
-          <p><b>Top 10 Albums:</b> <a href="#topalbums">(more)</a></p>
+          <p><a href="#topalbums"><b>Top 10 Albums:</b> (more)</a></p>
           <div id="albumList"></div>
         </div>
       </div>
@@ -393,7 +393,7 @@
 <script src="js/lastfm.api.js"></script>
 
 <!-- Custom Javascript -->
-<script src="js/app.js"></script>
+<script src="js/app.1.js"></script>
 
 <!-- Custom Templates -->
 <script id="template-datagrid" type="text/template">
