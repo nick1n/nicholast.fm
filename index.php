@@ -5,8 +5,9 @@
   <title>Last.fm Stats - nicholast.fm</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+
+  <link href="//fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/icomoon.css">
   <link href="css/app.css" rel="stylesheet">
   <!--[if lt IE 9]>
