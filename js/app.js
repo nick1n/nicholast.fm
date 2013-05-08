@@ -8,8 +8,14 @@ if (!console) { var console = { log : function(val) {} }; }
 // add scrollbar from load so no weird repositioning happens
 //$("body").height( $(window).height() * 1.1 );
 
-/* Create a LastFM object */
-var lastfm = new LastFM({ apiKey : 'f750712ed70caea3272e70e48e1f464e' });
+/* Init the LastFM module */
+LastFM({
+  api_key : 'f750712ed70caea3272e70e48e1f464e',
+
+  callbacks: {
+    fail: failFunction
+  }
+});
 
 var username = "";
 var numTracks = 0;
@@ -42,6 +48,7 @@ function getTracks(user) {
   numPages = 0;
   uniqueTracks = {};
   uniqueArtists = {};
+  uniqueAlbums = {};
   year = 0;
   month = 0;
   $("#progressBar").width("0%");
@@ -49,11 +56,11 @@ function getTracks(user) {
   
   $("#trackInfo").hide();
   $("#progressBack").show();
-  
+
   // Just call getTimeZone, trying to figure out last.fm user's timezone isn't working out :-/
   getTimeZone();
   //try {
-  //  lastfm.user.getRecentTracks({user: username, limit: 1}, {success: getTimeZone, error: failFunction});
+  //  LastFM('user.getRecentTracks', {user: username, limit: 1}).done(getTimeZone);
   //} catch (e) {}
 }
 
@@ -76,16 +83,13 @@ function getTimeZone(data) {
   toDate = (date.getTime() - offset) / 1000;
   
   try {
-    lastfm.user.getRecentTracks({
+    LastFM('user.getRecentTracks', {
       user : username,
       limit : '200',
       page : 1,
       to : toDate,
       from : fromDate
-    }, {
-      success : gotNumTracks,
-      error : failFunction
-    });
+    }).done(gotNumTracks);
   } catch (e) {}
 
   _gaq.push(['_trackEvent', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), username.toLocaleLowerCase()]);
@@ -120,16 +124,13 @@ function gotNumTracks(data) {
 
 // a proxy function for delaying all the last.fm api calls
 function getRecentTracks(page) {
-  lastfm.user.getRecentTracks({
+  LastFM('user.getRecentTracks' , {
     user : username,
     limit : '200',
     page : page,
     to : toDate,
     from : fromDate
-  }, {
-    success : gotTracks,
-    error : failFunction
-  });
+  }).done(gotTracks);
 }
 
 // got some track info from last.fm lets parse it :)
@@ -500,14 +501,11 @@ function getArtistRecommendations(user) {
   numPages = parseInt($("#arLimit").val());
   
   try {
-    lastfm.user.getTopArtists({
+    LastFM('user.getTopArtists', {
       user : username,
       period : period,
       limit : 200
-    }, {
-      success : gotTopArtists,
-      error : failFunction
-    });
+    }).done(gotTopArtists);
   } catch (e) {}
 
   _gaq.push(['_trackEvent', executing, period + ' ' + numPages, username.toLocaleLowerCase()]);
@@ -538,13 +536,10 @@ function gotTopArtists(data) {
 }
 
 function getSimilarArtists(i) {
-  lastfm.artist.getSimilar({
+  LastFM('artist.getSimilar', {
     artist : topArtists[i].name,
     autocorrect : 1
-  }, {
-    success : gotTopSimilarArtists,
-    error : failFunction
-  });
+  }).done(gotTopSimilarArtists);
 }
 
 function gotTopSimilarArtists(data) {
@@ -695,14 +690,11 @@ function getTrackRecommendations(user) {
   numPages = parseInt($("#trLimit").val());
   
   try {
-    lastfm.user.getTopTracks({
+    LastFM('user.getTopTracks', {
       user: username,
       period: period,
       limit: 400
-    }, {
-      success: gotTopTracks,
-      error: failFunction
-    });
+    }).done(gotTopTracks);
   } catch (e) {}
 
   _gaq.push(['_trackEvent', executing, period + ' ' + numPages, username.toLocaleLowerCase()]);
@@ -733,14 +725,11 @@ function gotTopTracks(data) {
 }
 
 function getSimilarTracks(i) {
-  lastfm.track.getSimilar({
+  LastFM('track.getSimilar', {
     artist : topArtists[i].artist.name,
     track : topArtists[i].name,
     autocorrect : 1
-  }, {
-    success : gotTopSimilarTracks,
-    error : failFunction
-  });
+  }).done(gotTopSimilarTracks);
 }
 
 function gotTopSimilarTracks(data) {
@@ -864,7 +853,7 @@ function trSort(a, b) {
 //// end of last.fm api code ////
 
 // something went wrong function for all last.fm api calls
-function failFunction(code, message) {
+function failFunction(code, message, obj) {
   /**
    * 2 : Invalid service - This service does not exist
    * 3 : Invalid Method - No method with that name in this package
@@ -881,9 +870,14 @@ function failFunction(code, message) {
    * 26 : Suspended API key - Access for your account has been suspended, please contact Last.fm
    * 29 : Rate limit exceeded - Your IP has made too many requests in a short period
    */
+  console.log(code, message, obj);
   if (executing == null)
     return;
 
+  code = obj.error || obj;
+  message = obj.message || message;
+
+  console.log("Failed:\nCode: " + code + "\n" + message);
   alert("Failed:\nCode: " + code + "\n" + message);
   $(".submit").button("reset");
   $("#progressBack").hide();
@@ -953,13 +947,10 @@ function logoInit() {
   });
   username = $("#user").val();
   try {
-    lastfm.user.getTopAlbums({
+    LastFM('user.getTopAlbums', {
       user : username,
       limit : '20'
-    }, {
-      success : logo,
-      error : failFunction
-    });
+    }).done(logo);
   } catch (e) { }
 }
 

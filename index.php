@@ -389,9 +389,8 @@
 <script src="js/search.js"></script>
 <script src="js/datagrid.js"></script>
 
-<!-- Last.fm API Javascript Library -->
-<script src="js/lastfm.api.md5.js"></script>
-<script src="js/lastfm.api.js"></script>
+<!-- Last.fm API Module -->
+<script src="js/lastfm.min.js"></script>
 
 <!-- Custom Javascript -->
 <script src="js/app.1.js"></script>
