@@ -45,7 +45,7 @@ LastFM('user.getRecentTracks', {
 	page: 1,
 	to: toDate,
 	from: fromDate
-}).then(function ( data ) {
+}).done(function ( data ) {
 	// do stuff with data
 	console.log( data );
 });
@@ -158,7 +158,7 @@ For more information and help with them go here:
 			// if there was a timeout, retry the ajax request
 			if ( status == 'timeout' ) {
 
-				// increment the amount of retries that have happened for this method
+				// increment the amount of retries that have happened
 				++retries;
 
 				// and if there are less then 5 retries, don't fail the promise, just try again
