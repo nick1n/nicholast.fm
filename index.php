@@ -393,7 +393,7 @@
 <script src="js/lastfm.min.js"></script>
 
 <!-- Custom Javascript -->
-<script src="js/app.1.js"></script>
+<script src="js/app.2.js"></script>
 
 <!-- Custom Templates -->
 <script id="template-datagrid" type="text/template">

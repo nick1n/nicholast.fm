@@ -870,14 +870,12 @@ function failFunction(code, message, obj) {
    * 26 : Suspended API key - Access for your account has been suspended, please contact Last.fm
    * 29 : Rate limit exceeded - Your IP has made too many requests in a short period
    */
-  console.log(code, message, obj);
   if (executing == null)
     return;
 
   code = obj.error || obj;
   message = obj.message || message;
 
-  console.log("Failed:\nCode: " + code + "\n" + message);
   alert("Failed:\nCode: " + code + "\n" + message);
   $(".submit").button("reset");
   $("#progressBack").hide();
