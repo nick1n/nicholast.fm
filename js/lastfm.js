@@ -77,8 +77,8 @@ For more information and help with them go here:
 			// make all api requests have a javascript callback
 			dataType: 'jsonp',
 
-			// default a request's timeout period to 6 seconds
-			timeout: 6000
+			// default a request's timeout period to 9 seconds
+			timeout: 9000
 		},
 
 		// jQuery ajax settings
