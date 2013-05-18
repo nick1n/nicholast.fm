@@ -9,7 +9,7 @@
   <link href="//fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
   <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/icomoon.css">
-  <link href="css/app.css" rel="stylesheet">
+  <link href="css/app.1.css" rel="stylesheet">
   <!--[if lt IE 9]>
     <link href="css/app-ie.css" rel="stylesheet">
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -136,7 +136,7 @@
               </div>
               <div id="BBCode" class="accordion-body in">
                 <div class="accordion-inner">
-                  <textarea id="bbcode" rows="8" cols="70" readonly></textarea>
+                  <pre id="bbcode"></pre>
                 </div>
               </div>
             </div>
@@ -148,7 +148,7 @@
               </div>
               <div id="OldBBCode" class="accordion-body collapse">
                 <div class="accordion-inner">
-                  <textarea id="oldbbcode" rows="8" cols="70" readonly></textarea>
+                  <pre id="oldbbcode"></pre>
                 </div>
               </div>
             </div>
@@ -390,10 +390,10 @@
 <script src="js/datagrid.js"></script>
 
 <!-- Last.fm API Module -->
-<script src="js/lastfm.min.js"></script>
+<script src="js/lastfm.min.1.js"></script>
 
 <!-- Custom Javascript -->
-<script src="js/app.2.js"></script>
+<script src="js/app.3.js"></script>
 
 <!-- Custom Templates -->
 <script id="template-datagrid" type="text/template">

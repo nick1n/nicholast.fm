@@ -429,7 +429,7 @@ function finished() {
     for (var i = 0; albums[i] && albums[0].bbcode.plays == albums[i].bbcode.plays; ++i) {
       bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(albums[i].bbcode.artist) + "[/artist] - [album artist=" + EncodeHtml(albums[i].bbcode.artist) + "]" + EncodeHtml(albums[i].bbcode.album) + "[/album]\n";
     }
-    $("textarea#bbcode").html(bbCode);
+    $("#bbcode").html(bbCode);
     
     // generate old bb code (styled from lastfm.heathaze.org)
     bbCode = "";
@@ -450,7 +450,7 @@ function finished() {
     for (var i = 0; albums[i] && albums[0].bbcode.plays == albums[i].bbcode.plays; ++i) {
       bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + EncodeHtml(albums[i].bbcode.artist) + "[/artist] : [album artist=" + EncodeHtml(albums[i].bbcode.artist) + "]" + EncodeHtml(albums[i].bbcode.album) + "[/album] ([b]" + albums[i].bbcode.plays + "[/b] plays)\n";
     }
-    $("textarea#oldbbcode").html(bbCode);
+    $("#oldbbcode").html(bbCode);
   }
   
   $("#mttMonth").html("Monthly Stats For " + getMonthName(month));

@@ -77,8 +77,8 @@ For more information and help with them go here:
 			// make all api requests have a javascript callback
 			dataType: 'jsonp',
 
-			// default a request's timeout period to 9 seconds
-			timeout: 9000
+			// default a request's timeout period to 10 seconds
+			timeout: 10000
 		},
 
 		// jQuery ajax settings
@@ -119,8 +119,9 @@ For more information and help with them go here:
 		// make the api request
 		$.ajax( settings )
 
+			// don't filter successful requests, but...
 			// when a request fails, call retry and use it's deferred object instead
-			.then( null, retry( 5 ) )
+			.then( 0, retry( 5 ) )
 
 			// successful api request, call done
 			// if there was a request error, fail the promise
@@ -161,14 +162,14 @@ For more information and help with them go here:
 			// and if there are still retries remaining, don't fail the promise, just retry the ajax call
 			if ( --retries ) {
 
-				// if it was a timeout, increase the timeout time by 1 second
+				// if it was a timeout, increase the timeout time by 2 seconds
 				if ( status == 'timeout' ) {
-					this.timeout += 1000;
+					this.timeout += 2000;
 				}
 
 				// retry the ajax call
 				$.ajax( this )
-					.then( null, retry( retries ) )
+					.then( 0, retry( retries ) )
 					.then( output.resolve, output.reject );
 
 				// return the new deferred object
