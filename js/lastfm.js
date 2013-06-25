@@ -121,7 +121,7 @@ For more information and help with them go here:
 
 			// don't filter successful requests, but...
 			// when a request fails, call retry and use it's deferred object instead
-			.then( 0, retry( 5 ) )
+			.then( 0, retry( 3 ) )
 
 			// successful api request, call done
 			// if there was a request error, fail the promise
@@ -164,7 +164,7 @@ For more information and help with them go here:
 
 				// if it was a timeout, increase the timeout time by 2 seconds
 				if ( status == 'timeout' ) {
-					this.timeout += 2000;
+					this.timeout += 10000;
 				}
 
 				// retry the ajax call

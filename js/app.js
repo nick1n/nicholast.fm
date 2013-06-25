@@ -412,43 +412,43 @@ function finished() {
   var codeMonth = month + 1;
   codeMonth = (codeMonth > 9 ? codeMonth : '0' + codeMonth);
   if (artists[0]) {
-    bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]<br>";
     for (var i = 0; tracks[i] && tracks[0].bbcode.plays == tracks[i].bbcode.plays; ++i) {
-      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(tracks[i].bbcode.artist) + "[/artist] - [track artist=" + EncodeHtml(tracks[i].bbcode.artist) + "]" + EncodeHtml(tracks[i].bbcode.track) + "[/track]\n";
+      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(tracks[i].bbcode.artist) + "[/artist] - [track artist=" + EncodeHtml(tracks[i].bbcode.artist) + "]" + EncodeHtml(tracks[i].bbcode.track) + "[/track]<br>";
     }
 
-    bbCode += "\n";
-    bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
+    bbCode += "<br>";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]<br>";
     for (var i = 0; artists[i] && artists[0].bbcode.plays == artists[i].bbcode.plays; ++i) {
       tempArtist = encodeName(artists[i].bbcode.artist);
-      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(artists[i].bbcode.artist) + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].bbcode.plays + " plays)[/url]\n";
+      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(artists[i].bbcode.artist) + "[/artist] [url=http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist + "](" + artists[i].bbcode.plays + " plays)[/url]<br>";
     }
 
-    bbCode += "\n";
-    bbCode += "[url=http://nicholast.fm]Monthly Top Albums[/url]\n";
+    bbCode += "<br>";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Albums[/url]<br>";
     for (var i = 0; albums[i] && albums[0].bbcode.plays == albums[i].bbcode.plays; ++i) {
-      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(albums[i].bbcode.artist) + "[/artist] - [album artist=" + EncodeHtml(albums[i].bbcode.artist) + "]" + EncodeHtml(albums[i].bbcode.album) + "[/album]\n";
+      bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(albums[i].bbcode.artist) + "[/artist] - [album artist=" + EncodeHtml(albums[i].bbcode.artist) + "]" + EncodeHtml(albums[i].bbcode.album) + "[/album]<br>";
     }
     $("#bbcode").html(bbCode);
     
     // generate old bb code (styled from lastfm.heathaze.org)
     bbCode = "";
-    bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]\n";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]<br>";
     for (var i = 0; tracks[i] && tracks[0].bbcode.plays == tracks[i].bbcode.plays; ++i) {
-      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + EncodeHtml(tracks[i].bbcode.artist) + "[/artist] : [track artist=" + EncodeHtml(tracks[i].bbcode.artist) + "]" + EncodeHtml(tracks[i].bbcode.track) + "[/track] ([b]" + tracks[i].bbcode.plays + "[/b] plays)\n";
+      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]<br>[artist]" + EncodeHtml(tracks[i].bbcode.artist) + "[/artist] : [track artist=" + EncodeHtml(tracks[i].bbcode.artist) + "]" + EncodeHtml(tracks[i].bbcode.track) + "[/track] ([b]" + tracks[i].bbcode.plays + "[/b] plays)<br>";
     }
 
-    bbCode += "\n";
-    bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]\n";
+    bbCode += "<br>";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Artists[/url]<br>";
     for (var i = 0; artists[i] && artists[0].bbcode.plays == artists[i].bbcode.plays; ++i) {
       tempArtist = encodeName(artists[i].bbcode.artist);
-      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + EncodeHtml(artists[i].bbcode.artist) + "[/artist] ([b]" + artists[i].bbcode.plays + "[/b] plays)\n";
+      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]<br>[artist]" + EncodeHtml(artists[i].bbcode.artist) + "[/artist] ([b]" + artists[i].bbcode.plays + "[/b] plays)<br>";
     }
 
-    bbCode += "\n";
-    bbCode += "[url=http://nicholast.fm]Monthly Top Albums[/url]\n";
+    bbCode += "<br>";
+    bbCode += "[url=http://nicholast.fm]Monthly Top Albums[/url]<br>";
     for (var i = 0; albums[i] && albums[0].bbcode.plays == albums[i].bbcode.plays; ++i) {
-      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]\n[artist]" + EncodeHtml(albums[i].bbcode.artist) + "[/artist] : [album artist=" + EncodeHtml(albums[i].bbcode.artist) + "]" + EncodeHtml(albums[i].bbcode.album) + "[/album] ([b]" + albums[i].bbcode.plays + "[/b] plays)\n";
+      bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]<br>[artist]" + EncodeHtml(albums[i].bbcode.artist) + "[/artist] : [album artist=" + EncodeHtml(albums[i].bbcode.artist) + "]" + EncodeHtml(albums[i].bbcode.album) + "[/album] ([b]" + albums[i].bbcode.plays + "[/b] plays)<br>";
     }
     $("#oldbbcode").html(bbCode);
   }
