@@ -383,7 +383,7 @@ AddDefaultCharset utf-8
     # (for Apache versions below 2.3.7, you don't need to enable `mod_filter`
     #  and can remove the `<IfModule mod_filter.c>` and `</IfModule>` lines
     #  as `AddOutputFilterByType` is still in the core directives).
-    <IfModule mod_filter.c>
+    #<IfModule mod_filter.c>
         AddOutputFilterByType DEFLATE application/atom+xml \
                                       application/javascript \
                                       application/json \
@@ -401,7 +401,7 @@ AddDefaultCharset utf-8
                                       text/plain \
                                       text/x-component \
                                       text/xml
-    </IfModule>
+    #</IfModule>
 
 </IfModule>
 
