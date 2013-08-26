@@ -7,9 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="//fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="css/icomoon.css">
-  <link href="css/app.2.css" rel="stylesheet">
+  <link href="dist/css/app.0.3.0.min.css" rel="stylesheet">
   <!--[if lt IE 9]>
     <link href="css/app-ie.css" rel="stylesheet">
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -376,25 +374,6 @@
 
 </div><!-- end #main.container -->
 
-<!-- scripts at the bottom of the body for faster loading -->
-<!-- jQuery 1.9.1 -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
-
-<!-- Bootstrap 2.3.1 Javascript Plugins: Transition, Tab, Tooltip, Button, Collapse -->
-<script src="js/bootstrap-2.3.1.min.js"></script>
-
-<!-- Fuel UX 2.1.1 -->
-<script src="js/datasource.js"></script>
-<script src="js/search.js"></script>
-<script src="js/datagrid.js"></script>
-
-<!-- Last.fm API Module -->
-<script src="js/lastfm.min.2.js"></script>
-
-<!-- Custom Javascript -->
-<script src="js/app.4.js"></script>
-
 <!-- Custom Templates -->
 <script id="template-datagrid" type="text/template">
   <table class="table table-striped table-condensed table-hover datagrid">
@@ -437,6 +416,9 @@
     </tfoot>
   </table>
 </script>
+
+<!-- scripts at the bottom of the body for faster loading -->
+<script src="dist/js/app.0.3.0.min.js"></script>
 
 </body>
 </html>
