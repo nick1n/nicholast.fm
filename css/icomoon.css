@@ -15,15 +15,25 @@
 	content: attr(data-icon);
 	speak: none;
 	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
 	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 /* Use the following CSS code if you want to have a class per icon */
-[class^="icon-"]:before, [class*=" icon-"]:before {
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="icon-"] {
+*/
+.icon-user, .icon-github, .icon-lastfm, .icon-comment, .icon-music, .icon-facebook, .icon-twitter, .icon-chevron-down, .icon-chevron-up, .icon-arrow-right, .icon-arrow-left, .icon-search, .icon-remove {
 	font-family: 'icomoon';
-	font-style: normal;
 	speak: none;
+	font-style: normal;
 	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
 	-webkit-font-smoothing: antialiased;
 }
 .icon-user:before {

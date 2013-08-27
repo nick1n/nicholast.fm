@@ -58,8 +58,7 @@ module.exports = function(grunt) {
 
 		uglify: {
 			options: {
-				banner: '<%= banner %>',
-				jshintrc: 'js/.jshintrc'
+				banner: '<%= banner %>'
 			},
 			build: {
 				src: '<%= concat.js.dest %>',

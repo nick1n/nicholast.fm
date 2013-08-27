@@ -5625,19 +5625,41 @@ button.close {
   font-family: 'icomoon';
   -webkit-font-smoothing: antialiased;
   font-weight: normal;
+  text-transform: none;
   content: attr(data-icon);
   speak: none;
+  font-variant: normal;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Use the following CSS code if you want to have a class per icon */
 
-[class^="icon-"]:before,
-[class*=" icon-"]:before {
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="icon-"] {
+*/
+
+.icon-user,
+.icon-github,
+.icon-lastfm,
+.icon-comment,
+.icon-music,
+.icon-facebook,
+.icon-twitter,
+.icon-chevron-down,
+.icon-chevron-up,
+.icon-arrow-right,
+.icon-arrow-left,
+.icon-search,
+.icon-remove {
   font-family: 'icomoon';
   -webkit-font-smoothing: antialiased;
   font-style: normal;
   font-weight: normal;
+  text-transform: none;
   speak: none;
+  font-variant: normal;
 }
 
 .icon-user:before {
@@ -5911,11 +5933,26 @@ code {
           box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Google Responsive Adsense Ads */
+
+.ad-overflow {
+  overflow: hidden;
+}
+
+.responsivead {
+  display: block;
+  width: 728px;
+  height: 90px;
+  margin: auto;
+}
+
 /* Our custom responsive css */
 
 @media (max-width: 767px) {
   {
     /* makes the nav-tabs into nav-stacked */
+  
+    /* Google Responsive Adsense Ads */
   
   }
   body {
@@ -5957,11 +5994,26 @@ code {
     z-index: 2;
     border-color: #ddd;
   }
+  .responsivead {
+    width: 320px;
+    height: 50px;
+  }
 }
 
 @media (min-width: 768px) {
   body {
     margin-bottom: 400px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  {
+    /* Google Responsive Adsense Ads */
+  
+  }
+  .responsivead {
+    width: 468px;
+    height: 60px;
   }
 }
 

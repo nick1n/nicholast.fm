@@ -1037,11 +1037,15 @@ $(function() {
     $('div#BBCode').removeClass('in').addClass('collapse');
   }
 
+  // track a few different clicks
   $('a').click(function() {
     var href = $(this).attr('href');
     if (href && href != "#")
       _gaq.push(['_trackEvent', 'Click', href, username.toLocaleLowerCase()]);
   });
+
+  // Stupid flagcounter:
+  $('#flagcounter').attr('src', 'http://s08.flagcounter.com/mini/HQj4/bg_FFFFFF/txt_000000/border_CCCCCC/flags_0/');
 
   //Testing...
   //$("#user").val("nick1n");

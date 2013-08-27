@@ -315,7 +315,7 @@
     </div>
   </div><!-- end #main-tabbed.span8 -->
 
-  <img class="hide" src="http://s08.flagcounter.com/mini/HQj4/bg_FFFFFF/txt_000000/border_CCCCCC/flags_0/">
+  <img id="flagcounter" class="hide">
 
 </div><!-- end .row -->
 
@@ -323,38 +323,9 @@
   <div class="row">
     <div class="span10 offset1">
       <br>
-      <div id="ad-desktop" class="visible-desktop center">
-        <script type="text/javascript"><!--
-          google_ad_client = "ca-pub-5694205610454375";
-          /* FirstTest */
-          google_ad_slot = "7850174638";
-          google_ad_width = 728;
-          google_ad_height = 90;
-          //-->
-        </script>
-        <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-      </div>
-      <div id="ad-tablet" class="visible-tablet center">
-        <script type="text/javascript"><!--
-          google_ad_client = "ca-pub-5694205610454375";
-          /* TabletAd */
-          google_ad_slot = "1063149193";
-          google_ad_width = 468;
-          google_ad_height = 60;
-          //-->
-        </script>
-        <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-      </div>
-      <div id="ad-phone" class="visible-phone center">
-        <script type="text/javascript"><!--
-          google_ad_client = "ca-pub-5694205610454375";
-          /* MobileAd */
-          google_ad_slot = "1215451455";
-          google_ad_width = 320;
-          google_ad_height = 50;
-          //-->
-        </script>
-        <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+      <!-- ResponsiveAd -->
+      <div class="ad-overflow">
+        <ins class="adsbygoogle responsivead" data-ad-client="ca-pub-5694205610454375" data-ad-slot="6618888490"></ins>
       </div>
     </div>
   </div>
@@ -418,7 +389,10 @@
 </script>
 
 <!-- scripts at the bottom of the body for faster loading -->
-<script src="dist/js/app.0.3.0.min.js"></script>
+<script async src="dist/js/app.0.3.0.min.js"></script>
+
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({})</script>
 
 </body>
 </html>
