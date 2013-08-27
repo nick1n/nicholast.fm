@@ -6,7 +6,6 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="//fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
   <link href="dist/css/app.0.3.0.min.css" rel="stylesheet">
   <!--[if lt IE 9]>
     <link href="css/app-ie.css" rel="stylesheet">
