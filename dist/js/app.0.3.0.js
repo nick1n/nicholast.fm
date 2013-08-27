@@ -11316,9 +11316,9 @@ For more information and help with them go here:
 			// and if there are still retries remaining, don't fail the promise, just retry the ajax call
 			if ( --retries ) {
 
-				// if it was a timeout, increase the timeout time by 2 seconds
+				// if it was a timeout, increase the timeout time by 20 seconds
 				if ( status == 'timeout' ) {
-					this.timeout += 10000;
+					this.timeout += 20000;
 				}
 
 				// retry the ajax call
@@ -11335,7 +11335,7 @@ For more information and help with them go here:
 
 			// return the new deferred object
 			return output;
-		}
+		};
 	}
 
 	// Main class definition
