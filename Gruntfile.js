@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-recess');
 
 
@@ -80,6 +81,17 @@ module.exports = function(grunt) {
 				options: {
 					compress: true
 				}
+			}
+		},
+
+		watch: {
+			js: {
+				files: '<%= src.js %>',
+				tasks: ['dist-js']
+			},
+			css: {
+				files: '<%= src.css %>',
+				tasks: ['dist-css']
 			}
 		}
 

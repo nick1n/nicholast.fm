@@ -1,4 +1,4 @@
-/*! nicholast.fm 2013-08-27 */
+/*! nicholast.fm 2013-08-28 */
 /*!
  * jQuery JavaScript Library v1.10.2
  * http://jquery.com/
@@ -11371,6 +11371,8 @@ LastFM({
   }
 });
 
+var $user;
+
 var username = "";
 var numTracks = 0;
 var innerStr = "<table>";
@@ -11394,8 +11396,8 @@ function getTracks(user) {
   executing = 'Monthly Top Tracks';
   $(".submit").button('loading');
   startTime = new Date().getTime();
-  
-  username = $("#user").val();
+
+  username = $user.val();
   numTracks = 0;
   innerStr = "<table>";
   pagesFinished = 0;
@@ -11407,7 +11409,7 @@ function getTracks(user) {
   month = 0;
   $("#progressBar").width("0%");
   //document.getElementById("progressPercent").innerHTML = "0%";
-  
+
   $("#trackInfo").hide();
   $("#progressBack").show();
 
@@ -11426,7 +11428,7 @@ function getTimeZone(data) {
   //if (data.recenttracks.track[1] == undefined) {
   //    offset = -(new Date().getTimezoneOffset()*60*1000) - (new Date(new Date(data.recenttracks.track.date.uts*1000).setSeconds(0)).getTime()-new Date(data.recenttracks.track.date['#text']).getTime());
   //}
-  
+
   // Find the from and to dates
   // need to fix this only works when you are in the same timezone as the scrobbling was
   year = $("#year").val();
@@ -11435,7 +11437,7 @@ function getTimeZone(data) {
   fromDate = (date.getTime() - offset) / 1000 - 1;
   date.setMonth(date.getMonth() + 1);
   toDate = (date.getTime() - offset) / 1000;
-  
+
   try {
     LastFM('user.getRecentTracks', {
       user : username,
@@ -11458,7 +11460,7 @@ function gotNumTracks(data) {
   }
   numPages = data.recenttracks['@attr'].totalPages;
   $("#totalTracks").html(data.recenttracks['@attr'].total);
-  
+
   // check for extra now playing track even though its a list of tracks from last month :-/
   // and remove it from the array FOREVER!
   if (data.recenttracks.track[0]) {
@@ -11466,13 +11468,13 @@ function gotNumTracks(data) {
       data.recenttracks.track.shift();
     }
   }
-  
+
   try {
     for (var page = 2; page <= numPages; ++page) {
       setTimeout("getRecentTracks(" + page + ")", 200 * (page - 2));
     }
   } catch (e) {}
-  
+
   gotTracks(data);
 }
 
@@ -11491,7 +11493,7 @@ function getRecentTracks(page) {
 function gotTracks(data) {
   numTracks += data.recenttracks.track.length;
   $("#totalUniqueTracks").html(numTracks);
-  
+
   for (var i = 0; i < data.recenttracks.track.length; ++i) {
     var artist = data.recenttracks.track[i].artist["#text"];
     var album = artist + " - " + data.recenttracks.track[i].album["#text"];
@@ -11530,12 +11532,12 @@ function gotTracks(data) {
     }
   }
   ++pagesFinished;
-  
+
   //code for progress bar :)
   var percent = (pagesFinished / numPages * 100).toFixed(0) + "%";
   $("#progressBar").width(percent);
   //document.getElementById("progressPercent").innerHTML = percent;
-  
+
   // this is our last page so let's finish this
   if (pagesFinished >= numPages) {
     finished();
@@ -11681,7 +11683,7 @@ function finished() {
   for (var i = 0; i < albums.length && i < 10; ++i) {
     tempArtist = encodeName(albums[i].artist);
     tempTrack = encodeName(albums[i].album);
-    
+
     innerStr +=
       '<tr>' +
         '<td>' + (i + 1) + '. ' + albums[i].artist.replace(/hide-text/g, '') + ' ' + albums[i].album + ' ' + albums[i].plays.replace(/hide-text/g, '') + '</td>' +
@@ -11717,14 +11719,14 @@ function finished() {
   $('#album-datagrid .datagrid').datagrid({
       dataSource: dataSource
   });
-  
+
   // generate top 10 tracks list ...
   var tempTrack = '';
   innerStr = '<table>';
   for (var i = 0; i < tracks.length && i < 10; ++i) {
     tempArtist = encodeName(tracks[i].artist);
     tempTrack = encodeName(tracks[i].track);
-    
+
     innerStr +=
       '<tr>' +
         '<td>' + (i + 1) + '. ' + tracks[i].artist.replace(/hide-text/g, '') + ' ' + tracks[i].track + ' ' + tracks[i].plays.replace(/hide-text/g, '') + '</td>' +
@@ -11760,7 +11762,7 @@ function finished() {
   $('#track-datagrid .datagrid').datagrid({
       dataSource: dataSource
   });
-  
+
   // generate my bb code
   var bbCode = "";
   var codeMonth = month + 1;
@@ -11784,7 +11786,7 @@ function finished() {
       bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(albums[i].bbcode.artist) + "[/artist] - [album artist=" + EncodeHtml(albums[i].bbcode.artist) + "]" + EncodeHtml(albums[i].bbcode.album) + "[/album]<br>";
     }
     $("#bbcode").html(bbCode);
-    
+
     // generate old bb code (styled from lastfm.heathaze.org)
     bbCode = "";
     bbCode += "[url=http://nicholast.fm]Monthly Top Tracks[/url]<br>";
@@ -11806,12 +11808,12 @@ function finished() {
     }
     $("#oldbbcode").html(bbCode);
   }
-  
+
   $("#mttMonth").html("Monthly Stats For " + getMonthName(month));
-  
+
   $("#trackInfo").show();
   $("#progressBack").hide();
-  
+
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
     _gaq.push(['_trackTiming', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), timeSpent, username.toLocaleLowerCase(), 100])
@@ -11830,7 +11832,7 @@ function getArtistRecommendations(user) {
   executing = 'Artist Recommendations';
   $(".submit").button('loading');
   startTime = new Date().getTime();
-  
+
   /*
   numTracks = 0;
   year = 0;
@@ -11842,18 +11844,18 @@ function getArtistRecommendations(user) {
   topArtists = {};
   innerStr = "";
   pagesFinished = 0;
-  
+
   $("#progressBar").width("0%");
   //document.getElementById("progressPercent").innerHTML = "0%";
-  
-  
+
+
   $("#arDisplay").hide();
   $("#progressBack").show();
-  
-  username = $("#user").val();
+
+  username = $user.val();
   period = $("#arPeriod").val();
   numPages = parseInt($("#arLimit").val());
-  
+
   try {
     LastFM('user.getTopArtists', {
       user : username,
@@ -11871,18 +11873,18 @@ function gotTopArtists(data) {
     arFinished();
     return;
   }
-  
+
   if (data.topartists.artist.length < numPages) {
     numPages = data.topartists.artist.length;
   }
-  
+
   // make a list with the user's top artists' names (or mbid (...the mbid is missing on a lot of artists :-/)) as the index
   for (var i = 0; i < data.topartists.artist.length; ++i) {
     uniqueTracks[data.topartists.artist[i].name] = true;
   }
-  
+
   topArtists = data.topartists.artist;
-  
+
   // for each top artist get their list of similar artists
   for (var i = 0; i < data.topartists.artist.length && i < numPages; ++i) {
     setTimeout("getSimilarArtists(" + i + ")", 200 * i + 200);
@@ -11900,19 +11902,19 @@ function gotTopSimilarArtists(data) {
   // no similar artists for this one
   if (!data.similarartists['@attr']) {
     ++pagesFinished;
-    
+
     //code for progress bar :)
     var percent = (pagesFinished / numPages * 100).toFixed(0) + "%";
     $("#progressBar").width(percent);
     //document.getElementById("progressPercent").innerHTML = percent;
-    
+
     // this is our last page so let's finish this
     if (pagesFinished >= numPages) {
       arFinished();
     }
     return;
   }
-  
+
   // for each similar artist
   for (var i = 0; i < data.similarartists.artist.length; ++i) {
     // look for the artist in the user's top artists
@@ -11932,14 +11934,14 @@ function gotTopSimilarArtists(data) {
       }
     }
   }
-  
+
   ++pagesFinished;
-  
+
   //code for progress bar :)
   var percent = (pagesFinished / numPages * 100).toFixed(0) + "%";
   $("#progressBar").width(percent);
   //document.getElementById("progressPercent").innerHTML = percent;
-  
+
   // this is our last page so let's finish this
   if (pagesFinished >= numPages) {
     arFinished();
@@ -11960,7 +11962,7 @@ function arFinished() {
       }
     });
   }
-  
+
   recommendedArtists.sort(arSort);
 
   $("#ar-datagrid").html($("#template-datagrid").html());
@@ -11992,14 +11994,14 @@ function arFinished() {
   $('#ar-datagrid .datagrid').datagrid({
       dataSource: dataSource
   });
-  
+
   $("#progressBack").hide();
   $("#arDisplay").show();
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
     _gaq.push(['_trackTiming', executing, period + ' ' + numPages, timeSpent, username.toLocaleLowerCase(), 100])
-  
+
   $(".submit").button('reset');
   executing = null;
 }
@@ -12031,18 +12033,18 @@ function getTrackRecommendations(user) {
   topArtists = {};
   innerStr = "<table>";
   pagesFinished = 0;
-  
+
   $("#progressBar").width("0%");
   //$("#progressPercent").innerHTML = "0%";
   //$("#arDisplay").hide();
   $("#trDisplay").hide();
   $("#progressBack").show();
-  
-  username = $("#user").val();
-  
+
+  username = $user.val();
+
   period = $("#trPeriod").val();
   numPages = parseInt($("#trLimit").val());
-  
+
   try {
     LastFM('user.getTopTracks', {
       user: username,
@@ -12060,18 +12062,18 @@ function gotTopTracks(data) {
     arFinished();
     return;
   }
-  
+
   if (data.toptracks.track.length < numPages) {
     numPages = data.toptracks.track.length;
   }
-  
+
   // make a list with the user's top artist and tracks' names as the index
   for (var i = 0; i < data.toptracks.track.length; ++i) {
     uniqueTracks[data.toptracks.track[i].artist.name + " " + data.toptracks.track[i].name] = true;
   }
-  
+
   topArtists = data.toptracks.track;
-  
+
   // for each top artist get their list of similar artists
   for (var i = 0; i < data.toptracks.track.length && i < numPages; ++i) {
     setTimeout("getSimilarTracks(" + i + ")", 200*i+200);
@@ -12088,7 +12090,7 @@ function getSimilarTracks(i) {
 
 function gotTopSimilarTracks(data) {
   // make sure that there are similar tracks for this one
-  if (data.similartracks['@attr']) {  
+  if (data.similartracks['@attr']) {
     // for each similar artist
     for (var i = 0; i < data.similartracks.track.length; ++i) {
       var combinedName = data.similartracks.track[i].artist.name + " " + data.similartracks.track[i].name;
@@ -12112,14 +12114,14 @@ function gotTopSimilarTracks(data) {
       }
     }
   }
-  
+
   ++pagesFinished;
-  
+
   //code for progress bar :)
   var percent = (pagesFinished/numPages*100).toFixed(0) + "%";
   $("#progressBar").width(percent);
   //$("#progressPercent").innerHTML = percent;
-  
+
   // this is our last page so let's finish this
   if (pagesFinished >= numPages) {
     trFinished();
@@ -12179,14 +12181,14 @@ function trFinished() {
   $('#tr-datagrid .datagrid').datagrid({
       dataSource: dataSource
   });
-  
+
   $("#progressBack").hide();
   $("#trDisplay").show();
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
     _gaq.push(['_trackTiming', executing, period + ' ' + numPages, timeSpent, username.toLocaleLowerCase(), 100])
-  
+
   $(".submit").button('reset');
   executing = null;
 }
@@ -12250,15 +12252,6 @@ function checkHttp(s) {
   return 'http://' + s;
 }
 
-function elementSupportsAttribute(element, attribute) {
-  var test = document.createElement(element);
-  if (attribute in test) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 // Load top 10 albums for logo
 // code goes here
 function logo(data) {
@@ -12271,7 +12264,7 @@ function logo(data) {
     tracks = data.topalbums.album.length;
   else
     return;
-  
+
   for (var i = 0; i < tracks; i++) {
     try {
       url = data.topalbums.album[i].image[2]["#text"];
@@ -12283,7 +12276,7 @@ function logo(data) {
     if (counter == 10)
       break;
   }
-  
+
   //alert( art );
   $("#logo-container").prepend(art);
   var delay = 150;
@@ -12297,7 +12290,7 @@ function logoInit() {
   $("#logo-container .logo-bg").fadeOut("500", function() {
     $(this).remove();
   });
-  username = $("#user").val();
+  username = $user.val();
   try {
     LastFM('user.getTopAlbums', {
       user : username,
@@ -12307,10 +12300,10 @@ function logoInit() {
 }
 
 function activate(whichFeature) {
-  if (username != $("#user").val()) {
+  if (username != $user.val()) {
     logoInit();
   }
-  
+
   // this is how you invoke a function via a string stored in a variable.
   // In this case, the string is from the ID attribute of the submit button pressed
   if (executing == null)
@@ -12318,9 +12311,9 @@ function activate(whichFeature) {
 }
 
 function formSubmit() {
-  if ($("#user").val() == "") {
+  if ($user.val() == "") {
     $("#userForm .control-group").addClass("error");
-    $("#user").focus();
+    $user.focus();
   } else {
     try { activate($("li.active").attr("id")); } catch(e) {}
   }
@@ -12341,50 +12334,59 @@ var delay = (function() {
 
 // ready funciton / event function(s)
 $(function() {
-  // sets focus to first textbox
-  $("#user").focus();
-  
+  var user = null;
+
+  $user = $("#user");
+
   // button to clear the current user
   $("#clear-user").click(function() {
-    $("#user").val("").keyup();
-    $("#user").focus();
+    $user
+      .val('')
+      .keyup()
+      .focus();
   }).hide();
-  
-  // activate tooltips
-  $("#user").tooltip({ animation : false, trigger : 'manual', placement : 'right' });
-  $("#user").focus(function() {
-    if ($("#user").val() == "") {
-      $("#user").tooltip('show');
-    }
-  });
-  
-  // makes sure you don't submit the form without entering a username
-  var user = null;
-  $("#user").keyup(function() {
-    if (user == $("#user").val()) {
-      return;
-    }
-    if ($("#user").val() == "") {
-      $("#user").tooltip('show');
-      $(".submit").addClass("disabled");
-      $("#clear-user").fadeOut(250);
-    } else {
-      $("#user").tooltip('hide');
-      $(".submit").removeClass("disabled");
-      $("#clear-user").fadeIn(250);
-      $("#userForm .control-group").removeClass("error");
-    }
-    user = $("#user").val();
-  }).keyup();
-  
+
+  $user
+    // sets focus to first textbox
+    .focus()
+
+    // activate tooltips
+    .tooltip({
+      animation: false,
+      trigger: 'manual',
+      placement: 'right'
+    })
+    .focus(function() {
+      if ($user.val() == "") {
+        $user.tooltip('show');
+      }
+    })
+
+    // makes sure you don't submit the form without entering a username
+    .keyup(function() {
+      if (user == $user.val()) {
+        return;
+      }
+
+      if ($user.val() == "") {
+        $user.tooltip('show');
+        $(".submit").addClass("disabled");
+        $("#clear-user").fadeOut(250);
+
+      } else {
+        $user.tooltip('hide');
+        $(".submit").removeClass("disabled");
+        $("#clear-user").fadeIn(250);
+        $("#userForm .control-group").removeClass("error");
+      }
+
+      user = $user.val();
+    })
+    .keyup();
+
   // handles activation of features, like getting Monthly Top Tracks, etc.
   $(".submit").click(formSubmit);
   $("#userForm").submit(formSubmit);
-
-  // make sure placeholders show up
-  if (!elementSupportsAttribute('input', 'placeholder')) {
-    // javascript to replicate placeholder function
-  }
 
   // Hides the BB code for mobile screens sizes by default.
   if ($(window).width() <= 767) {
@@ -12398,28 +12400,32 @@ $(function() {
       _gaq.push(['_trackEvent', 'Click', href, username.toLocaleLowerCase()]);
   });
 
-  // Stupid flagcounter:
-  $('#flagcounter').attr('src', 'http://s08.flagcounter.com/mini/HQj4/bg_FFFFFF/txt_000000/border_CCCCCC/flags_0/');
+  // Stops the tooltip from being in the wrong position
+  $(window).resize(function() {
+    if ($user.val() == "") {
+      $user.tooltip('show');
+    }
+  });
+
+  // Lazy load
+  $('[data-src]').each(function() {
+    var $this = $(this);
+    $this.attr('src', $this.data('src'));
+  });
 
   //Testing...
-  //$("#user").val("nick1n");
+  //$user.val("nick1n");
   //logoInit();
-});
-
-// Stops the tooltip from being in the wrong position
-$(window).resize(function() {
-  if ($("#user").val() == "") {
-    $("#user").tooltip('show');
-  }
 });
 
 // Simple helper functions
 function padMonth(m) {
   return padNumber('00', m);
-};
+}
+
 function padNumber(str, num) {
   return str.substr(0, str.length - ('' + num).length) + num;
-};
+}
 
 // By: nickf
 // Src: http://stackoverflow.com/questions/1643320/get-month-name-from-date-using-javascript
@@ -12428,25 +12434,26 @@ var monthNames = [
   "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
 ];
 function getMonthName(month) {
-  return this.monthNames[this.month];
-};
+  return monthNames[month];
+}
 function getShortMonthName(month) {
-  return this.getMonthName(this.month).substr(0, 3);
-};
+  return getMonthName(month).substr(0, 3);
+}
+
+// Asynchronous script helper function
+function script(src) {
+  var ga = document.createElement('script');
+  ga.type = 'text/javascript';
+  ga.async = true;
+  ga.src = src;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(ga, s);
+}
 
 // Google Analytics
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-30386018-1']);
 _gaq.push(['_trackPageview']);
-
-(function() {
-  var ga = document.createElement('script');
-  ga.type = 'text/javascript';
-  ga.async = true;
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0];
-  s.parentNode.insertBefore(ga, s);
-})();
 
 // Google Web Fonts
 WebFontConfig = {
@@ -12455,12 +12462,12 @@ WebFontConfig = {
   }
 };
 
-(function() {
-  var wf = document.createElement('script');
-  wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-      '://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js';
-  wf.type = 'text/javascript';
-  wf.async = 'true';
-  var s = document.getElementsByTagName('script')[0];
-  s.parentNode.insertBefore(wf, s);
-})();
+// Google Adsense
+(adsbygoogle = window.adsbygoogle || []).push({});
+
+// Asynchronously load google services, leave it for the very last
+$(function() {
+  script('http://www.google-analytics.com/ga.js');
+  script('http://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+  script('http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
+});

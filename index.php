@@ -1,12 +1,24 @@
-﻿<!DOCTYPE html>
+﻿<?php
+
+  // Read Project Metadata
+  $pkg = json_decode(file_get_contents("package.json"));
+
+  // minified css and js
+  $DIST = $pkg->version . '.min';
+
+  // non-minified css and js
+  //$DIST = $pkg->version;
+
+?>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <title>Last.fm Stats - nicholast.fm</title>
-  
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="dist/css/app.0.3.0.min.css" rel="stylesheet">
+  <link href="dist/css/app.<?= $DIST ?>.css" rel="stylesheet">
   <!--[if lt IE 9]>
     <link href="css/app-ie.css" rel="stylesheet">
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -14,7 +26,7 @@
   <!--[if lt IE 8]>
     <script src="js/lte-ie7.js"></script>
   <![endif]-->
-  
+
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.png">
 </head>
@@ -69,13 +81,14 @@
         <li><a href="#About" data-toggle="tab">About</a></li>
       </ul>
       <div class="tab-content">
-    
+
     <!-- start Monthly Top Tracks -->
     <div class="tab-pane active" id="MonthlyTopTracks">
 
     <form id="form" class="form-inline" onSubmit="return false;">
       <select id="month">
 <?php
+
   // Dynamic Month Selector
   $month = date("m");
   for ($m = 0; $m < 12; $m++) {
@@ -84,10 +97,12 @@
       echo " selected";
     echo ">" . date("F", mktime(0, 0, 0, $m + 1, 1, 2000)) . "</option>\n";
   }
+
 ?>
       </select>
       <select id="year">
 <?php
+
   // Dynamic Year Selector
   $year = date("Y");
   for ($y = 2005; $y <= $year; $y++) {
@@ -96,6 +111,7 @@
       echo " selected";
     echo ">$y</option>\n";
   }
+
 ?>
       </select>
       <button class="btn btn-primary submit" data-loading-text="loading...">Submit</button>
@@ -219,7 +235,7 @@
 
     </div>
     <!-- end Artist Recommendations -->
-    
+
     <!-- start Track Recommendations -->
     <div class="tab-pane" id="TrackRecommendations">
 
@@ -251,7 +267,7 @@
     <!-- start About -->
     <!-- Just playing around with this, as it is now, don't really like how it looks :-/ -->
     <div class="tab-pane" id="About">
-    
+
     <div class="row">
       <div class="span10">
         <h1>nicholast.fm is brought to you by:</h1>
@@ -285,7 +301,7 @@
     </div>
     <div class="row">
       <div class="span10">
-        <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, and Felix Bruns' javascript last.fm api lib</p>
+        <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, and grunt.js</p>
       </div>
     </div>
     <div class="row">
@@ -298,15 +314,15 @@
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
           <input type="hidden" name="cmd" value="_s-xclick">
           <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
-          <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">
-          <img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+          <input type="image" data-src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">
+          <img data-src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
         </form>
       </div>
     </div>
-    
+
     </div>
     <!-- end About -->
-    
+
       </div><!-- end .tab-content -->
     </div><!-- end #tabbable -->
     <div id="progressBack" class="progress progress-info progress-striped active hide">
@@ -314,7 +330,7 @@
     </div>
   </div><!-- end #main-tabbed.span8 -->
 
-  <img id="flagcounter" class="hide">
+  <img class="hide" data-src="http://s08.flagcounter.com/mini/HQj4/bg_FFFFFF/txt_000000/border_CCCCCC/flags_0/">
 
 </div><!-- end .row -->
 
@@ -337,7 +353,7 @@
       <p>Copyright &copy; 2013</p>
     </div>
     <div class="span3">
-      <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, and Felix Bruns' javascript last.fm api lib</p><br>
+      <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, and grunt.js</p><br>
     </div>
   </div>
 </footer>
@@ -388,10 +404,7 @@
 </script>
 
 <!-- scripts at the bottom of the body for faster loading -->
-<script async src="dist/js/app.0.3.0.min.js"></script>
-
-<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>(adsbygoogle=window.adsbygoogle||[]).push({})</script>
+<script async src="dist/js/app.<?= $DIST ?>.js"></script>
 
 </body>
 </html>
