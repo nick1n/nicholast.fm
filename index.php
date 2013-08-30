@@ -405,26 +405,6 @@
 
 <!-- scripts at the bottom of the body for faster loading -->
 <script async src="dist/js/app.<?= $DIST ?>.js" defer></script>
-<script>
-
-// Google Analytics
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-30386018-1']);
-_gaq.push(['_trackPageview']);
-
-// Google Web Fonts
-WebFontConfig = {
-  google: {
-    families: ['Ubuntu']
-  }
-};
-
-// Google Adsense
-(adsbygoogle = window.adsbygoogle || []).push({});
-
-</script>
-<script async src="http://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js" defer></script>
-<script async src="http://www.google-analytics.com/ga.js" defer></script>
 
 </body>
 </html>

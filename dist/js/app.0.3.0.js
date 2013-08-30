@@ -1,4 +1,4 @@
-/*! nicholast.fm 2013-08-29 */
+/*! nicholast.fm 2013-08-30 */
 /*!
  * jQuery JavaScript Library v1.10.2
  * http://jquery.com/
@@ -12417,6 +12417,9 @@ $(function() {
   //$user.val("nick1n");
   //logoInit();
 
+  // Asynchronously load google services, leave it for the very last
+  script('http://www.google-analytics.com/ga.js');
+  script('http://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   script('http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
 });
 
@@ -12451,3 +12454,18 @@ function script(src) {
   var s = document.getElementsByTagName('script')[0];
   s.parentNode.insertBefore(ga, s);
 }
+
+// Google Analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-30386018-1']);
+_gaq.push(['_trackPageview']);
+
+// Google Web Fonts
+WebFontConfig = {
+  google: {
+    families: ['Ubuntu']
+  }
+};
+
+// Google Adsense
+(adsbygoogle = window.adsbygoogle || []).push({});
