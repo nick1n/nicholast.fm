@@ -1087,3 +1087,13 @@ function getMonthName(month) {
 function getShortMonthName(month) {
   return getMonthName(month).substr(0, 3);
 }
+
+// Asynchronous script helper function
+function script(src) {
+  var ga = document.createElement('script');
+  ga.type = 'text/javascript';
+  ga.async = true;
+  ga.src = src;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(ga, s);
+}
