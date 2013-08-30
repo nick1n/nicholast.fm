@@ -114,7 +114,7 @@
 
 ?>
       </select>
-      <button class="btn btn-primary submit" data-loading-text="loading...">Submit</button>
+      <button class="btn btn-primary submit disabled" data-loading-text="loading...">Submit</button>
     </form>
     <div id="trackInfo" class="hide">
       <div class="row">
@@ -227,7 +227,7 @@
         <option value="100">Top 100</option>
         <option value="200">Top 200</option>
       </select>
-      <button class="btn btn-primary submit" data-loading-text="loading..." type="submit">Submit</button>
+      <button class="btn btn-primary submit disabled" data-loading-text="loading..." type="submit">Submit</button>
     </form>
     <div id="arDisplay" class="row hide">
       <span id="ar-datagrid" class="span10"></span>
@@ -255,7 +255,7 @@
         <option value="100">Top 100</option>
         <option value="200">Top 200</option>
       </select>
-      <button class="btn btn-primary submit" data-loading-text="loading..." type="submit">Submit</button>
+      <button class="btn btn-primary submit disabled" data-loading-text="loading..." type="submit">Submit</button>
     </form>
     <div id="trDisplay" class="row hide">
       <div id="tr-datagrid" class="span10"></div>
@@ -301,7 +301,7 @@
     </div>
     <div class="row">
       <div class="span10">
-        <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, and grunt.js</p>
+        <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, grunt.js, Google, and <span class="web-font">Ubuntu</span></p>
       </div>
     </div>
     <div class="row">
@@ -353,7 +353,7 @@
       <p>Copyright &copy; 2013</p>
     </div>
     <div class="span3">
-      <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, and grunt.js</p><br>
+      <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, grunt.js, Google, and <span class="web-font">Ubuntu</span></p><br>
     </div>
   </div>
 </footer>
@@ -404,7 +404,27 @@
 </script>
 
 <!-- scripts at the bottom of the body for faster loading -->
-<script async src="dist/js/app.<?= $DIST ?>.js"></script>
+<script async src="dist/js/app.<?= $DIST ?>.js" defer></script>
+<script>
+
+// Google Analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-30386018-1']);
+_gaq.push(['_trackPageview']);
+
+// Google Web Fonts
+WebFontConfig = {
+  google: {
+    families: ['Ubuntu']
+  }
+};
+
+// Google Adsense
+(adsbygoogle = window.adsbygoogle || []).push({});
+
+</script>
+<script async src="http://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js" defer></script>
+<script async src="http://www.google-analytics.com/ga.js" defer></script>
 
 </body>
 </html>

@@ -5724,6 +5724,22 @@ input,
 button,
 select,
 code {
+  font-family: Arial, Tahoma, sans-serif;
+}
+
+/* Keeps the text from disappearing while the custom font is downloaded */
+
+.wf-ubuntu-n4-active body,
+.wf-ubuntu-n4-active input,
+.wf-ubuntu-n4-active button,
+.wf-ubuntu-n4-active select,
+.wf-ubuntu-n4-active code {
+  font-family: 'Ubuntu', Arial, Tahoma, sans-serif;
+}
+
+/* just in case a browser won't load a custom font if its not used */
+
+.web-font {
   font-family: 'Ubuntu', Arial, Tahoma, sans-serif;
 }
 

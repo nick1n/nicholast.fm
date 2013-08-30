@@ -1062,6 +1062,8 @@ $(function() {
   //Testing...
   //$user.val("nick1n");
   //logoInit();
+
+  script('http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
 });
 
 // Simple helper functions
@@ -1085,35 +1087,3 @@ function getMonthName(month) {
 function getShortMonthName(month) {
   return getMonthName(month).substr(0, 3);
 }
-
-// Asynchronous script helper function
-function script(src) {
-  var ga = document.createElement('script');
-  ga.type = 'text/javascript';
-  ga.async = true;
-  ga.src = src;
-  var s = document.getElementsByTagName('script')[0];
-  s.parentNode.insertBefore(ga, s);
-}
-
-// Google Analytics
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-30386018-1']);
-_gaq.push(['_trackPageview']);
-
-// Google Web Fonts
-WebFontConfig = {
-  google: {
-    families: ['Ubuntu']
-  }
-};
-
-// Google Adsense
-(adsbygoogle = window.adsbygoogle || []).push({});
-
-// Asynchronously load google services, leave it for the very last
-$(function() {
-  script('http://www.google-analytics.com/ga.js');
-  script('http://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
-  script('http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
-});
