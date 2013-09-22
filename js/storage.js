@@ -13,6 +13,7 @@ var storage = localStorage,
 	//tracks = 't',
 	date = 'd',
 
+	blank = '',
 	comma = ',',
 	pipe = '|',
 	colon = ':',
@@ -39,18 +40,16 @@ var Storage = {
 
 	//key: ''
 
-	string: {},
-	number: [],
-
-	lookup: function(key) {
-		return this[typeof key][key];
-	},
-
 	//add: function() {}
+
+	load: function() {
+		this._decompress(localStorage[this.key]);
+	},
 
 	save: function() {
 		storage[this.key] = this._compress();
 	}
+
 
 	//_compress: function() {}
 
@@ -58,8 +57,19 @@ var Storage = {
 
 };
 
+var Data = extend(Storage, {
+
+	string: {},
+	number: [],
+
+	lookup: function(key) {
+		return this[typeof key][key];
+	}
+
+});
+
 // Names child class of Storage
-var Names = extend(Storage, {
+var Names = extend(Data, {
 
 	// Private
 	/**
@@ -133,7 +143,7 @@ var Names = extend(Storage, {
 
 
 // Tracks child class of Storage
-var Tracks = extend(Storage, {
+var Tracks = extend(Data, {
 
 	// Private
 	/**
@@ -202,39 +212,44 @@ var Tracks = extend(Storage, {
 			// just a temporary array
 			array = [];
 
-		for (trackIndex in this.number) {
+		for (trackIndex = 0; trackIndex < this.number.length; ++trackIndex) {
 
-			array[trackIndex] = [];
+			for (nameIndex = 0; nameIndex < this.number[trackIndex].length; ++nameIndex) {
 
-			for (nameIndex in this.number[trackIndex]) {
-
-				array[trackIndex][nameIndex] = compressNumber(this.number[trackIndex][nameIndex]);
+				array.push(Radix.fromNumber(this.number[trackIndex][nameIndex], 2));
 
 			};
 
 		};
 
-		return compressArray(array);
+		return array.join(blank);
 	},
 
 	// Private
 	// decompresses '0,1,2|0,1,3|0,1,4' to usable data
 	_decompress: function(text) {
 		var trackIndex,
+			track,
 
 			// just a temporary array, split the input text if there is input text
-			array = text && decompressArray(text);
+			array = text && text.match(/.{2}/g) || [];
 
 		this.string = {};
 		this.number = [];
 
-		for (trackIndex in array) {
+		for (trackIndex = 0; trackIndex < array.length; ++trackIndex) {
+
+			track = [];
+
+			track.push(Raxit.toNumber(array[trackArray]));
+			track.push(Raxit.toNumber(array[++trackArray]));
+			track.push(Raxit.toNumber(array[++trackArray]));
 
 			// creates {"0,1,2": 0, ...}
-			this.string[array[trackIndex]] = this.number.length;
+			this.string[track.join(comma)] = this.number.length;
 
 			// creates [[0, 1, 2], ...]
-			this.number.push(array[trackIndex].split(comma));
+			this.number.push(track);
 
 		};
 
@@ -243,125 +258,96 @@ var Tracks = extend(Storage, {
 });
 
 // User class
-var User = {
+var User = extend(Storage, {
 
 	// User's name
-	name: '',
+	//key: '',
 
 	stats: {},
 
-	save: function() {
-		storage[this.name] = this._compress();
-	},
-
 	// "Private"
 	// compresses "{12:{10:{123:4,124:3,132:1},11:{122:5,132:6}},13:{0:{123:4,124:3,132:1},1:{122:5,132:6}}}"
-	//         to "c|a;3f:4,3g:3,3o;b;3e:5,3o:6|d|0;3f:4,3g:3,3o;1;3e:5,3o:6"
+	//         to "c\na3f43g33o1\nb3e53o6\nd\n03f43g33o1\n13e53o6"
 	_compress: function() {
 		var year,
 			month,
 			track,
 
 			array = [],
-			monthArray,
-			trackArray,
-
 			text,
+
 			stats = this.stats;
 
 		for (year in stats) {
 
 			// adds year to the array
-			array.push(compressNumber(year));
+			array.push(Radix.fromNumber(year));
 
-			monthArray = [];
 			for (month in stats[year]) {
 
-				// adds the month to the array
-				monthArray.push(compressNumber(month));
+				text = Radix.fromNumber(month);
 
-				trackArray = [];
 				for (track in stats[year][month]) {
 
-					// adds the track and plays to the array, e.g. '123:4'
-					if (stats[year][month][track] > 1) {
-						trackArray.push(compressNumber(track) + colon + compressNumber(stats[year][month][track]));
-
-						// adds the track to the array, e.g. '123'
-					} else {
-						trackArray.push(compressNumber(track));
-					}
+					// TODO: might need to sort tracks by plays and add some sort of number to indicate amount of tracks with over 1 compressed number of plays
+					text += Radix.fromNumber(track, 2) + Radix.fromNumber(stats[year][month][track]);
 
 				}
 
-				// adds the combined tracks and plays to the array, e.g. '123:4,124:3,132;11;122:5,132:6'
-				monthArray.push(trackArray.join(comma));
-
+				// adds the month and the month's stats to the array
+				array.push(text);
 			}
-
-			// adds the combined month and tracks to the array, e.g. 10;123:4,124:3,132;11;122:5,132:6
-			array.push(monthArray.join(semicolon));
 		}
 
 		// returns the compressed stats
-		return array.join(pipe);
+		return array.join(newline);
 	},
 
 	// Private
-	// decompresses 'c|a;3f:4,3g:3,3o;b;3e:5,3o:6|d|0;3f:4,3g:3,3o;1;3e:5,3o:6' to usable data
+	// decompresses 'c\na3f43g33o1\nb3e53o6\nd\n03f43g33o1\n13e53o6' to usable data
 	_decompress: function(text) {
 		// Now turn it back into an object
 		var index,
+			year,
 			month,
+			months,
 			track,
+			tracks,
 			plays,
 
-			obj = {},
-
 			// seperate the years
-			array = text.split(pipe);
+			array = test && text.split(newline) || [];
+
+		// reset current user's stats
+		this.stats = {};
 
 		// decompress the years
 		for (index = 0; index < array.length; ++index) {
-			obj[decompressNumber(array[index])] = array[++index];
-		}
+			year = Radix.toNumber(array[++index]);
 
-		// decompress the months
-		for (index in obj) {
+			months = {};
+			for (; index < array.length && array[index].length > 1; ++index) {
+				month = Radix.toNumber(array[index].substr(0, 1));
 
-			// seperate the months
-			array = obj[index].split(semicolon); // might change this symbol
+				// tracks and plays
+				text = array[index].substr(1);
 
-			obj[index] = {};
-			for (month = 0; month < array.length; ++month) {
-				obj[index][decompressNumber(array[month])] = array[++month];
-			}
+				tracks = {};
+				while (text.length) {
 
-		}
+					track = Radix.toNumber(text.substr(0, 2));
+					plays = Radix.toNumber(text.substr(2, 1));
 
-		// decompress the tracks
-		for (index in obj) {
-			for (month in obj[index]) {
+					tracks[track] = plays;
 
-				// seperate the tracks
-				array = obj[index][month].split(comma);
-
-				obj[index][month] = {};
-				for (track in array) {
-
-					// seperate the track and the plays
-					plays = array[track].split(colon);
-
-					if (plays.length > 1) {
-						obj[index][month][decompressNumber(plays[0])] = decompressNumber(plays[1]);
-					} else {
-						obj[index][month][decompressNumber(plays[0])] = 1;
-					}
+					text = text.substr(3);
 				}
-			}
-		}
 
-		this.stats = obj;
+				months[month] = tracks;
+			}
+
+			this.stats[year] = months;
+		}
 	}
 
 };
@@ -409,17 +395,15 @@ function decompressDate(text) {
 /**
  * Compresses a number into a string using radix
  */
-
-function compressNumber(number, radix) {
-	return (+number).toString(radix || 36);
+function compressNumber(number, padding) {
+	return Radix.fromNumber(number, padding);
 }
 
 /**
  * Decompresses a string into a number using radix
  */
-
-function decompressNumber(text, radix) {
-	return parseInt(text, radix || 36);
+function decompressNumber(text) {
+	return Radix.toNumber(text);
 }
 
 
@@ -449,27 +433,50 @@ function username(name) {
 
 function usernames() {
 	var key,
-		arrayOfUserames;
+		users;
 
 	for (key in storage) {
 		if (key.length > 1) {
-			arrayOfUserames.push(key);
+			users.push(key);
 		}
 	}
 
-	return arrayOfUserames;
+	return users;
 }
 
 
-// Radix 64 encode numbers
+
+function loadUser(username) {
+	User.key = username;
+	User.load();
+}
+
+function loadAll(username) {
+	User.key = username;
+	User.load();
+	Tracks.load();
+	Names.load();
+}
+
+function saveAll() {
+	User.save();
+	Tracks.save();
+	Names.save();
+}
+
+
+
+// Radix encode numbers
 // by Reb.Cabin
 // at http://stackoverflow.com/questions/6213227/fastest-way-to-convert-a-number-to-radix-64-in-javascript#answers
-var Radix64 = {
+var Radix = {
 
-	_Rixits:
+	_rixits =
 //   0       8       16      24      32      40      48      56     63
 //   v       v       v       v       v       v       v       v      v
-	"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
+	"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſƀƁƂƃƄƅƆƇƈƉƊƋƌƍƎƏƐƑƒƓƔƕƖƗƘƙƚƛƜƝƞƟƠơƢƣƤƥƦƧƨƩƪƫƬƭƮƯưƱƲƳƴƵƶƷƸƹƺƻƼƽƾƿǀǁǂǃǄǅǆǇǈǉǊǋǌǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰǱǲǳǴǵǺǻǼǽǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗɐɑɒɓɔɕɖɗɘəɚɛɜɝɞɟɠɡɢɣɤɥɦɧɨɩɪɫɬɭɮɯɰɱɲɳɴɵɶɷɸɹɺɻɼɽɾɿʀʁʂʃʄʅʆʇʈʉʊʋʌʍʎʏʐʑʒʓʔʕʖʗʘʙʚʛʜʝʞʟʠʡʢʣʤʥʦʧʨḀḁḂḃḄḅḆḇḈḉḊḋḌḍḎḏḐḑḒḓḔḕḖḗḘḙḚḛḜḝḞḟḠḡḢḣḤḥḦḧḨḩḪḫḬḭḮḯḰḱḲḳḴḵḶḷḸḹḺḻḼḽḾḿṀṁṂṃṄṅṆṇṈṉṊṋṌṍṎṏṐṑṒṓṔṕṖṗṘṙṚṛṜṝṞṟṠṡṢṣṤṥṦṧṨṩṪṫṬṭṮṯṰṱṲṳṴṵṶṷṸṹṺṻṼṽṾṿẀẁẂẃẄẅẆẇẈẉẊẋẌẍẎẏẐẑẒẓẔẕẖẗẘẙẚẛẠạẢảẤấẦầẨẩẪẫẬậẮắẰằẲẳẴẵẶặẸẹẺẻẼẽẾếỀềỂểỄễỆệỈỉỊịỌọỎỏỐốỒồỔổỖỗỘộỚớỜờỞởỠỡỢợỤụỦủỨứỪừỬửỮữỰựỲỳỴỵỶỷỸỹﬁﬂΆΈΉΊΌΎΏΐΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩΪΫάέήίΰαβγδεζηθικλμνξοπρςστυφχψωϊϋόύώΣΤΥΦΧΨΩΪΫάέήίΰαβγδεζηθικλμνξοπρςστυφχψωϊϋόύώϐϑϒϓϔϕϖϚϜϞϠϢϣϤϥϦϧϨϩϪϫϬϭϮϯϰϱϲϳἀἁἂἃἄἅἆἇἈἉἊἋἌἍἎἏἐἑἒἓἔἕἘἙἚἛἜἝἠἡἢἣἤἥἦἧἨἩἪἫἬἭἮἯἰἱἲἳἴἵἶἷἸἹἺἻἼἽἾἿὀὁὂὃὄὅὈὉὊὋὌὍὐὑὒὓὔὕὖὗὙὛὝὟὠὡὢὣὤὥὦὧὨὩὪὫὬὭὮὯὰάὲέὴήὶίὸόὺύὼώᾀᾁᾂᾃᾄᾅᾆᾇᾈᾉᾊᾋᾌᾍᾎᾏᾐᾑᾒᾓᾔᾕᾖᾗᾘᾙᾚᾛᾜ",
+
+	_length = 1024,
 
 	// You have the freedom, here, to choose the glyphs you want for
 	// representing your base-64 numbers. The ASCII encoding guys usually
@@ -485,9 +492,10 @@ var Radix64 = {
 	// or going with base-64 representations for the bit pattern of the
 	// underlying IEEE floating-point number, or representing the mantissae
 	// and exponents separately, or some other possibility. For now, bail
-	fromNumber: function(number) {
+	fromNumber: function(number, padding) {
+		//TODO: implement padding
 
-		if (isNaN(Number(number)) || number === null || number === Number.POSITIVE_INFINITY) {
+		if (isNaN(Number(number)) || number == null || number == Number.POSITIVE_INFINITY) {
 			throw "The input is not valid";
 		}
 
@@ -497,14 +505,14 @@ var Radix64 = {
 
 		var rixit; // like 'digit', only in some non-decimal radix
 		var residual = Math.floor(number);
-		var result = '';
+		var result = blank;
 
 		while (true) {
-			rixit = residual % 64
+			rixit = residual % this._length;
 
-			result = this._Rixits.charAt(rixit) + result;
+			result = this._rixits.charAt(rixit) + result;
 
-			residual = Math.floor(residual / 64);
+			residual = Math.floor(residual / this._length);
 
 			if (residual == 0) {
 				break;
@@ -514,13 +522,13 @@ var Radix64 = {
 		return result;
 	},
 
-	toNumber: function(rixits) {
+	toNumber: function(string) {
 		var result = 0;
 
-		rixits = rixits.split('');
+		string = string.split(blank);
 
-		for (e in rixits) {
-			result = (result * 64) + this._Rixits.indexOf(rixits[e]);
+		for (e in string) {
+			result = (result * this._length) + this._rixits.indexOf(string[e]);
 		}
 
 		return result;
