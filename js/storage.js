@@ -17,6 +17,7 @@ var storage = localStorage,
 	pipe = '|',
 	colon = ':',
 	semicolon = ';',
+	newline = '\n',
 
 	//currentVersion = 0,
 	//compress,
@@ -97,48 +98,31 @@ var Names = extend(Storage, {
 	//},
 
 	// "Private"
-	// compresses to 'Fall Out Boy|Infinity` On High|Thriller|Blah|| Blah|Third Song |||| Same Album'
+	// compresses to 'Fall Out Boy\nInfinity On High\nThriller\nBlah Blah\nThird Song Same Album'
 	// '||' represents '|'
 	_compress: function() {
-		var index,
-
-			// just a temporary array
-			array = [];
-
-		for (index = 0; index < this.number.length; ++index) {
-
-			// escapes '|' with '||'
-			array[index] = this.number[index].replace(/\|/g, '||');
-
-		};
-
-		// this join needs to match whichever character we are escaping
-		return array.join(pipe);
+		// just need to join the array with new lines
+		return array.join(newline);
 	},
 
 	// Private
-	// decompresses 'Fall Out Boy|Infinity` On High|Thriller|Blah|| Blah|Third Song |||| Same Album' to usable data
+	// decompresses 'Fall Out Boy\nInfinity On High\nThriller\Blah Blah\nThird Song Same Album' to usable data
 	_decompress: function(text) {
-		var name,
-			index,
+		var index = 0,
 
 			// just a temporary array, split the input text if there is input text
-			// this split needs to match whichever character we are escaping
-			array = text && text.replace(/`/g, '`0').replace(/\|\|/g, '`1').split(pipe);
+			array = text && text.split(newline) || [];
 
 		this.string = {};
 		this.number = [];
 
-		for (index = 0; index < array.length; ++index) {
-
-			// unescapes '|' and '`', '`0' represents '`' and '`1' represents '|'
-			name = array[index].replace(/`1/g, '|').replace(/`0/g, '`');
+		for (; index < array.length; ++index) {
 
 			// creates {"Fall Out Boy": 0, ...}
-			this.string[name] = this.number.length;
+			this.string[array[index]] = this.number.length;
 
 			// creates ["Fall Out Boy", ...]
-			this.number.push(name);
+			this.number.push(array[index]);
 
 		};
 
