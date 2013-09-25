@@ -20,3 +20,14 @@
 *.PDF  diff=astextplain
 *.rtf  diff=astextplain
 *.RTF  diff=astextplain
+
+# Some others
+*.cgi  eol=lf
+*.css  text
+*.htaccess eol=lf
+*.htm  text
+*.html text
+*.js   text
+*.php  text
+*.sh   eol=lf
+*.txt  text
