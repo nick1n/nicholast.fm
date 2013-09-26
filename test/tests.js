@@ -30,7 +30,7 @@ var string = {
 		'Blah| Blah',
 		'Third Song || Same Album'
 	],
-	namesCompressed = 'Fall Out Boy|Infinity` On High|Thriller╙|Blah|| Blah|Third Song |||| Same Album',
+	namesCompressed = 'Fall Out Boy\nInfinity` On High\nThriller╙\nBlah| Blah\nThird Song || Same Album',
 
 	userStats = {
 		12: {
@@ -57,11 +57,32 @@ var string = {
 		}
 	},
 
-	userStatsCompressed = 'c|a;3f:4,3g:3,3o;b;3e:5,3o:6|d|0;3f:4,3g:3,3o;1;3e:5,3o:6';
+	userStatsCompressed = '\nC\nA0ý40þ30Ć1\nB0ü50Ć6\nD\n00ý40þ30Ć1\n10ü50Ć6',
+
+	imageUrls = [
+		'http://userserve-ak.last.fm/serve/34/28357009.jpg',
+		'http://userserve-ak.last.fm/serve/64/28357009.jpg',
+		'http://userserve-ak.last.fm/serve/126/28357009.jpg',
+		'http://userserve-ak.last.fm/serve/252/28357009.jpg',
+
+		'http://userserve-ak.last.fm/serve/34s/47123433.png',
+		'http://userserve-ak.last.fm/serve/64s/47123433.png',
+		'http://userserve-ak.last.fm/serve/126/47123433.png',
+		'http://userserve-ak.last.fm/serve/300x300/47123433.png'
+	];
 
 
 // Test Storage module
 module('Storage');
+
+test('Radix', function() {
+
+	equal(Radix.fromNumber(0, 6), '000000', 'Padding Passed');
+	equal(Radix.fromNumber(1, 6), '000001', 'Padding Passed');
+	equal(Radix.fromNumber(1), '1', 'No Padding Passed');
+
+});
+
 test('Names', function() {
 
 	Names._decompress(namesCompressed);
@@ -79,5 +100,30 @@ test('User', function() {
 	deepEqual(User.stats, userStats, 'Decompress Passed');
 
 	equal(User._compress(), userStatsCompressed, 'Compress Passed');
+
+});
+
+test('User', function() {
+
+	User.stats = userStats;
+
+	equal(User._compress(), userStatsCompressed, 'Compress Passed');
+
+	User._decompress(userStatsCompressed);
+
+	deepEqual(User.stats, userStats, 'Decompress Passed');
+
+});
+
+test('Images', function() {
+
+	Names._decompress(namesCompressed);
+
+	for (var i = 0; i < imageUrls.length; ++i) {
+		Artist.addUrl(Names.number[i], imageUrls[i]);
+	}
+
+	// TODO: an actual test
+	ok(true, 'dummy');
 
 });

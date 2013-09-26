@@ -71,14 +71,36 @@ var Data = extend(Storage, {
 
 var Images = extend(Data, {
 
-	types: {
-		png: 1,
-		jpg: 2,
-		jpeg: 3,
-		gif: 4
+	url: 'http://userserve-ak.last.fm/serve/',
+
+	sizes: {
+		34: 1,
+		64: 2,
+		126: 3,
+		252: 4,
+		300: 5
 	},
 
-	// should probably just take in artist name and url and parse
+	types: {
+		png: 10,
+		jpg: 20,
+		jpeg: 30,
+		gif: 40
+	},
+
+	addUrl: function(id, url) {
+		var array = url && url.match(/\d+|(jpg|jpeg|png|gif)/gi) || [],
+			length = array.length;
+
+		if (length < 3) {
+			// TODO: error
+			throw "Url isn't correct: " + url;
+		}
+
+		this.add(id, array[length - 3], array[length - 2], array[length - 1]);
+
+	},
+
 	add: function(id, size, hash, type) {
 		var name,
 			obj;
@@ -121,9 +143,15 @@ var Images = extend(Data, {
 
 			if (!this.types[obj.type]) {
 				// TODO: error
+				throw "Url's extension type isn't recognized: " + obj.type;
 			}
 
-			text += compressNumber(obj.id, 2) + compressNumber(obj.size) + compressNumber(obj.hash, 3) + compressNumber(this.types[obj.type]);
+			text += compressNumber(obj.id, 2) + compressNumber(this.sizes[obj.size] + this.types[obj.type]) + compressNumber(obj.hash, 3);
+
+			if (text.length % 6) {
+				// TODO: error
+				throw "Image compressed to "
+			}
 
 		}
 
@@ -131,6 +159,16 @@ var Images = extend(Data, {
 	},
 
 	_decompress: function(text) {
+		var array = text && text.match(/.{6}/g) || [],
+			index = 0;
+
+		for (; index < array.length; ++index) {
+
+			array[index].substr(0, 2);
+			array[index].substr(2, 1);
+			array[index].substr(3, 3);
+
+		}
 
 	}
 
@@ -138,13 +176,29 @@ var Images = extend(Data, {
 
 var Artist = extend(Images, {
 
-	key: 'a'
+	key: 'a',
+
+	_decompressSizes: {
+		1: 34,
+		2: 64,
+		3: 126,
+		4: 252,
+		5: '300x300'
+	}
 
 });
 
 var Album = extend(Images, {
 
-	key: 'b'
+	key: 'b',
+
+	_decompressSizes: {
+		1: '34s',
+		2: '64s',
+		3: 126,
+		4: 252,
+		5: '300x300'
+	}
 
 });
 
@@ -349,7 +403,7 @@ var User = extend(Storage, {
 
 	// "Private"
 	// compresses "{12:{10:{123:4,124:3,132:1},11:{122:5,132:6}},13:{0:{123:4,124:3,132:1},1:{122:5,132:6}}}"
-	//         to "c\na3f43g33o1\nb3e53o6\nd\n03f43g33o1\n13e53o6"
+	//         to "\nC\nA0ý40þ30Ć1\nB0ü50Ć6\nD\n00ý40þ30Ć1\n10ü50Ć6"
 	_compress: function() {
 		var year,
 			month,
@@ -361,7 +415,7 @@ var User = extend(Storage, {
 			stats = this.stats;
 
 		// TODO: Loved tracks
-		array.push(loved.join(blank));
+		array.push(this.loved.join(blank));
 
 		for (year in stats) {
 
@@ -407,14 +461,14 @@ var User = extend(Storage, {
 		// reset current user's stats
 		this.stats = {};
 
-		loved = array[0].match(/.{2}/g) || [];
+		loved = array[0] && array[0].match(/.{2}/g) || [];
 
 		// decompress the years
-		for (index = 1; index < array.length; ++index) {
-			year = Radix.toNumber(array[++index]);
+		for (index = 1; index < array.length;) {
+			year = Radix.toNumber(array[index]);
 
 			months = {};
-			for (; index < array.length && array[index].length > 1; ++index) {
+			for (++index; index < array.length && array[index].length > 1; ++index) {
 				month = Radix.toNumber(array[index].substr(0, 1));
 
 				// tracks and plays
@@ -607,11 +661,14 @@ var Radix = {
 			}
 		}
 
-		return result;
+		// pad a string in javascript: http://stackoverflow.com/questions/10073699/pad-a-number-with-leading-zeros-in-javascript
+		padding = padding || 0;
+		return result.length >= padding ? result : new Array(padding - result.length + 1).join('0') + result;
 	},
 
 	toNumber: function(string) {
-		var result = 0;
+		var result = 0,
+			e;
 
 		string = string.split(blank);
 
