@@ -23,14 +23,18 @@ var string = {
 		'Third Song || Same Album': 4,
 		'Thriller╙': 2
 	},
-	number = [
+	testNames = [
 		'Fall Out Boy',
 		'Infinity` On High',
 		'Thriller╙',
 		'Blah| Blah',
-		'Third Song || Same Album'
+		'Third Song || Same Album',
+		'Hello',
+		'World',
+		'Test Band',
+		'Muse'
 	],
-	namesCompressed = 'Fall Out Boy\nInfinity` On High\nThriller╙\nBlah| Blah\nThird Song || Same Album',
+	namesCompressed = 'Fall Out Boy\nInfinity` On High\nThriller╙\nBlah| Blah\nThird Song || Same Album\nHello\nWorld\nTest Band\nMuse',
 
 	userStats = {
 		12: {
@@ -59,12 +63,19 @@ var string = {
 
 	userStatsCompressed = '\nC\nA0ý40þ30Ć1\nB0ü50Ć6\nD\n00ý40þ30Ć1\n10ü50Ć6',
 
-	imageUrls = [
+	artistImages = [
 		'http://userserve-ak.last.fm/serve/34/28357009.jpg',
-		'http://userserve-ak.last.fm/serve/64/28357009.jpg',
-		'http://userserve-ak.last.fm/serve/126/28357009.jpg',
+		'http://userserve-ak.last.fm/serve/64/47123433.jpg',
+		'http://userserve-ak.last.fm/serve/126/47123433.jpg',
 		'http://userserve-ak.last.fm/serve/252/28357009.jpg',
+		'http://userserve-ak.last.fm/serve/34/28357009.png',
+		'http://userserve-ak.last.fm/serve/64/28357009.png',
+		'http://userserve-ak.last.fm/serve/126/47123433.png',
+		'http://userserve-ak.last.fm/serve/252/47123433.png'
+	],
+	artistImagesCompressed = '00LRiȗ01MiὛᾆ02NiὛᾆ03ORiȗ04BRiȗ05CRiȗ06DiὛᾆ07EiὛᾆ',
 
+	albumImages = [
 		'http://userserve-ak.last.fm/serve/34s/47123433.png',
 		'http://userserve-ak.last.fm/serve/64s/47123433.png',
 		'http://userserve-ak.last.fm/serve/126/47123433.png',
@@ -87,13 +98,17 @@ test('Names', function() {
 
 	Names._decompress(namesCompressed);
 
-	deepEqual(Names.number, number, 'Decompress Passed');
+	deepEqual(Names.number, testNames, 'Decompress Passed');
 
 	equal(Names._compress(), namesCompressed, 'Compress Passed');
 
 });
 
 test('User', function() {
+
+	equal(User._compress(), "", 'Empty Compress Passed');
+
+	User._decompress("");
 
 	User._decompress(userStatsCompressed);
 
@@ -115,15 +130,38 @@ test('User', function() {
 
 });
 
-test('Images', function() {
+test('Artist Images', function() {
 
 	Names._decompress(namesCompressed);
 
-	for (var i = 0; i < imageUrls.length; ++i) {
-		Artist.addUrl(Names.number[i], imageUrls[i]);
+	for (var i = 0; i < artistImages.length; ++i) {
+		Artist.addUrl(testNames[i], artistImages[i]);
 	}
 
-	// TODO: an actual test
-	ok(true, 'dummy');
+	equal(Artist._compress(), artistImagesCompressed, 'Compress Passed');
+
+	Artist._decompress(artistImagesCompressed);
+
+	for (var i = 0; i < artistImages.length; ++i) {
+		equal(Artist.lookup(testNames[i]), artistImages[i], 'Lookup passed for ' + artistImages[i]);
+	}
+
+});
+
+test('Album Images', function() {
+
+	Names._decompress(namesCompressed);
+
+	for (var i = 0; i < albumImages.length; ++i) {
+		Album.addUrl(testNames[i], albumImages[i]);
+	}
+
+	//equal(Album._compress(), artistImagesCompressed, 'Compress Passed');
+
+	Album._decompress(Album._compress());
+
+	for (var i = 0; i < albumImages.length; ++i) {
+		equal(Album.lookup(testNames[i]), albumImages[i], 'Lookup passed for ' + albumImages[i]);
+	}
 
 });

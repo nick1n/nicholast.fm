@@ -71,9 +71,9 @@ var Data = extend(Storage, {
 
 var Images = extend(Data, {
 
-	url: 'http://userserve-ak.last.fm/serve/',
+	_url: 'http://userserve-ak.last.fm/serve/',
 
-	sizes: {
+	_compressSizes: {
 		34: 1,
 		64: 2,
 		126: 3,
@@ -81,11 +81,24 @@ var Images = extend(Data, {
 		300: 5
 	},
 
-	types: {
+	_compressTypes: {
 		png: 10,
 		jpg: 20,
 		jpeg: 30,
 		gif: 40
+	},
+
+	_types: {
+		10: 'png',
+		20: 'jpg',
+		30: 'jpeg',
+		40: 'gif'
+	},
+
+	lookup: function(key) {
+		var obj = this[typeof key][key];
+
+		return this._url + this._sizes[obj.size] + '/' + obj.hash + '.' + this._types[obj.type];
 	},
 
 	addUrl: function(id, url) {
@@ -111,14 +124,24 @@ var Images = extend(Data, {
 			name = id;
 			id = Names.lookup(name);
 		} else {
-			return;
+			throw "Incorrect parameters";
+		}
+
+		if (!this._compressTypes[type]) {
+			// TODO: error
+			throw "Url's extension type isn't recognized: " + type;
+		}
+
+		if (!this._compressSizes[size]) {
+			// TODO: error
+			throw "Url's size isn't recognized: " + size;
 		}
 
 		obj = {
 			id: id,
-			size: size,
+			size: this._compressSizes[size],
 			hash: hash,
-			type: type
+			type: this._compressTypes[type]
 		};
 
 		this.number[id] = obj;
@@ -137,22 +160,17 @@ var Images = extend(Data, {
 
 			obj = this.number[index];
 
+			// because indices can be undefined
 			if (!obj) {
 				continue;
 			}
 
-			if (!this.types[obj.type]) {
-				// TODO: error
-				throw "Url's extension type isn't recognized: " + obj.type;
-			}
-
-			text += compressNumber(obj.id, 2) + compressNumber(this.sizes[obj.size] + this.types[obj.type]) + compressNumber(obj.hash, 3);
+			text += compressNumber(obj.id, 2) + compressNumber(obj.size + obj.type) + compressNumber(obj.hash, 3);
 
 			if (text.length % 6) {
 				// TODO: error
-				throw "Image compressed to "
+				throw "Image compressed to a size larger then 6 characters " + obj.hash
 			}
-
 		}
 
 		return text;
@@ -160,16 +178,34 @@ var Images = extend(Data, {
 
 	_decompress: function(text) {
 		var array = text && text.match(/.{6}/g) || [],
-			index = 0;
+			index = 0,
+			number,
+			mod,
+			name,
+			obj;
+
+		this.string = {};
+		this.number = [];
 
 		for (; index < array.length; ++index) {
 
-			array[index].substr(0, 2);
-			array[index].substr(2, 1);
-			array[index].substr(3, 3);
+			number = decompressNumber(array[index].substr(2, 1));
+			mod = number % 10;
+
+			obj = {
+				id: decompressNumber(array[index].substr(0, 2)),
+				size: mod,
+				hash: decompressNumber(array[index].substr(3, 3)),
+				type: number - mod
+			};
+
+			name = Names.lookup(obj.id);
+
+			this.number[obj.id] = obj;
+
+			this.string[name] = obj;
 
 		}
-
 	}
 
 });
@@ -178,7 +214,7 @@ var Artist = extend(Images, {
 
 	key: 'a',
 
-	_decompressSizes: {
+	_sizes: {
 		1: 34,
 		2: 64,
 		3: 126,
@@ -192,7 +228,7 @@ var Album = extend(Images, {
 
 	key: 'b',
 
-	_decompressSizes: {
+	_sizes: {
 		1: '34s',
 		2: '64s',
 		3: 126,
