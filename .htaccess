@@ -504,7 +504,7 @@ FileETag None
 <IfModule mod_rewrite.c>
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.+)\.\d\.\d\.\d\.min\.(js|css|png|jpg|gif)$ $1.$2 [L]
+    RewriteRule ^(.+)\.\d+\.\d+\.\d+\.min\.(js|css)$ $1.min.$2 [L]
 </IfModule>
 
 # ------------------------------------------------------------------------------
