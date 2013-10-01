@@ -910,7 +910,7 @@ function checkHttp(s) {
 }
 
 function link(text, href) {
-  return '<a href="' + href + '" _target="blank">' + text + '</a>';
+  return '<a href="' + href + '" target="_blank">' + text + '</a>';
 }
 
 // Load top 10 albums for logo
@@ -1051,11 +1051,22 @@ $(function() {
   }
 
   // track a few different clicks
-  $(document).on('click', 'a', function() {
-    var href = $(this).attr('href');
-    if (href && href != "#")
-      _gaq.push(['_trackEvent', 'Click', href, username.toLocaleLowerCase()]);
-  });
+  var target = null;
+  $(document)
+    .on('mousedown', 'a', function(event) {
+      target = event.target;
+    })
+    .on('mouseup', 'a', function(event) {
+      if (target != event.target) {
+        return;
+      }
+  
+      var href = $(event.target).attr('href');
+      if (href && href != "#") {
+        _gaq.push(['_trackEvent', 'Click', href, username.toLocaleLowerCase()]);
+      }
+  
+    });
 
   // Stops the tooltip from being in the wrong position
   $(window).resize(function() {
