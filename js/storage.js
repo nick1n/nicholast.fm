@@ -266,13 +266,15 @@ var Names = extend(Data, {
 
 	// Public
 	add: function(name) {
+		var id = this.number.length;
 
 		// adds {"Fall Out Boy": 0, ...}
-		this.string[name] = this.number.length;
+		this.string[name] = id;
 
 		// adds ["Fall Out Boy", ...]
-		this.number.push(name);
+		this.number[id] = name;
 
+		return id;
 	},
 
 	//save: function() {
@@ -348,28 +350,32 @@ var Tracks = extend(Data, {
 	// track is an array of three name indices
 	// [0,1,2]
 	add: function(track) {
+		var id = this.number.length;
 
 		// adds {"0,1,2": 0, ...}
-		this.string[track.join(comma)] = this.number.length;
+		this.string[track.join(comma)] = id;
 
 		// adds [[0, 1, 2], ...]
-		this.number.push(track);
+		this.number[id] = track;
 
 		// should we always save...?
 
+		return id;
 	},
 
 	// Public
 	// track is a comma delimited string of three names
 	// this function is probably a bad idea to have...
 	addString: function(track) {
+		var id = this.number.length;
 
 		// adds {"0,1,2": 0, ...}
-		this.string[track] = this.number.length;
+		this.string[track] = id;
 
 		// adds [[0, 1, 2], ...]
-		this.number.push(track.split(comma));
+		this.number[i] = track.split(comma);
 
+		return id;
 	},
 
 	//save: function() {
