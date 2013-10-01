@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 
 		// Metadata
 		pkg: grunt.file.readJSON('package.json'),
-		banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+		banner: '/*! <%= pkg.name %> v<%= pkg.version %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
 
 		// Source Files we are working with
 		src: {
@@ -52,11 +52,17 @@ module.exports = function(grunt) {
 
 		concat: {
 			options: {
-				banner: '<%= banner %>'
+				banner:
+					'<%= banner %>\n' +
+					'(function() {\n' +
+					'\n',
+				footer:
+					'\n' +
+					'})();\n'
 			},
 			js: {
 				src: '<%= src.js %>',
-				dest: 'dist/js/app.<%= pkg.version %>.js'
+				dest: 'dist/js/app.js'
 			}
 		},
 
@@ -66,7 +72,7 @@ module.exports = function(grunt) {
 			},
 			build: {
 				src: '<%= concat.js.dest %>',
-				dest: 'dist/js/app.<%= pkg.version %>.min.js'
+				dest: 'dist/js/app.min.js'
 			}
 		},
 
@@ -76,11 +82,11 @@ module.exports = function(grunt) {
 			},
 			css: {
 				src: '<%= src.css %>',
-				dest: 'dist/css/app.<%= pkg.version %>.css'
+				dest: 'dist/css/app.css'
 			},
 			min: {
 				src: '<%= src.css %>',
-				dest: 'dist/css/app.<%= pkg.version %>.min.css',
+				dest: 'dist/css/app.min.css',
 				options: {
 					compress: true
 				}

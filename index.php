@@ -4,10 +4,10 @@
   $pkg = json_decode(file_get_contents("package.json"));
 
   // minified css and js
-  $DIST = $pkg->version . '.min';
+  $DIST = '.' . $pkg->version . '.min';
 
   // non-minified css and js
-  //$DIST = $pkg->version;
+  //$DIST = '';
 
 ?>
 <!DOCTYPE html>
@@ -18,7 +18,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="dist/css/app.<?= $DIST ?>.css" rel="stylesheet">
+  <link href="dist/css/app<?= $DIST ?>.css" rel="stylesheet">
   <!--[if lt IE 9]>
     <link href="css/app-ie.css" rel="stylesheet">
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -35,7 +35,7 @@
 <div class="row">
   <div class="span10 offset1">
     <div id="logo-container">
-      <a href="/"><img id="logo" src="img/nicholast.png" alt="nicholast.fm logo"></a>
+      <a><img id="logo" src="img/nicholast.png" alt="nicholast.fm logo"></a>
     </div>
   </div>
 </div>
@@ -54,7 +54,7 @@
       <div class="control-group">
         <div class="input-prepend input-append">
           <span class="add-on"><i class="icon-user"></i></span>
-          <input id="user" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username">
+          <input id="user" maxlength="64" type="text" placeholder="last.fm username" title="Enter your last.fm username" autofocus>
           <span id="clear-user" class="add-on"><a class="close">×</a></span>
         </div>
       </div>
@@ -75,9 +75,9 @@
   <div class="span10 offset1" id="main-tabbed">
     <div id="tabbable">
       <ul class="nav nav-tabs">
-        <li id="getTracks" class="active"><a href="#MonthlyTopTracks" data-toggle="tab">Monthly Top Tracks</a></li>
-        <li id="getArtistRecommendations"><a href="#ArtistRecommendations" data-toggle="tab">Artist Recommendations</a></li>
-        <li id="getTrackRecommendations"><a href="#TrackRecommendations" data-toggle="tab">Track Recommendations</a></li>
+        <li class="active"><a href="#MonthlyTopTracks" data-toggle="tab">Monthly Top Tracks</a></li>
+        <li><a href="#ArtistRecommendations" data-toggle="tab">Artist Recommendations</a></li>
+        <li><a href="#TrackRecommendations" data-toggle="tab">Track Recommendations</a></li>
         <li><a href="#About" data-toggle="tab">About</a></li>
       </ul>
       <div class="tab-content">
@@ -306,7 +306,7 @@
     </div>
     <div class="row">
       <div class="span10">
-        <p>Found a bug? Report it on our <a href="https://github.com/namklabs/nicholast.fm/issues?labels=Issue&amp;state=open" class="link">github.com issue queue</a></p>
+        <p>Found a bug? Report it on our <a href="https://github.com/namklabs/nicholast.fm/issues?labels=Issue&amp;state=open" target="_blank" class="link">github.com issue queue</a></p>
       </div>
     </div>
     <div class="row">
@@ -349,7 +349,8 @@
   </div>
   <div class="row">
     <div class="span7 offset1">
-      <p>nicholast.fm is by <a href="http://www.last.fm/user/nick1n" target="_blank" class="link">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank" class="link">Nick</a></p>
+      <p>nicholast.fm v<?= $pkg->version ?></p>
+      <p>by <a href="http://www.last.fm/user/nick1n" target="_blank" class="link">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank" class="link">Nick</a></p>
       <p>Copyright &copy; 2013</p>
     </div>
     <div class="span3">
@@ -404,7 +405,7 @@
 </script>
 
 <!-- scripts at the bottom of the body for faster loading -->
-<script async src="dist/js/app.<?= $DIST ?>.js" defer></script>
+<script async src="dist/js/app<?= $DIST ?>.js" defer></script>
 
 </body>
 </html>

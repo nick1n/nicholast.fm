@@ -34,6 +34,11 @@ var month = 0;
 var executing = null;
 var period = 0;
 var startTime;
+var methods = {
+  "#MonthlyTopTracks": getTracks,
+  "#ArtistRecommendations": getArtistRecommendations,
+  "#TrackRecommendations": getTrackRecommendations
+};
 
 /////////////////////// User's Monthly Top Tracks Code //////////////////
 
@@ -117,7 +122,7 @@ function gotNumTracks(data) {
 
   try {
     for (var page = 2; page <= numPages; ++page) {
-      setTimeout("getRecentTracks(" + page + ")", 200 * (page - 2));
+      setTimeout(getRecentTracks(page), 200 * (page - 2));
     }
   } catch (e) {}
 
@@ -126,13 +131,15 @@ function gotNumTracks(data) {
 
 // a proxy function for delaying all the last.fm api calls
 function getRecentTracks(page) {
-  LastFM('user.getRecentTracks' , {
-    user : username,
-    limit : '200',
-    page : page,
-    to : toDate,
-    from : fromDate
-  }).done(gotTracks);
+  return function() {
+    LastFM('user.getRecentTracks' , {
+      user: username,
+      limit: '200',
+      page: page,
+      to: toDate,
+      from: fromDate
+    }).done(gotTracks);
+  };
 }
 
 // got some track info from last.fm lets parse it :)
@@ -228,8 +235,8 @@ function finished() {
   for (var i in uniqueArtists) {
     tempArtist = uniqueArtists[i].url.substr(0, uniqueArtists[i].url.indexOf("/_/"));
     artists.push({
-      artist : EncodeHtml(uniqueArtists[i].artist).link(checkHttp(tempArtist)),
-      plays : ('<span class="hide-text">(</span>' + uniqueArtists[i].plays + '<span class="hide-text"> plays)</span>').link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist.substr(tempArtist.lastIndexOf('/') + 1)),
+      artist : link(EncodeHtml(uniqueArtists[i].artist), checkHttp(tempArtist)),
+      plays : link('<span class="hide-text">(</span>' + uniqueArtists[i].plays + '<span class="hide-text"> plays)</span>', "http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist.substr(tempArtist.lastIndexOf('/') + 1)),
       searchable : {
         artist : uniqueArtists[i].artist.toLocaleLowerCase(),
         plays : uniqueArtists[i].plays
@@ -246,9 +253,9 @@ function finished() {
   for (var i in uniqueTracks) {
     tempArtist = uniqueTracks[i].url.substr(0, uniqueTracks[i].url.indexOf("/_/"));
     tracks.push({
-      artist : EncodeHtml(uniqueTracks[i].artist).link(checkHttp(tempArtist)) + '<span class="hide-text"> -</span>',
-      track : EncodeHtml(uniqueTracks[i].track).link(checkHttp(uniqueTracks[i].url)),
-      plays : ('<span class="hide-text">(</span>' + uniqueTracks[i].plays + '<span class="hide-text"> plays)</span>').link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist.substr(tempArtist.lastIndexOf('/') + 1)),
+      artist : link(EncodeHtml(uniqueTracks[i].artist), checkHttp(tempArtist)) + '<span class="hide-text"> -</span>',
+      track : link(EncodeHtml(uniqueTracks[i].track), checkHttp(uniqueTracks[i].url)),
+      plays : link('<span class="hide-text">(</span>' + uniqueTracks[i].plays + '<span class="hide-text"> plays)</span>', "http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist.substr(tempArtist.lastIndexOf('/') + 1)),
       searchable : {
         artist : uniqueTracks[i].artist.toLocaleLowerCase(),
         track : uniqueTracks[i].track.toLocaleLowerCase(),
@@ -267,9 +274,9 @@ function finished() {
   for (var i in uniqueAlbums) {
     tempArtist = uniqueAlbums[i].url.substr(0, uniqueAlbums[i].url.indexOf("/_/"));
     albums.push({
-      artist : EncodeHtml(uniqueAlbums[i].artist).link(checkHttp(tempArtist)) + '<span class="hide-text"> -</span>',
-      album : EncodeHtml(uniqueAlbums[i].album).link(checkHttp(tempArtist + '/' + encodeName(uniqueAlbums[i].album))),
-      plays : ('<span class="hide-text">(</span>' + uniqueAlbums[i].plays + '<span class="hide-text"> plays)</span>').link("http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist.substr(tempArtist.lastIndexOf('/') + 1)),
+      artist : link(EncodeHtml(uniqueAlbums[i].artist), checkHttp(tempArtist)) + '<span class="hide-text"> -</span>',
+      album : link(EncodeHtml(uniqueAlbums[i].album), checkHttp(tempArtist + '/' + encodeName(uniqueAlbums[i].album))),
+      plays : link('<span class="hide-text">(</span>' + uniqueAlbums[i].plays + '<span class="hide-text"> plays)</span>', "http://www.last.fm/user/" + tempUser + "/library/music/" + tempArtist.substr(tempArtist.lastIndexOf('/') + 1)),
       searchable : {
         artist : uniqueAlbums[i].artist.toLocaleLowerCase(),
         album : uniqueAlbums[i].album.toLocaleLowerCase(),
@@ -533,15 +540,17 @@ function gotTopArtists(data) {
 
   // for each top artist get their list of similar artists
   for (var i = 0; i < data.topartists.artist.length && i < numPages; ++i) {
-    setTimeout("getSimilarArtists(" + i + ")", 200 * i + 200);
+    setTimeout(getSimilarArtists(i), 200 * i + 200);
   }
 }
 
 function getSimilarArtists(i) {
-  LastFM('artist.getSimilar', {
-    artist : topArtists[i].name,
-    autocorrect : 1
-  }).done(gotTopSimilarArtists);
+  return function() {
+    LastFM('artist.getSimilar', {
+      artist: topArtists[i].name,
+      autocorrect: 1
+    }).done(gotTopSimilarArtists);
+  };
 }
 
 function gotTopSimilarArtists(data) {
@@ -598,7 +607,7 @@ function arFinished() {
   var recommendedArtists = [];
   for (var i in uniqueArtists) {
     recommendedArtists.push({
-      artist : EncodeHtml(uniqueArtists[i].artist).link(checkHttp(uniqueArtists[i].url)),
+      artist : link(EncodeHtml(uniqueArtists[i].artist), checkHttp(uniqueArtists[i].url)),
       match : uniqueArtists[i].match.toFixed(3) + '<span class="hide-text"> match</span>',
       recommendations : '<span class="hide-text">(</span>' + uniqueArtists[i].recommendations + '<span class="hide-text"> recommendations)</span>',
       searchable : {
@@ -722,16 +731,18 @@ function gotTopTracks(data) {
 
   // for each top artist get their list of similar artists
   for (var i = 0; i < data.toptracks.track.length && i < numPages; ++i) {
-    setTimeout("getSimilarTracks(" + i + ")", 200*i+200);
+    setTimeout(getSimilarTracks(i), 200 * i + 200);
   }
 }
 
 function getSimilarTracks(i) {
-  LastFM('track.getSimilar', {
-    artist : topArtists[i].artist.name,
-    track : topArtists[i].name,
-    autocorrect : 1
-  }).done(gotTopSimilarTracks);
+  return function() {
+    LastFM('track.getSimilar', {
+      artist: topArtists[i].artist.name,
+      track: topArtists[i].name,
+      autocorrect: 1
+    }).done(gotTopSimilarTracks);
+  };
 }
 
 function gotTopSimilarTracks(data) {
@@ -778,8 +789,8 @@ function trFinished() {
   var recommendedTracks = [];
   for (var i in uniqueArtists) {
     recommendedTracks.push({
-      artist : EncodeHtml(uniqueArtists[i].artist).link(checkHttp(uniqueArtists[i].artisturl)) + '<span class="hide-text"> -</span>',
-      track : EncodeHtml(uniqueArtists[i].track).link(checkHttp(uniqueArtists[i].trackurl)),
+      artist : link(EncodeHtml(uniqueArtists[i].artist), checkHttp(uniqueArtists[i].artisturl)) + '<span class="hide-text"> -</span>',
+      track : link(EncodeHtml(uniqueArtists[i].track), checkHttp(uniqueArtists[i].trackurl)),
       recommendations : '<span class="hide-text">(</span>' + uniqueArtists[i].recommendations + '<span class="hide-text"> recommendations)</span>',
       match : uniqueArtists[i].match.toFixed(3) + '<span class="hide-text"> match</span>',
       searchable : {
@@ -807,13 +818,13 @@ function trFinished() {
           property: 'track',
           label: 'Track',
           sortable: 'asc',
-          span: 4
+          span: 5
       }, {
           property: 'match',
           label: 'Match',
           sortable: 'desc',
           defaultSort: true,
-          span: 3
+          span: 2
       }, {
           property: 'recommendations',
           label: 'Recommended',
@@ -898,6 +909,10 @@ function checkHttp(s) {
   return 'http://' + s;
 }
 
+function link(text, href) {
+  return '<a href="' + href + '" _target="blank">' + text + '</a>';
+}
+
 // Load top 10 albums for logo
 // code goes here
 function logo(data) {
@@ -936,7 +951,9 @@ function logoInit() {
   $("#logo-container .logo-bg").fadeOut("500", function() {
     $(this).remove();
   });
+
   username = $user.val();
+
   try {
     LastFM('user.getTopAlbums', {
       user : username,
@@ -945,38 +962,31 @@ function logoInit() {
   } catch (e) { }
 }
 
-function activate(whichFeature) {
+function activate(method) {
   if (username != $user.val()) {
     logoInit();
   }
 
-  // this is how you invoke a function via a string stored in a variable.
-  // In this case, the string is from the ID attribute of the submit button pressed
-  if (executing == null)
-    window[whichFeature]();
+  if (executing == null && methods[method]) {
+    methods[method]();
+  }
 }
 
 function formSubmit() {
   if ($user.val() == "") {
     $("#userForm .control-group").addClass("error");
     $user.focus();
+
   } else {
-    try { activate($("li.active").attr("id")); } catch(e) {}
+    activate($("li.active a").attr("href"));
   }
+
   return false;
 }
 
 function encodeName(name) {
   return encodeURIComponent(name).replace(/%20/g, '+').replace(/%2B/g, '%252B');
 }
-
-var delay = (function() {
-  var timer = 0;
-  return function(callback, ms) {
-    clearTimeout(timer);
-    timer = setTimeout(callback, ms);
-  };
-})();
 
 // ready funciton / event function(s)
 $(function() {
@@ -1002,6 +1012,7 @@ $(function() {
       trigger: 'manual',
       placement: 'right'
     })
+
     .focus(function() {
       if ($user.val() == "") {
         $user.tooltip('show');
@@ -1014,16 +1025,16 @@ $(function() {
         return;
       }
 
-      if ($user.val() == "") {
-        $user.tooltip('show');
-        $(".submit").addClass("disabled");
-        $("#clear-user").fadeOut(250);
-
-      } else {
+      if ($user.val()) {
         $user.tooltip('hide');
         $(".submit").removeClass("disabled");
         $("#clear-user").fadeIn(250);
         $("#userForm .control-group").removeClass("error");
+
+      } else {
+        $user.tooltip('show');
+        $(".submit").addClass("disabled");
+        $("#clear-user").fadeOut(250);
       }
 
       user = $user.val();
@@ -1040,7 +1051,7 @@ $(function() {
   }
 
   // track a few different clicks
-  $('a').click(function() {
+  $(document).on('click', 'a', function() {
     var href = $(this).attr('href');
     if (href && href != "#")
       _gaq.push(['_trackEvent', 'Click', href, username.toLocaleLowerCase()]);
@@ -1102,16 +1113,16 @@ function script(src) {
 }
 
 // Google Analytics
-var _gaq = _gaq || [];
+window._gaq = window._gaq || [];
 _gaq.push(['_setAccount', 'UA-30386018-1']);
 _gaq.push(['_trackPageview']);
 
 // Google Web Fonts
-WebFontConfig = {
+window.WebFontConfig = {
   google: {
     families: ['Ubuntu']
   }
 };
 
 // Google Adsense
-(adsbygoogle = window.adsbygoogle || []).push({});
+(window.adsbygoogle = window.adsbygoogle || []).push({});

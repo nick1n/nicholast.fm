@@ -56,7 +56,7 @@ For more information and help with them go here:
 
 */
 
-(function( $ ) {
+var LastFM = (function( $ ) {
 
 	"use strict";
 
@@ -84,7 +84,7 @@ For more information and help with them go here:
 		// jQuery ajax settings
 		settings = {},
 
-		// callbacks that are called for every api request 
+		// callbacks that are called for every api request
 		callbacks = {};
 
 	// Init function
@@ -185,7 +185,7 @@ For more information and help with them go here:
 	}
 
 	// Main class definition
-	window.LastFM = function( options, params, cache ) {
+	return function( options, params, cache ) {
 
 		// the first parameter is a string we know its an api request
 		if ( typeof options == 'string' ) {
