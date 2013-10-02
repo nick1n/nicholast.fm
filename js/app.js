@@ -1061,7 +1061,7 @@ $(function() {
         return;
       }
   
-      var href = $(event.target).attr('href');
+      var href = $(this).attr('href');
       if (href && href != "#") {
         _gaq.push(['_trackEvent', 'Click', href, username.toLocaleLowerCase()]);
       }
