@@ -136,6 +136,16 @@ function Monthly(year, month) {
 
 				Storage.add(artist, album, track, 1);
 
+				Storage.add({
+					user: username,
+					year: year,
+					month: month,
+					artist: artist,
+					album: album,
+					song: track,
+					plays: 1
+				});
+
 				*/
 			}
 

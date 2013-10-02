@@ -383,7 +383,7 @@ var Tracks = extend(Data, {
 	//},
 
 	// "Private"
-	// compresses to '0,1,2|0,1,3|0,1,4'
+	// compresses to '000102000103000104'
 	_compress: function() {
 		var trackIndex,
 			nameIndex,
