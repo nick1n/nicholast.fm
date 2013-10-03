@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 
 		// Metadata
 		pkg: grunt.file.readJSON('package.json'),
-		banner: '/*! <%= pkg.name %> v<%= pkg.version %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+		banner: '/*! <%= pkg.name %> v<%= pkg.version %> <%= grunt.template.today("yyyy") %> */\n',
 
 		// Source Files we are working with
 		src: {

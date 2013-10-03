@@ -1,4 +1,4 @@
-/*! nicholast.fm v0.3.1 2013-10-01 */
+/*! nicholast.fm v0.3.1 2013 */
 
 (function() {
 
@@ -12418,7 +12418,7 @@ $(function() {
         return;
       }
   
-      var href = $(event.target).attr('href');
+      var href = $(this).attr('href');
       if (href && href != "#") {
         _gaq.push(['_trackEvent', 'Click', href, username.toLocaleLowerCase()]);
       }
