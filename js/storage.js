@@ -165,19 +165,20 @@ var Images = extend(Data, {
 				continue;
 			}
 
-			text += compressNumber(obj.id, 2) + compressNumber(obj.size + obj.type) + compressNumber(obj.hash, 3);
-
-			if (text.length % 6) {
+			try {
+				text += compressNumber(obj.id, 2) + compressNumber(obj.size + obj.type) + compressNumber(obj.hash, 2);
+			} catch(e) {
 				// TODO: error
-				throw "Image compressed to a size larger then 6 characters " + obj.hash
+				throw "Error compressing Image id = " + obj.id + ", hash = " + obj.hash + ", size = " + obj.size + ", type = " + obj.type + ", Name = " + Names.lookup(obj.id);
 			}
+
 		}
 
 		return text;
 	},
 
 	_decompress: function(text) {
-		var array = text && text.match(/.{6}/g) || [],
+		var array = text && text.match(/.{5}/g) || [],
 			index = 0,
 			number,
 			mod,
@@ -195,7 +196,7 @@ var Images = extend(Data, {
 			obj = {
 				id: decompressNumber(array[index].substr(0, 2)),
 				size: mod,
-				hash: decompressNumber(array[index].substr(3, 3)),
+				hash: decompressNumber(array[index].substr(3, 2)),
 				type: number - mod
 			};
 
@@ -661,7 +662,7 @@ var Radix = {
 
 	_offset: 48,
 
-	_length: 1024,
+	_length: 10240,
 
 	// You have the freedom, here, to choose the glyphs you want for
 	// representing your base-64 numbers. The ASCII encoding guys usually
@@ -678,7 +679,6 @@ var Radix = {
 	// underlying IEEE floating-point number, or representing the mantissae
 	// and exponents separately, or some other possibility. For now, bail
 	fromNumber: function(number, padding) {
-		//TODO: implement padding
 
 		if (isNaN(Number(number)) || number == null || number == Number.POSITIVE_INFINITY) {
 			throw "The input is not valid";
@@ -705,7 +705,12 @@ var Radix = {
 		}
 
 		// pad a string in javascript: http://stackoverflow.com/questions/10073699/pad-a-number-with-leading-zeros-in-javascript
-		padding = padding || 0;
+		padding = padding || 1;
+
+		if (padding < result.length) {
+			throw "Radix result of " + number + " is longer then padding of " + padding;
+		}
+
 		return result.length >= padding ? result : new Array(padding - result.length + 1).join('0') + result;
 	},
 
