@@ -61,7 +61,7 @@ var string = {
 		}
 	},
 
-	userStatsCompressed = '\nC\nA0ý40þ30Ć1\nB0ü50Ć6\nD\n00ý40þ30Ć1\n10ü50Ć6',
+	userStatsCompressed = '\n<\n:0«40¬30´1\n;0ª50´6\n=\n00«40¬30´1\n10ª50´6',
 
 	artistImages = [
 		'http://userserve-ak.last.fm/serve/34/28357009.jpg',
@@ -73,7 +73,7 @@ var string = {
 		'http://userserve-ak.last.fm/serve/126/47123433.png',
 		'http://userserve-ak.last.fm/serve/252/47123433.png'
 	],
-	artistImagesCompressed = '00LRiȗ01MiὛᾆ02NiὛᾆ03ORiȗ04BRiȗ05CRiȗ06DiὛᾆ07EiὛᾆ',
+	artistImagesCompressed = '00EK\\ǁ01F\\ϲЙ02G\\ϲЙ03HK\\ǁ04;K\\ǁ05<K\\ǁ06=\\ϲЙ07>\\ϲЙ',
 
 	albumImages = [
 		'http://userserve-ak.last.fm/serve/34s/47123433.png',
