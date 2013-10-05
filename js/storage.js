@@ -18,7 +18,7 @@ var storage = localStorage,
 	pipe = '|',
 	colon = ':',
 	semicolon = ';',
-	newline = '\n',
+	newline = '\n';
 
 	//currentVersion = 0,
 	//compress,
@@ -29,9 +29,9 @@ var storage = localStorage,
 
 	//}
 
-	extend = function(parent, child) {
-		return $.extend(true, {}, parent, child);
-	};
+function extend(parent, child) {
+	return $.extend(true, {}, parent, child);
+}
 
 // By the way, none of these functions are safe...
 
@@ -82,10 +82,10 @@ var Images = extend(Data, {
 	},
 
 	_compressTypes: {
-		png: 10,
-		jpg: 20,
-		jpeg: 30,
-		gif: 40
+		'png': 10,
+		'jpg': 20,
+		'jpeg': 30,
+		'gif': 40
 	},
 
 	_types: {
@@ -110,8 +110,7 @@ var Images = extend(Data, {
 			throw "Url isn't correct: " + url;
 		}
 
-		this.add(id, array[length - 3], array[length - 2], array[length - 1]);
-
+		return this.add(id, array[length - 3], array[length - 2], array[length - 1]);
 	},
 
 	add: function(id, size, hash, type) {
@@ -148,6 +147,7 @@ var Images = extend(Data, {
 
 		this.string[name] = obj;
 
+		return id;
 	},
 
 	// compresses to '015342'
@@ -213,7 +213,7 @@ var Images = extend(Data, {
 
 });
 
-var Artist = extend(Images, {
+var ArtistImages = extend(Images, {
 
 	key: 'a',
 
@@ -227,7 +227,7 @@ var Artist = extend(Images, {
 
 });
 
-var Album = extend(Images, {
+var AlbumImages = extend(Images, {
 
 	key: 'b',
 
@@ -439,19 +439,22 @@ var Tracks = extend(Data, {
 });
 
 // User class
-var User = extend(Storage, {
+var User = (function () {
 
-	// User's name
-	//key: '',
+	function User(username) {
+		this.key = username;
+		this.stats = {};
+		this.loved = [];
+	}
 
-	stats: {},
-
-	loved: [],
+	// User's public functions
+	User.prototype.load = Storage.load;
+	User.prototype.save = Storage.save;
 
 	// "Private"
 	// compresses "{12:{10:{123:4,124:3,132:1},11:{122:5,132:6}},13:{0:{123:4,124:3,132:1},1:{122:5,132:6}}}"
 	//         to "\nC\nA0ý40þ30Ć1\nB0ü50Ć6\nD\n00ý40þ30Ć1\n10ü50Ć6"
-	_compress: function() {
+	User.prototype._compress = function() {
 		var year,
 			month,
 			track,
@@ -487,11 +490,11 @@ var User = extend(Storage, {
 
 		// returns the compressed stats
 		return array.join(newline);
-	},
+	};
 
 	// Private
 	// decompresses 'c\na3f43g33o1\nb3e53o6\nd\n03f43g33o1\n13e53o6' to usable data
-	_decompress: function(text) {
+	User.prototype._decompress = function(text) {
 		// Now turn it back into an object
 		var index,
 			year,
@@ -537,9 +540,10 @@ var User = extend(Storage, {
 
 			this.stats[year] = months;
 		}
-	}
+	};
 
-});
+	return User;
+})();
 
 function lookup(key) {
 
@@ -636,8 +640,9 @@ function usernames() {
 
 
 function loadUser(username) {
-	User.key = username;
-	User.load();
+	var user = new User(username);
+	//User.key = username;
+	user.load();
 }
 
 function loadAll(username) {
@@ -653,6 +658,24 @@ function saveAll() {
 	Names.save();
 }
 
+
+
+
+var Store = {
+
+	add: function(obj) {
+
+		obj.artist;
+		obj.album;
+		obj.track;
+
+
+
+
+	}
+
+
+};
 
 
 // Radix encode numbers
@@ -727,5 +750,6 @@ var Radix = {
 		return result;
 	}
 }
+
 
 //})(window.jQuery);

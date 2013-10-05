@@ -127,27 +127,31 @@ test('Names', function() {
 
 test('User', function() {
 
-	equal(User._compress(), "", 'Empty Compress');
+	var user = new User();
 
-	User._decompress("");
+	equal(user._compress(), "", 'Empty Compress');
 
-	User._decompress(userStatsCompressed);
+	user._decompress("");
 
-	deepEqual(User.stats, userStats, 'Decompress');
+	user._decompress(userStatsCompressed);
 
-	equal(User._compress(), userStatsCompressed, 'Compress');
+	deepEqual(user.stats, userStats, 'Decompress');
+
+	equal(user._compress(), userStatsCompressed, 'Compress');
 
 });
 
 test('User', function() {
 
-	User.stats = userStats;
+	var user = new User();
 
-	equal(User._compress(), userStatsCompressed, 'Compress');
+	user.stats = userStats;
 
-	User._decompress(userStatsCompressed);
+	equal(user._compress(), userStatsCompressed, 'Compress');
 
-	deepEqual(User.stats, userStats, 'Decompress');
+	user._decompress(userStatsCompressed);
+
+	deepEqual(user.stats, userStats, 'Decompress');
 
 });
 
@@ -156,15 +160,15 @@ test('Artist Images', function() {
 	Names._decompress(namesCompressed);
 
 	for (var i = 0; i < artistImages.length; ++i) {
-		Artist.addUrl(testNames[i], artistImages[i]);
+		ArtistImages.addUrl(testNames[i], artistImages[i]);
 	}
 
-	equal(Artist._compress(), artistImagesCompressed, 'Compress');
+	equal(ArtistImages._compress(), artistImagesCompressed, 'Compress');
 
-	Artist._decompress(artistImagesCompressed);
+	ArtistImages._decompress(artistImagesCompressed);
 
 	for (var i = 0; i < artistImages.length; ++i) {
-		equal(Artist.lookup(testNames[i]), artistImages[i], 'Lookup for ' + artistImages[i]);
+		equal(ArtistImages.lookup(testNames[i]), artistImages[i], 'Lookup for ' + artistImages[i]);
 	}
 
 });
@@ -174,15 +178,15 @@ test('Album Images', function() {
 	Names._decompress(namesCompressed);
 
 	for (var i = 0; i < albumImages.length; ++i) {
-		Album.addUrl(testNames[i], albumImages[i]);
+		AlbumImages.addUrl(testNames[i], albumImages[i]);
 	}
 
-	//equal(Album._compress(), artistImagesCompressed, 'Compress');
+	//equal(AlbumImages._compress(), artistImagesCompressed, 'Compress');
 
-	Album._decompress(Album._compress());
+	AlbumImages._decompress(AlbumImages._compress());
 
 	for (var i = 0; i < albumImages.length; ++i) {
-		equal(Album.lookup(testNames[i]), albumImages[i], 'Lookup for ' + albumImages[i]);
+		equal(AlbumImages.lookup(testNames[i]), albumImages[i], 'Lookup for ' + albumImages[i]);
 	}
 
 });
