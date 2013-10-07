@@ -72,7 +72,7 @@ function Monthly(year, month) {
 
 		// cache recent tracks only when it falls before now
 		LastFM('user.getRecentTracks', {
-			user: username,
+			user: user,
 			limit: '200',
 			page: page,
 			extended: 1,
@@ -112,9 +112,13 @@ function Monthly(year, month) {
 			for (; index < tracks.length; ++index) {
 
 				// artist.name when its extended data and artist[text] when not
-				var artist = tracks[index].artist.name || tracks[index].artist[text];
+				var artist = tracks[index].artist.name;
 				var album = tracks[index].album[text];
 				var track = tracks[index].name;
+
+				var artistImages = tracks[index].artist.image;
+				var albumImages = tracks[index].image;
+
 
 				// TODO: do something with tracks[index]
 				/*
@@ -132,12 +136,12 @@ function Monthly(year, month) {
 
 				var track_id = Track.add(artist, album, track);
 
-				User.add(track_id).toYear(year).andMonth(month).forUser(username);
+				User.add(track_id).toYear(year).andMonth(month).forUser(user);
 
 				Storage.add(artist, album, track, 1);
 
 				Storage.add({
-					user: username,
+					user: user,
 					year: year,
 					month: month,
 					artist: artist,

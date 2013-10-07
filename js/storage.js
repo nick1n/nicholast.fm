@@ -18,7 +18,10 @@ var storage = localStorage,
 	pipe = '|',
 	colon = ':',
 	semicolon = ';',
-	newline = '\n';
+	newline = '\n',
+
+	TEXT = '#text',
+	ATTR = '@attr';
 
 	//currentVersion = 0,
 	//compress,
@@ -101,6 +104,13 @@ var Images = extend(Data, {
 		return this._url + this._sizes[obj.size] + '/' + obj.hash + '.' + this._types[obj.type];
 	},
 
+	addImages: function(id, images) {
+
+
+
+
+	},
+
 	addUrl: function(id, url) {
 		var array = url && url.match(/\d+|(jpg|jpeg|png|gif)/gi) || [],
 			length = array.length;
@@ -119,9 +129,11 @@ var Images = extend(Data, {
 
 		if (typeof id == 'number') {
 			name = Names.lookup(id);
+
 		} else if (typeof id == 'string') {
 			name = id;
 			id = Names.lookup(name);
+
 		} else {
 			throw "Incorrect parameters";
 		}
@@ -662,6 +674,8 @@ function saveAll() {
 
 
 var Store = {
+
+	_users: [],
 
 	add: function(obj) {
 
