@@ -105,10 +105,17 @@ var Images = extend(Data, {
 	},
 
 	addImages: function(id, images) {
+		//var index = 0,
+		//	text;
 
+		// TODO: should probably do something like this:
+		//for (; index < images.length; ++index) {
+		//	text = images[index][TEXT];
+		//	this.addUrl(id, text);
+		//}
 
-
-
+		// ... but for now just save the largest image
+		return this.addUrl(id, images[images.length - 1][TEXT]);
 	},
 
 	addUrl: function(id, url) {
@@ -162,7 +169,7 @@ var Images = extend(Data, {
 		return id;
 	},
 
-	// compresses to '015342'
+	// compresses to '01534'
 	_compress: function() {
 		var text = '',
 			obj,

@@ -110,51 +110,60 @@ function Monthly(year, month) {
 			}
 
 			for (; index < tracks.length; ++index) {
-
-				// artist.name when its extended data and artist[text] when not
-				var artist = tracks[index].artist.name;
-				var album = tracks[index].album[text];
-				var track = tracks[index].name;
-
-				var artistImages = tracks[index].artist.image;
-				var albumImages = tracks[index].image;
-
-
-				// TODO: do something with tracks[index]
-				/*
-				User.year(2013)
-					.month(8)
-					.artist(artist)
-					.album(album)
-					.track(track)
-					.play(1);
-
-				// the Storage module should take care of this:
-				Names.add(artist);
-				Names.add(album);
-				Names.add(track);
-
-				var track_id = Track.add(artist, album, track);
-
-				User.add(track_id).toYear(year).andMonth(month).forUser(user);
-
-				Storage.add(artist, album, track, 1);
-
-				Storage.add({
-					user: user,
-					year: year,
-					month: month,
-					artist: artist,
-					album: album,
-					song: track,
-					plays: 1
-				});
-
-				*/
+				storeTrack(tracks[index]);
 			}
 
 			finished();
 		};
+	}
+
+	function storeTrack(track) {
+
+		// artist.name when its extended data and artist[text] when not
+		var artist = track.artist.name;
+		var album = track.album[text];
+		var track = track.name;
+
+		var artistImages = track.artist.image;
+		var albumImages = track.image;
+
+		// Store Images, the Storage module might handle this in the future
+		ArtistImages.addImages(artistImages);
+		AlbumImages.addImages(albumImages);
+
+
+		// TODO: do something with track
+		/*
+		User.year(2013)
+			.month(8)
+			.artist(artist)
+			.album(album)
+			.track(track)
+			.play(1);
+
+		// the Storage module should take care of this:
+		Names.add(artist);
+		Names.add(album);
+		Names.add(track);
+
+		var track_id = Track.add(artist, album, track);
+
+		User.add(track_id).toYear(year).andMonth(month).forUser(user);
+
+		Storage.add(artist, album, track, 1);
+
+		Storage.add({
+			user: user,
+			year: year,
+			month: month,
+			artist: artist,
+			album: album,
+			song: track,
+			plays: 1
+		});
+
+		*/
+
 	}
 
 	function finished() {
