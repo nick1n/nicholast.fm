@@ -288,11 +288,16 @@ var Names = extend(Data, {
 	add: function(name) {
 		var id = this.number.length;
 
+		// don't add a duplicate
+		if (Names.string[name]) {
+			return Names.string[name];
+		}
+
 		// adds {"Fall Out Boy": 0, ...}
-		this.string[name] = id;
+		Names.string[name] = id;
 
 		// adds ["Fall Out Boy", ...]
-		this.number[id] = name;
+		Names.number[id] = name;
 
 		return id;
 	},
@@ -367,16 +372,33 @@ var Tracks = extend(Data, {
 	},
 
 	// Public
+	addUnique: function(artist, album, track) {
+		artist = Names.add(artist);
+		album = Names.add(album);
+		track = Names.add(track);
+
+
+
+		return Tracks.add([artist, album, track]);
+	},
+
+	// Public
 	// track is an array of three name indices
 	// [0,1,2]
 	add: function(track) {
-		var id = this.number.length;
+		var id = Tracks.number.length,
+			text = track.join(comma);
+
+		// don't add a duplicate
+		if (Tracks.string[text]) {
+			return Tracks.string[text];
+		}
 
 		// adds {"0,1,2": 0, ...}
-		this.string[track.join(comma)] = id;
+		Tracks.string[text] = id;
 
 		// adds [[0, 1, 2], ...]
-		this.number[id] = track;
+		Tracks.number[id] = track;
 
 		// should we always save...?
 
@@ -387,13 +409,18 @@ var Tracks = extend(Data, {
 	// track is a comma delimited string of three names
 	// this function is probably a bad idea to have...
 	addString: function(track) {
-		var id = this.number.length;
+		var id = Tracks.number.length;
+
+		// don't add a duplicate
+		if (Tracks.string[track]) {
+			return Tracks.string[track];
+		}
 
 		// adds {"0,1,2": 0, ...}
-		this.string[track] = id;
+		Tracks.string[track] = id;
 
 		// adds [[0, 1, 2], ...]
-		this.number[i] = track.split(comma);
+		Tracks.number[i] = track.split(comma);
 
 		return id;
 	},
@@ -469,6 +496,29 @@ var User = (function () {
 	// User's public functions
 	User.prototype.load = Storage.load;
 	User.prototype.save = Storage.save;
+
+	// Public add
+	User.prototype.add = function(options) {
+		var year = options.year,
+			month = options.month,
+			artist = options.artist,
+			album = options.album,
+			track = options.track;
+
+		if (year > 2000) {
+			year -= 2000;
+		}
+
+		// if options included artist and/or album
+		if (artist) {
+			track = Tracks.addUnique(artist, album, track);
+		}
+
+		this.stats[year][month][track] = ++this.stats[year][month][track] || 1;
+
+		// should I return the unique track id?
+		return track;
+	};
 
 	// "Private"
 	// compresses "{12:{10:{123:4,124:3,132:1},11:{122:5,132:6}},13:{0:{123:4,124:3,132:1},1:{122:5,132:6}}}"

@@ -131,6 +131,18 @@ function Monthly(year, month) {
 		ArtistImages.addImages(artistImages);
 		AlbumImages.addImages(albumImages);
 
+		// Since I haven't figured out how to go about this with the Storage module
+		// let's just to it manually for now...
+
+		// Get the ids
+		//artist = Names.add(artist);
+		//album = Names.add(album);
+		//track = Names.add(track);
+
+		// Get Unique Track Id
+		track = Tracks.addUnique(artist, album, track);
+
+
 
 		// TODO: do something with track
 		/*
