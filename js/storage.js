@@ -38,10 +38,17 @@ function extend(parent, child) {
 
 // By the way, none of these functions are safe...
 
-// Storage parent class
-var Storage = {
+// Storage's parent class
+var Data = {
 
 	//key: ''
+
+	string: {},
+	number: [],
+
+	lookup: function(key) {
+		return this[typeof key][key];
+	},
 
 	//add: function() {}
 
@@ -53,23 +60,11 @@ var Storage = {
 		storage[this.key] = this._compress();
 	}
 
-
 	//_compress: function() {}
 
 	//_decompress: function() {}
 
 };
-
-var Data = extend(Storage, {
-
-	string: {},
-	number: [],
-
-	lookup: function(key) {
-		return this[typeof key][key];
-	}
-
-});
 
 
 var Images = extend(Data, {
@@ -337,7 +332,7 @@ var Names = extend(Data, {
 			// creates ["Fall Out Boy", ...]
 			this.number.push(array[index]);
 
-		};
+		}
 
 		return this.number.length == array.length;
 	}
@@ -424,7 +419,7 @@ var Tracks = extend(Data, {
 		Tracks.string[track] = id;
 
 		// adds [[0, 1, 2], ...]
-		Tracks.number[i] = track.split(comma);
+		Tracks.number[id] = track.split(comma);
 
 		return id;
 	},
@@ -448,18 +443,18 @@ var Tracks = extend(Data, {
 
 				array.push(compressNumber(this.number[trackIndex][nameIndex], 2));
 
-			};
+			}
 
-		};
+		}
 
 		return array.join(blank);
 	},
 
 	// Private
-	// decompresses '0,1,2|0,1,3|0,1,4' to usable data
+	// decompresses '000102000103000104' to usable data
 	_decompress: function(text) {
-		var trackIndex,
-			track,
+		var index = 0,
+			track = [],
 
 			// just a temporary array, split the input text if there is input text
 			array = text && text.match(/.{2}/g) || [];
@@ -467,13 +462,11 @@ var Tracks = extend(Data, {
 		this.string = {};
 		this.number = [];
 
-		for (trackIndex = 0; trackIndex < array.length; ++trackIndex) {
+		for (; index < array.length; ++index) {
 
-			track = [];
-
-			track.push(decompressNumber(array[trackIndex]));
-			track.push(decompressNumber(array[++trackIndex]));
-			track.push(decompressNumber(array[++trackIndex]));
+			track[0] = decompressNumber(array[index]);
+			track[1] = decompressNumber(array[++index]);
+			track[2] = decompressNumber(array[++index]);
 
 			// creates {"0,1,2": 0, ...}
 			this.string[track.join(comma)] = this.number.length;
@@ -481,7 +474,7 @@ var Tracks = extend(Data, {
 			// creates [[0, 1, 2], ...]
 			this.number.push(track);
 
-		};
+		}
 
 		return this.number.length == array.length;
 	}
@@ -489,7 +482,7 @@ var Tracks = extend(Data, {
 });
 
 // User class
-var User = (function () {
+var User = (function() {
 
 	function User(username) {
 		this.key = username;
@@ -500,8 +493,8 @@ var User = (function () {
 	}
 
 	// User's public functions
-	User.prototype.load = Storage.load;
-	User.prototype.save = Storage.save;
+	User.prototype.load = Data.load;
+	User.prototype.save = Data.save;
 
 	// Public add
 	User.prototype.add = function(options) {
@@ -509,15 +502,18 @@ var User = (function () {
 			month = options.month,
 			artist = options.artist || '',
 			album = options.album || '',
-			track = options.track || '';
+			track = options.track,
+			plays = options.plays || 1,
+
+			trackId;
+
+		// if the track wasn't supplied, we can't really do anything, so exit
+		if (!track) {
+			return false;
+		}
 
 		if (year > 2000) {
 			year -= 2000;
-		}
-
-		// if options included artist and/or album
-		if (artist) {
-			track = Tracks.addUnique(artist, album, track);
 		}
 
 		if (!this.stats[year]) {
@@ -525,13 +521,16 @@ var User = (function () {
 		}
 
 		if (!this.stats[year][month]) {
-			this.stats[year][month] = {}
+			this.stats[year][month] = {};
 		}
 
-		this.stats[year][month][track] = ++this.stats[year][month][track] || 1;
+		trackId = Tracks.addUnique(artist, album, track);
+
+		// if the track id exists add the amount of plays to it or if it doesn't exist set it to the amount of plays
+		this.stats[year][month][trackId] = this.stats[year][month][trackId] + plays || plays;
 
 		// should I return the unique track id?
-		return track;
+		return trackId;
 	};
 
 	// "Private"
@@ -589,7 +588,7 @@ var User = (function () {
 			loved,
 
 			// seperate the years
-			array = test && text.split(newline) || [];
+			array = text && text.split(newline) || [];
 
 		// reset current user's stats
 		this.stats = {};
@@ -637,7 +636,6 @@ function lookup(key) {
 /**
  * Compresses an array by joining them
  */
-
 function compressArray(array) {
 	//return array.join( delimiter[ typeof array[0] ] );
 	return array.join(pipe);
@@ -653,7 +651,6 @@ function decompressArray(text) {
 /**
  * Compresses a date by removing unneeded digits and compresses that number
  */
-
 function compressDate(date) {
 	return compressNumber(+(date + '').substr(1, 7));
 }
@@ -661,7 +658,6 @@ function compressDate(date) {
 /**
  * Decompresses a date by decompressing the number and adding the removed digits back
  */
-
 function decompressDate(text) {
 	return +('1' + decompressNumber(text) + '00000');
 }
@@ -689,30 +685,20 @@ function decompressNumber(text) {
 /**
  * Returns wether or not the username is in storage
  */
-
 function username(name) {
-	var key;
-
-	for (key in storage) {
-		if (key === name) {
-			return true;
-		}
-	}
-
-	return false;
+	return storage.hasOwnProperty(name);
 }
 
 /**
  * Returns an array of usernames
  * Usernames are defined by a key in storage longer then 1 character
  */
-
 function usernames() {
 	var key,
-		users;
+		users = [];
 
 	for (key in storage) {
-		if (key.length > 1) {
+		if (storage.hasOwnProperty(key) && key.length > 1) {
 			users.push(key);
 		}
 	}
@@ -749,13 +735,13 @@ var Store = {
 	// list of users
 	_users: {},
 
-	add: function(obj) {
+	//add: function(obj) {
 
-		obj.artist;
-		obj.album;
-		obj.track;
+		//obj.artist;
+		//obj.album;
+		//obj.track;
 
-	},
+	//},
 
 	user: function(username) {
 		var user = this._users[username];
@@ -833,17 +819,17 @@ var Radix = {
 
 	toNumber: function(string) {
 		var result = 0,
-			e;
+			index = 0;
 
 		string = string.split(blank);
 
-		for (e in string) {
-			result = (result * Radix._length) + string[e].charCodeAt(0) - Radix._offset;
+		for (; index < string.length; ++index) {
+			result = (result * Radix._length) + string[index].charCodeAt(0) - Radix._offset;
 		}
 
 		return result;
 	}
-}
+};
 
 
 //})(window.jQuery);
