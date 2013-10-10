@@ -108,6 +108,10 @@ var Images = extend(Data, {
 		//var index = 0,
 		//	text;
 
+		if (!images) {
+			return false;
+		}
+
 		// TODO: should probably do something like this:
 		//for (; index < images.length; ++index) {
 		//	text = images[index][TEXT];
@@ -491,6 +495,8 @@ var User = (function () {
 		this.key = username;
 		this.stats = {};
 		this.loved = [];
+
+		// TODO: load user if they are stored
 	}
 
 	// User's public functions
@@ -501,9 +507,9 @@ var User = (function () {
 	User.prototype.add = function(options) {
 		var year = options.year,
 			month = options.month,
-			artist = options.artist,
-			album = options.album,
-			track = options.track;
+			artist = options.artist || '',
+			album = options.album || '',
+			track = options.track || '';
 
 		if (year > 2000) {
 			year -= 2000;
@@ -512,6 +518,14 @@ var User = (function () {
 		// if options included artist and/or album
 		if (artist) {
 			track = Tracks.addUnique(artist, album, track);
+		}
+
+		if (!this.stats[year]) {
+			this.stats[year] = {};
+		}
+
+		if (!this.stats[year][month]) {
+			this.stats[year][month] = {}
 		}
 
 		this.stats[year][month][track] = ++this.stats[year][month][track] || 1;
@@ -707,7 +721,7 @@ function usernames() {
 }
 
 
-
+// TODO: ... do this differently like the user take care of loading itself
 function loadUser(username) {
 	var user = new User(username);
 	//User.key = username;
@@ -732,7 +746,8 @@ function saveAll() {
 
 var Store = {
 
-	_users: [],
+	// list of users
+	_users: {},
 
 	add: function(obj) {
 
@@ -740,11 +755,19 @@ var Store = {
 		obj.album;
 		obj.track;
 
+	},
 
+	user: function(username) {
+		var user = this._users[username];
 
+		// if the user does not exist in the list, create a new one and add it to the list
+		if (!user) {
+			user = new User(username);
+			this._users[username] = user;
+		}
 
+		return user;
 	}
-
 
 };
 

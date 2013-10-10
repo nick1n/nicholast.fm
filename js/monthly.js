@@ -122,7 +122,7 @@ function Monthly(year, month) {
 		// artist.name when its extended data and artist[text] when not
 		var artist = track.artist.name;
 		var album = track.album[text];
-		var track = track.name;
+		var song = track.name;
 
 		var artistImages = track.artist.image;
 		var albumImages = track.image;
@@ -139,8 +139,16 @@ function Monthly(year, month) {
 		//album = Names.add(album);
 		//track = Names.add(track);
 
+		Store.user(user).add({
+			year: year,
+			month: month,
+			artist: artist,
+			album: album,
+			track: song
+		});
+
 		// Get Unique Track Id
-		track = Tracks.addUnique(artist, album, track);
+		//track = Tracks.addUnique(artist, album, track);
 
 
 
