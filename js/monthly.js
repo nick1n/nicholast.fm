@@ -128,8 +128,8 @@ function Monthly(year, month) {
 		var albumImages = track.image;
 
 		// Store Images, the Storage module might handle this in the future
-		ArtistImages.addImages(artistImages);
-		AlbumImages.addImages(albumImages);
+		ArtistImages.addImages(artist, artistImages);
+		AlbumImages.addImages(album, albumImages);
 
 		// Since I haven't figured out how to go about this with the Storage module
 		// let's just to it manually for now...

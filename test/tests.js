@@ -73,7 +73,7 @@ var string = {
 		'http://userserve-ak.last.fm/serve/126/47123433.png',
 		'http://userserve-ak.last.fm/serve/252/47123433.png'
 	],
-	artistImagesCompressed = '00Eଁু01Fሩ␙02Gሩ␙03Hଁু04;ଁু05<ଁু06=ሩ␙07>ሩ␙',
+	artistImagesCompressed = '00Eଁু01Fሩ␙02Gሩ␙03Iଁু04;ଁু05<ଁু06=ሩ␙07?ሩ␙',
 
 	albumImages = [
 		'http://userserve-ak.last.fm/serve/34s/47123433.png',

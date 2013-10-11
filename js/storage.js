@@ -80,8 +80,9 @@ var Images = extend(Data, {
 		34: 1,
 		64: 2,
 		126: 3,
-		252: 4,
-		300: 5
+		174: 4,
+		252: 5,
+		300: 6
 	},
 
 	_compressTypes: {
@@ -105,26 +106,33 @@ var Images = extend(Data, {
 	},
 
 	addImages: function(id, images) {
-		//var index = 0,
-		//	text;
+		var index = images.length - 1,
+			text;
 
 		if (!images) {
 			return false;
 		}
 
-		// TODO: should probably do something like this:
-		//for (; index < images.length; ++index) {
-		//	text = images[index][TEXT];
-		//	this.addUrl(id, text);
-		//}
+		// TODO: should probably store all the sizes or something...
+		for (; index >= 0; --index) {
+			text = images[index][TEXT];
 
-		// ... but for now just save the largest image
-		return this.addUrl(id, images[images.length - 1][TEXT]);
+			// right now, we don't support any url other then one served from last.fm
+			if (text.lastIndexOf(this._url, 0) == 0) {
+				return this.addUrl(id, text);
+			}
+		}
+
+		return false;
 	},
 
 	addUrl: function(id, url) {
 		var array = url && url.match(/\d+|(jpg|jpeg|png|gif)/gi) || [],
 			length = array.length;
+
+		if (!url) {
+			return;
+		}
 
 		if (length < 3) {
 			// TODO: error
@@ -244,8 +252,9 @@ var ArtistImages = extend(Images, {
 		1: 34,
 		2: 64,
 		3: 126,
-		4: 252,
-		5: '300x300'
+		4: 174,
+		5: 252,
+		6: '300x300'
 	}
 
 });
@@ -258,8 +267,9 @@ var AlbumImages = extend(Images, {
 		1: '34s',
 		2: '64s',
 		3: 126,
-		4: 252,
-		5: '300x300'
+		4: '174s',
+		5: 252,
+		6: '300x300'
 	}
 
 });
