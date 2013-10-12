@@ -35,7 +35,7 @@ function failFunction() {
 	}
 */
 
-function Monthly(year, month) {
+function Monthly(username, year, month, refresh) {
 		//setYear(year);
 		//setMonth(month);
 
@@ -45,16 +45,33 @@ function Monthly(year, month) {
 		text = '#text',
 		attr = '@attr',
 
+		options = {
+			year: year,
+			month: month
+		},
+
 		//year,
 		//month,
 		date,
 		fromDate,
 		toDate,
+		data,
 
 		now = Date.now() / oneSecond,
 		requests = 0,
 		i = 0;
 
+
+	// retrieve the user's data from storage if there is any
+	data = Storage.user(username).get(options);
+
+	if (data && !refresh) {
+		// TODO: render data
+		return;
+	}
+
+	// reset the user's stats for this month
+	Storage.user(username).clear(options);
 
 	// Find the from and to dates
 	// need to fix this only works when you are in the same timezone as the scrobbling was
@@ -72,7 +89,7 @@ function Monthly(year, month) {
 
 		// cache recent tracks only when it falls before now
 		LastFM('user.getRecentTracks', {
-			user: user,
+			user: username,
 			limit: '200',
 			page: page,
 			extended: 1,
@@ -96,19 +113,19 @@ function Monthly(year, month) {
 
 			tracks = data.recenttracks.track;
 
-			// if its the first page and there are more to get, get them all
-			if (page == 1) {
-				for (++page; page <= data.recenttracks[attr].totalPages; ++page) {
-					getRecentTracks(page, from, to);
-				}
-
-				// check for extra now playing track even when its tracks from months or years ago
-				// and remove it from the array
-				if (tracks[0] && tracks[0][attr]) {
-					tracks.shift();
-				}
+			// if its the first page
+			// check for extra now playing track even when its tracks from months or years ago
+			// and remove it from the array
+			if (page == 1 && tracks[0] && tracks[0][attr]) {
+				tracks.shift();
 			}
 
+			// if there are more pages to get, get the next one
+			if (page < data.recenttracks[attr].totalPages) {
+				getRecentTracks(++page, from, to);
+			}
+
+			// store all tracks
 			for (; index < tracks.length; ++index) {
 				storeTrack(tracks[index]);
 			}
@@ -118,71 +135,19 @@ function Monthly(year, month) {
 	}
 
 	function storeTrack(track) {
+		var artistImages = track.artist.image,
+			albumImages = track.image;
 
 		// artist.name when its extended data and artist[text] when not
-		var artist = track.artist.name;
-		var album = track.album[text];
-		var song = track.name;
-
-		var artistImages = track.artist.image;
-		var albumImages = track.image;
+		options.artist = track.artist.name;
+		options.album = track.album[text];
+		options.track = track.name;
 
 		// Store Images, the Storage module might handle this in the future
-		ArtistImages.addImages(artist, artistImages);
-		AlbumImages.addImages(album, albumImages);
+		ArtistImages.addImages(options.artist, artistImages);
+		AlbumImages.addImages(options.album, albumImages);
 
-		// Since I haven't figured out how to go about this with the Storage module
-		// let's just to it manually for now...
-
-		// Get the ids
-		//artist = Names.add(artist);
-		//album = Names.add(album);
-		//track = Names.add(track);
-
-		Store.user(user).add({
-			year: year,
-			month: month,
-			artist: artist,
-			album: album,
-			track: song
-		});
-
-		// Get Unique Track Id
-		//track = Tracks.addUnique(artist, album, track);
-
-
-
-		// TODO: do something with track
-		/*
-		User.year(2013)
-			.month(8)
-			.artist(artist)
-			.album(album)
-			.track(track)
-			.play(1);
-
-		// the Storage module should take care of this:
-		Names.add(artist);
-		Names.add(album);
-		Names.add(track);
-
-		var track_id = Track.add(artist, album, track);
-
-		User.add(track_id).toYear(year).andMonth(month).forUser(user);
-
-		Storage.add(artist, album, track, 1);
-
-		Storage.add({
-			user: user,
-			year: year,
-			month: month,
-			artist: artist,
-			album: album,
-			song: track,
-			plays: 1
-		});
-
-		*/
+		Storage.user(username).add(options);
 
 	}
 
@@ -191,9 +156,7 @@ function Monthly(year, month) {
 			console.log('finished');
 
 			// TODO: do something, maybe save it all back to localStorage or something...
-			/*
-			Storage.saveAll();
-			*/
+			Storage.user(username).save();
 		}
 	}
 

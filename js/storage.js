@@ -12,6 +12,7 @@ var storage = localStorage,
 	//names = 'n',
 	//tracks = 't',
 	date = 'd',
+	lastUser = 'l',
 
 	blank = '',
 	comma = ',',
@@ -56,6 +57,7 @@ var Data = {
 		this._decompress(localStorage[this.key]);
 	},
 
+	// TODO: should handle localStorage space errors...
 	save: function() {
 		storage[this.key] = this._compress();
 	}
@@ -543,6 +545,33 @@ var User = (function() {
 		return trackId;
 	};
 
+	// Public get
+	// TODO: doesn't really return anything useful right now...
+	User.prototype.get = function(options) {
+		var year = options.year,
+			month = options.month;
+
+		if (this.stats[year]) {
+			return this.stats[year][month];
+		}
+
+		return false;
+	};
+
+	// Public clear
+	User.prototype.clear = function(options) {
+		var year = options.year,
+			month = options.month;
+
+		if (this.stats[year]) {
+			this.stats[year][month] = {};
+
+			return true;
+		}
+
+		return false;
+	};
+
 	// "Private"
 	// compresses "{12:{10:{123:4,124:3,132:1},11:{122:5,132:6}},13:{0:{123:4,124:3,132:1},1:{122:5,132:6}}}"
 	//         to "\nC\nA0ý40þ30Ć1\nB0ü50Ć6\nD\n00ý40þ30Ć1\n10ü50Ć6"
@@ -740,7 +769,7 @@ function saveAll() {
 
 
 
-var Store = {
+var Storage = {
 
 	// list of users
 	_users: {},
