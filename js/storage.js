@@ -54,7 +54,7 @@ var Data = {
 	//add: function() {}
 
 	load: function() {
-		this._decompress(localStorage[this.key]);
+		this._decompress(storage[this.key]);
 	},
 
 	// TODO: should handle localStorage space errors...
@@ -388,8 +388,6 @@ var Tracks = extend(Data, {
 		album = Names.add(album);
 		track = Names.add(track);
 
-
-
 		return Tracks.add([artist, album, track]);
 	},
 
@@ -410,8 +408,6 @@ var Tracks = extend(Data, {
 
 		// adds [[0, 1, 2], ...]
 		Tracks.number[id] = track;
-
-		// should we always save...?
 
 		return id;
 	},
@@ -435,10 +431,6 @@ var Tracks = extend(Data, {
 
 		return id;
 	},
-
-	//save: function() {
-	//	storage[ tracks ] = this.compress();
-	//},
 
 	// "Private"
 	// compresses to '000102000103000104'
@@ -498,10 +490,9 @@ var User = (function() {
 
 	function User(username) {
 		this.key = username;
-		this.stats = {};
-		this.loved = [];
 
-		// TODO: load user if they are stored
+		// load user if they are stored
+		this.load();
 	}
 
 	// User's public functions
@@ -551,8 +542,13 @@ var User = (function() {
 		var year = options.year,
 			month = options.month;
 
-		if (this.stats[year]) {
-			return this.stats[year][month];
+		if (year != undefined && this.stats[year]) {
+
+			if (month != undefined) {
+				return this.stats[year][month];
+			} else {
+				return this.stats[year];
+			}
 		}
 
 		return false;
@@ -563,8 +559,14 @@ var User = (function() {
 		var year = options.year,
 			month = options.month;
 
-		if (this.stats[year]) {
-			this.stats[year][month] = {};
+		if (year != undefined && this.stats[year]) {
+
+			if (month != undefined) {
+				this.stats[year][month] = {};
+			} else {
+				this.stats[year] = {};
+			}
+
 
 			return true;
 		}
@@ -617,14 +619,13 @@ var User = (function() {
 	// decompresses 'c\na3f43g33o1\nb3e53o6\nd\n03f43g33o1\n13e53o6' to usable data
 	User.prototype._decompress = function(text) {
 		// Now turn it back into an object
-		var index,
+		var index = 1,
 			year,
 			month,
 			months,
 			track,
 			tracks,
 			plays,
-			loved,
 
 			// seperate the years
 			array = text && text.split(newline) || [];
@@ -632,10 +633,10 @@ var User = (function() {
 		// reset current user's stats
 		this.stats = {};
 
-		loved = array[0] && array[0].match(/.{2}/g) || [];
+		this.loved = array[0] && array[0].match(/.{2}/g) || [];
 
 		// decompress the years
-		for (index = 1; index < array.length;) {
+		for (; index < array.length;) {
 			year = decompressNumber(array[index]);
 
 			months = {};
@@ -766,7 +767,9 @@ function saveAll() {
 	Names.save();
 }
 
-
+function defined(variable) {
+	return typeof variable != 'undefined';
+}
 
 
 var Storage = {
@@ -822,7 +825,7 @@ var Radix = {
 	// and exponents separately, or some other possibility. For now, bail
 	fromNumber: function(number, padding) {
 
-		if (isNaN(Number(number)) || number == null || number == Number.POSITIVE_INFINITY) {
+		if (isNaN(Number(number)) || number == undefined || number == Number.POSITIVE_INFINITY) {
 			throw "The input is not valid";
 		}
 
