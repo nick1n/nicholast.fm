@@ -747,28 +747,14 @@ function usernames() {
 }
 
 
-// TODO: ... do this differently like the user take care of loading itself
-function loadUser(username) {
-	var user = new User(username);
-	//User.key = username;
-	user.load();
-}
-
-function loadAll(username) {
-	User.key = username;
-	User.load();
+function loadAll() {
 	Tracks.load();
 	Names.load();
 }
 
 function saveAll() {
-	User.save();
 	Tracks.save();
 	Names.save();
-}
-
-function defined(variable) {
-	return typeof variable != 'undefined';
 }
 
 
@@ -777,13 +763,15 @@ var Storage = {
 	// list of users
 	_users: {},
 
-	//add: function(obj) {
+	load: function() {
+		Names.load();
+		Tracks.load();
+	},
 
-		//obj.artist;
-		//obj.album;
-		//obj.track;
-
-	//},
+	save: function() {
+		Names.save();
+		Tracks.save();
+	},
 
 	user: function(username) {
 		var user = this._users[username];
