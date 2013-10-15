@@ -39,8 +39,8 @@ function extend(parent, child) {
 
 // By the way, none of these functions are safe...
 
-// Storage's parent class
-var Data = {
+// Base storage class
+var Base = {
 
 	//key: ''
 
@@ -59,7 +59,13 @@ var Data = {
 
 	// TODO: should handle localStorage space errors...
 	save: function() {
+
+		Storage.saving(true);
+
 		storage[this.key] = this._compress();
+
+		Storage.saving(false);
+
 	}
 
 	//_compress: function() {}
@@ -69,7 +75,7 @@ var Data = {
 };
 
 
-var Images = extend(Data, {
+var Images = extend(Base, {
 
 	_url: 'http://userserve-ak.last.fm/serve/',
 
@@ -272,7 +278,7 @@ var AlbumImages = extend(Images, {
 });
 
 // Names child class of Storage
-var Names = extend(Data, {
+var Names = extend(Base, {
 
 	// Private
 	/**
@@ -354,7 +360,7 @@ var Names = extend(Data, {
 
 
 // Tracks child class of Storage
-var Tracks = extend(Data, {
+var Tracks = extend(Base, {
 
 	// Private
 	/**
@@ -496,8 +502,8 @@ var User = (function() {
 	}
 
 	// User's public functions
-	User.prototype.load = Data.load;
-	User.prototype.save = Data.save;
+	User.prototype.load = Base.load;
+	User.prototype.save = Base.save;
 
 	// Public add
 	User.prototype.add = function(options) {
@@ -723,49 +729,39 @@ function decompressNumber(text) {
 
 
 /**
- * Returns wether or not the username is in storage
+ * Returns whether or not the username is in storage
  */
 function username(name) {
 	return storage.hasOwnProperty(name);
 }
 
-/**
- * Returns an array of usernames
- * Usernames are defined by a key in storage longer then 1 character
- */
-function usernames() {
-	var key,
-		users = [];
-
-	for (key in storage) {
-		if (storage.hasOwnProperty(key) && key.length > 1) {
-			users.push(key);
-		}
-	}
-
-	return users;
-}
-
-
-function loadAll() {
-	Tracks.load();
-	Names.load();
-}
-
-function saveAll() {
-	Tracks.save();
-	Names.save();
-}
-
 
 var Storage = {
+
+	// whether or not Names and Tracks have been loaded from localStorage
+	_loaded: false,
+
+	// whether or not the current tab is saving or not
+	_saving: false,
 
 	// list of users
 	_users: {},
 
+	init: function() {
+
+		if (window.addEventListener) {
+			$(window).bind('storage', Storage._handleStorage);
+		} else {
+			$(document).bind('storage', Storage._handleStorage);
+		}
+
+	},
+
 	load: function() {
 		Names.load();
 		Tracks.load();
+
+		this._loaded = true;
 	},
 
 	save: function() {
@@ -782,7 +778,43 @@ var Storage = {
 			this._users[username] = user;
 		}
 
+		if (!this._loaded) {
+			this.load();
+
+		}
+
 		return user;
+	},
+
+	/**
+	 * Returns an array of usernames
+	 * Usernames are defined by a key in storage longer then 1 character
+	 */
+	users: function() {
+		var key,
+			users = [];
+
+		for (key in storage) {
+			if (storage.hasOwnProperty(key) && key.length > 1) {
+				users.push(key);
+			}
+		}
+
+		return users;
+	},
+
+	saving: function(saving) {
+		Storage._saving = saving;
+	},
+
+	_handleStorage: function(event) {
+
+		if (Storage._saving) {
+			return;
+		}
+
+		Storage._loaded = false;
+
 	}
 
 };
