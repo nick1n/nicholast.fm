@@ -546,12 +546,29 @@ var User = (function() {
 	// TODO: doesn't really return anything useful right now...
 	User.prototype.get = function(options) {
 		var year = options.year,
-			month = options.month;
+			month = options.month,
+			track,
+			obj = {},
+			array = [];
 
 		if (year != undefined && this.stats[year]) {
 
 			if (month != undefined) {
-				return this.stats[year][month];
+
+				for (track in this.stats[year][month]) {
+					obj.plays = this.stats[year][month][track];
+
+					track = Tracks.lookup(+track);
+
+					obj.artist = track[0];
+					obj.album = track[1];
+					obj.track = track[2];
+
+					array.push(obj);
+				}
+
+				return array;
+
 			} else {
 				return this.stats[year];
 			}
@@ -778,10 +795,10 @@ var Storage = {
 			this._users[username] = user;
 		}
 
-		if (!this._loaded) {
-			this.load();
-
-		}
+		// can't do this because it will over write all of the currently unsaved Names and Tracks...
+		//if (!this._loaded) {
+		//	this.load();
+		//}
 
 		return user;
 	},

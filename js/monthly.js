@@ -155,11 +155,10 @@ function Monthly(username, year, month, refresh) {
 		if (!--requests) {
 			console.log('finished');
 
-
-
-			// TODO: do something, maybe save it all back to localStorage or something...
+			// Save the Names, Tracks, and User's stats
 			Storage.save();
 			Storage.user(username).save();
+
 		}
 	}
 
