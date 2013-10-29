@@ -542,6 +542,11 @@ var User = (function() {
 		return trackId;
 	};
 
+	// Public has
+	User.prototype.has = function(year, month) {
+		return !!this.stats[year] && (!month && !!this.stats[year][month]);
+	};
+
 	// Public get
 	// TODO: doesn't really return anything useful right now...
 	User.prototype.get = function(options) {
@@ -570,6 +575,10 @@ var User = (function() {
 				return array;
 
 			} else {
+
+
+
+
 				return this.stats[year];
 			}
 		}

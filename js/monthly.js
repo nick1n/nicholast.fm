@@ -62,10 +62,8 @@ function Monthly(username, year, month, refresh) {
 		i = 0;
 
 
-	// retrieve the user's data from storage if there is any
-	data = Storage.user(username).get(options);
-
-	if (data && !refresh) {
+	// if the user has any data for this month and doesn't want to refresh it, just render the data
+	if (!refresh && Storage.user(username).has(year, month)) {
 		// TODO: render data
 		return;
 	}

@@ -5619,40 +5619,7 @@ button.close {
   src: url('../fonts/icomoon.eot?#iefix') format('embedded-opentype'), url('../fonts/icomoon.svg#icomoon') format('svg'), url('../fonts/icomoon.woff') format('woff'), url('../fonts/icomoon.ttf') format('truetype');
 }
 
-/* Use the following CSS code if you want to use data attributes for inserting your icons */
-
-[data-icon]:before {
-  font-family: 'icomoon';
-  -webkit-font-smoothing: antialiased;
-  font-weight: normal;
-  text-transform: none;
-  content: attr(data-icon);
-  speak: none;
-  font-variant: normal;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Use the following CSS code if you want to have a class per icon */
-
-/*
-Instead of a list of all class selectors,
-you can use the generic selector below, but it's slower:
 [class*="icon-"] {
-*/
-
-.icon-user,
-.icon-github,
-.icon-lastfm,
-.icon-comment,
-.icon-music,
-.icon-facebook,
-.icon-twitter,
-.icon-chevron-down,
-.icon-chevron-up,
-.icon-arrow-right,
-.icon-arrow-left,
-.icon-search,
-.icon-remove {
   font-family: 'icomoon';
   -webkit-font-smoothing: antialiased;
   font-style: normal;
@@ -5660,58 +5627,59 @@ you can use the generic selector below, but it's slower:
   text-transform: none;
   speak: none;
   font-variant: normal;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-user:before {
-  content: "\e000";
-}
-
-.icon-github:before {
-  content: "\e001";
+.icon-spotify:before {
+  content: "\e600";
 }
 
 .icon-lastfm:before {
-  content: "\e002";
-}
-
-.icon-comment:before {
-  content: "\e003";
-}
-
-.icon-music:before {
-  content: "\e004";
+  content: "\e601";
 }
 
 .icon-facebook:before {
-  content: "\e005";
+  content: "\e602";
 }
 
 .icon-twitter:before {
-  content: "\e006";
+  content: "\e603";
 }
 
-.icon-chevron-down:before {
-  content: "\e007";
+.icon-comment:before {
+  content: "\e604";
 }
 
-.icon-chevron-up:before {
-  content: "\e008";
+.icon-music:before {
+  content: "\e605";
 }
 
-.icon-arrow-right:before {
-  content: "\e009";
-}
-
-.icon-arrow-left:before {
-  content: "\e00a";
-}
-
-.icon-search:before {
-  content: "\e00b";
+.icon-user:before {
+  content: "\e606";
 }
 
 .icon-remove:before {
-  content: "\e00c";
+  content: "\e607";
+}
+
+.icon-chevron-down:before {
+  content: "\e608";
+}
+
+.icon-chevron-up:before {
+  content: "\e609";
+}
+
+.icon-arrow-left:before {
+  content: "\e60a";
+}
+
+.icon-arrow-right:before {
+  content: "\e60b";
+}
+
+.icon-search:before {
+  content: "\e60c";
 }
 
 body {
