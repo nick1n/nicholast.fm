@@ -262,6 +262,7 @@ var ArtistImages = extend(Images, {
 
 });
 
+// TODO: What if two different artist have an album with the same name....?
 var AlbumImages = extend(Images, {
 
 	key: 'b',
@@ -827,6 +828,34 @@ var Storage = {
 		}
 
 		return users;
+	},
+
+	/**
+	 * This works with how it currently is set up,
+	 * but just realized there is an issue with AlbumImages, what if two different artists have the same album name...?
+	 */
+	get: function(options) {
+		var obj = {},
+			artist = options.artist,
+			album = options.album,
+			name = album || artist;
+
+		if (typeof name == 'string') {
+			obj.id = Names.lookup(name);
+			obj.name = name;
+		} else {
+			obj.id = name;
+			obj.name = Names.lookup(name);
+		}
+
+		if (album) {
+			obj.image = AlbumImages.lookup(album);
+
+		} else if (artist) {
+			obj.image = ArtistImages.lookup(artist);
+		}
+
+		return obj;
 	},
 
 	saving: function(saving) {

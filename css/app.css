@@ -158,6 +158,10 @@ code {
   color: #d51007;
 }
 
+.btn-spotify i {
+  color: #7AB800;
+}
+
 .share-row a:hover,
 .share-row a:focus,
 .share-row a:active {
@@ -221,6 +225,23 @@ code {
 .share-row a.btn-lastfm:active {
   border-color: #990801;
   background-color: #DB1505;
+}
+
+.share-row a.btn-spotify:hover,
+.share-row a.btn-spotify:focus {
+  border-color: #AADD06;
+  background-color: #7AB800;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#A1CB0D), to(#82B201));
+  background-image: -webkit-linear-gradient(#A1CB0D, #82B201);
+  background-image: -moz-linear-gradient(top, #A1CB0D, #82B201);
+  background-image: -ms-linear-gradient(#A1CB0D, #82B201);
+  background-image: -o-linear-gradient(#A1CB0D, #82B201);
+  background-image: linear-gradient(#A1CB0D, #82B201);
+}
+
+.share-row a.btn-spotify:active {
+  border-color: #AADD06;
+  background-color: #7AB800;
 }
 
 .share-row a:active {

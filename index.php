@@ -60,6 +60,33 @@
       </div>
     </form>
   </div>
+<?php
+
+  $ip2nation = array();
+  require('ip2nation.php');
+
+  $ip = $_SERVER['REMOTE_ADDR'];
+
+  if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != '') {
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+  }
+
+  $ip = ip2long($ip);
+
+  for ($index = 0; $index < count($ip2nation); ++$index) {
+    if ($ip2nation[$index]['low'] < $ip && $ip <= $ip2nation[$index]['high']) {
+
+?>
+  <div class="span6 share-row">
+    <a href="http://spotify.extole.com/a/clk/36hW4Q" class="btn-spotify" target="_blank" title="Plus, all Spotify apps scrobble to Last.fm!"><i class="icon-spotify"></i> Help us out by joining Spotify!</a>
+  </div>
+<?php
+
+      break;
+    }
+  }
+
+?>
   <!--[if lt IE 9]>
   <div class="span6">
     <div class="alert alert-error">
