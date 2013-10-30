@@ -23,9 +23,6 @@
     <link href="css/app-ie.css" rel="stylesheet">
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-  <!--[if lt IE 8]>
-    <script src="js/lte-ie7.js"></script>
-  <![endif]-->
 
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144.png">
