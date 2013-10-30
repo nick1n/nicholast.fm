@@ -79,7 +79,9 @@
 
 ?>
   <div class="span6 share-row">
-    <a href="http://spotify.extole.com/a/clk/36hW4Q" class="btn-spotify" target="_blank" title="Plus, all Spotify apps scrobble to Last.fm!"><i class="icon-spotify"></i> Help us out by joining Spotify!</a>
+    <a href="http://spotify.extole.com/a/clk/36hW4Q" class="btn-spotify" target="_blank" title="Plus, all Spotify apps scrobble to Last.fm!">
+      <i class="icon-spotify"></i> Help us out by signing up for Spotify!
+    </a>
   </div>
 <?php
 

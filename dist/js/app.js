@@ -1,4 +1,4 @@
-/*! nicholast.fm v0.3.1 2013 */
+/*! nicholast.fm v0.3.2 2013 */
 
 (function() {
 
