@@ -71,10 +71,11 @@
     $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
   }
 
-  $ip = ip2long($ip);
+  if (isset($ip) && $ip != '') {
+    $ip = ip2long($ip);
 
-  for ($index = 0; $index < count($ip2nation); ++$index) {
-    if ($ip2nation[$index]['low'] < $ip && $ip <= $ip2nation[$index]['high']) {
+    for ($index = 0; $index < count($ip2nation); ++$index) {
+      if ($ip2nation[$index]['low'] < $ip && $ip <= $ip2nation[$index]['high']) {
 
 ?>
   <div class="span6 share-row">
@@ -82,7 +83,8 @@
   </div>
 <?php
 
-      break;
+        break;
+      }
     }
   }
 
