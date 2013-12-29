@@ -7,7 +7,7 @@
   $DIST = '.' . $pkg->version . '.min';
 
   // non-minified css and js
-  //$DIST = '';
+  // $DIST = '';
 
 ?>
 <!DOCTYPE html>
@@ -115,14 +115,15 @@
 
     <form id="form" class="form-inline" onSubmit="return false;">
       <select id="month">
+        <option value="yearly">Yearly</option>
 <?php
 
   // Dynamic Month Selector
   $month = date("m");
   for ($m = 0; $m < 12; $m++) {
     echo "<option value=\"$m\"";
-    if ($month == $m + 1)
-      echo " selected";
+    //if ($month == $m + 1)
+    //  echo " selected";
     echo ">" . date("F", mktime(0, 0, 0, $m + 1, 1, 2000)) . "</option>\n";
   }
 

@@ -11381,6 +11381,7 @@ var numTracks = 0;
 var innerStr = "<table>";
 var pagesFinished = 0;
 var numPages = 0;
+var page = 0;
 var fromDate = 0;
 var toDate = 0;
 var uniqueTracks = {};
@@ -11410,6 +11411,7 @@ function getTracks(user) {
   innerStr = "<table>";
   pagesFinished = 0;
   numPages = 0;
+  page = 1;
   uniqueTracks = {};
   uniqueArtists = {};
   uniqueAlbums = {};
@@ -11432,7 +11434,10 @@ function getTracks(user) {
 function getTimeZone(data) {
   // TODO: get the last.fm user's timezone and use that instead of this page user's timezone
   // just in case we get the now playing track :-| (it doesn't have a date)
-  var offset = 0;
+  var
+    offset = 0,
+    date;
+
   //if (data.recenttracks.track[1] == undefined) {
   //    offset = -(new Date().getTimezoneOffset()*60*1000) - (new Date(new Date(data.recenttracks.track.date.uts*1000).setSeconds(0)).getTime()-new Date(data.recenttracks.track.date['#text']).getTime());
   //}
@@ -11440,10 +11445,23 @@ function getTimeZone(data) {
   // Find the from and to dates
   // need to fix this only works when you are in the same timezone as the scrobbling was
   year = $("#year").val();
-  month = parseInt($("#month").val());
-  var date = new Date(year, month, 1);
+  month = $("#month").val();
+
+  if (month == 'yearly') {
+    date = new Date(year, 0, 1);
+  } else {
+    month = +month;
+    date = new Date(year, month, 1);
+  }
+
   fromDate = (date.getTime() - offset) / 1000 - 1;
-  date.setMonth(date.getMonth() + 1);
+
+  if (month == 'yearly') {
+    date.setFullYear(date.getFullYear() + 1);
+  } else {
+    date.setMonth(date.getMonth() + 1);
+  }
+
   toDate = (date.getTime() - offset) / 1000;
 
   try {
@@ -11456,7 +11474,11 @@ function getTimeZone(data) {
     }).done(gotNumTracks);
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), username.toLocaleLowerCase()]);
+  if (month == 'yearly') {
+    _gaq.push(['_trackEvent', executing, year, username.toLocaleLowerCase()]);
+  } else {
+    _gaq.push(['_trackEvent', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), username.toLocaleLowerCase()]);
+  }
 }
 
 // initial track info from last.fm
@@ -11466,6 +11488,7 @@ function gotNumTracks(data) {
     finished();
     return;
   }
+
   numPages = data.recenttracks['@attr'].totalPages;
   $("#totalTracks").html(data.recenttracks['@attr'].total);
 
@@ -11477,18 +11500,18 @@ function gotNumTracks(data) {
     }
   }
 
-  try {
-    for (var page = 2; page <= numPages; ++page) {
-      setTimeout(getRecentTracks(page), 200 * (page - 2));
-    }
-  } catch (e) {}
+  // try {
+  //   for (var page = 2; page <= numPages; ++page) {
+  //     setTimeout(getRecentTracks(page), 200 * (page - 2));
+  //   }
+  // } catch (e) {}
 
   gotTracks(data);
 }
 
 // a proxy function for delaying all the last.fm api calls
 function getRecentTracks(page) {
-  return function() {
+  // return function() {
     LastFM('user.getRecentTracks' , {
       user: username,
       limit: '200',
@@ -11496,11 +11519,16 @@ function getRecentTracks(page) {
       to: toDate,
       from: fromDate
     }).done(gotTracks);
-  };
+  // };
 }
 
 // got some track info from last.fm lets parse it :)
 function gotTracks(data) {
+
+  if (page < numPages) {
+    getRecentTracks(++page);
+  }
+
   numTracks += data.recenttracks.track.length;
   $("#totalUniqueTracks").html(numTracks);
 
@@ -11773,6 +11801,16 @@ function finished() {
       dataSource: dataSource
   });
 
+  if (month == 'yearly') {
+
+    // TODO: BB code
+    $("#bbcode").html('');
+    $("#oldbbcode").html('');
+
+    $("#mttMonth").html("Yearly Stats For " + year);
+
+  } else {
+
   // generate my bb code
   var bbCode = "";
   var codeMonth = month + 1;
@@ -11821,12 +11859,21 @@ function finished() {
 
   $("#mttMonth").html("Monthly Stats For " + getMonthName(month));
 
+  }
+
   $("#trackInfo").show();
   $("#progressBack").hide();
 
   var timeSpent = new Date().getTime() - startTime;
-  if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), timeSpent, username.toLocaleLowerCase(), 100])
+  if (timeSpent > 100) {
+
+    if (month == 'yearly') {
+      _gaq.push(['_trackTiming', executing, year, timeSpent, username.toLocaleLowerCase(), 100]);
+    } else {
+      _gaq.push(['_trackTiming', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), timeSpent, username.toLocaleLowerCase(), 100]);
+    }
+
+  }
 
   executing = null;
   $(".submit").button('reset');
@@ -12417,12 +12464,12 @@ $(function() {
       if (target != event.target) {
         return;
       }
-  
+
       var href = $(this).attr('href');
       if (href && href != "#") {
         _gaq.push(['_trackEvent', 'Click', href, username.toLocaleLowerCase()]);
       }
-  
+
     });
 
   // Stops the tooltip from being in the wrong position
