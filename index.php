@@ -7,7 +7,7 @@
   $DIST = '.' . $pkg->version . '.min';
 
   // non-minified css and js
-  // $DIST = '';
+  $DIST = '';
 
 ?>
 <!DOCTYPE html>
@@ -103,7 +103,8 @@
   <div class="span10 offset1" id="main-tabbed">
     <div id="tabbable">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#MonthlyTopTracks" data-toggle="tab">Monthly Top Tracks</a></li>
+        <li class="active"><a href="#MonthlyTopTracks" data-toggle="tab">Monthly Top</a></li>
+        <li><a href="#YearlyTopTracks" data-toggle="tab">Yearly Top <span class="label label-important">new!</span></a></li>
         <li><a href="#ArtistRecommendations" data-toggle="tab">Artist Recommendations</a></li>
         <li><a href="#TrackRecommendations" data-toggle="tab">Track Recommendations</a></li>
         <li><a href="#About" data-toggle="tab">About</a></li>
@@ -115,15 +116,14 @@
 
     <form id="form" class="form-inline" onSubmit="return false;">
       <select id="month">
-        <option value="yearly">Yearly</option>
 <?php
 
   // Dynamic Month Selector
   $month = date("m");
   for ($m = 0; $m < 12; $m++) {
     echo "<option value=\"$m\"";
-    //if ($month == $m + 1)
-    //  echo " selected";
+    if ($month == $m + 1)
+     echo " selected";
     echo ">" . date("F", mktime(0, 0, 0, $m + 1, 1, 2000)) . "</option>\n";
   }
 
@@ -149,21 +149,9 @@
       <div class="row">
         <div class="span10">
           <h3><span id="mttMonth"></span></h3>
-        </div>
-      </div>
-      <div class="row">
-        <div class="span10">
-          <b>Total tracks:</b> <span id="totalTracks"></span>
-        </div>
-      </div>
-      <div class="row">
-        <div class="span10">
-          <b>Total unique tracks:</b> <span id="totalUniqueTracks"></span>
-        </div>
-      </div>
-      <div class="row">
-        <div class="span10">
-          <b>Song Repetition:</b> <span id="songRepetition"></span>
+          <b>Total tracks:</b> <span id="totalTracks"></span><br>
+          <b>Total unique tracks:</b> <span id="totalUniqueTracks"></span><br>
+          <b>Song Repetition:</b> <span id="songRepetition"></span><br>
           <br><br>
         </div>
       </div>
@@ -236,6 +224,106 @@
 
     </div>
     <!-- end Monthly Top Tracks -->
+
+    <!-- start Yearly Top Tracks -->
+    <div class="tab-pane" id="YearlyTopTracks">
+
+    <form id="form" class="form-inline" onSubmit="return false;">
+      <select id="year">
+<?php
+
+  // Dynamic Year Selector
+  // $year = date("Y");
+  for ($y = 2005; $y <= $year; $y++) {
+    echo "<option value=\"$y\"";
+    if (2013 == $y)
+      echo " selected";
+    echo ">$y</option>\n";
+  }
+
+?>
+      </select>
+      <button class="btn btn-primary submit disabled" data-loading-text="loading...">Submit</button>
+    </form>
+    <div id="trackInfo" class="hide">
+      <div class="row">
+        <div class="span10">
+          <h3><span id="mttMonth"></span></h3>
+          <b>Total tracks:</b> <span id="totalTracks"></span><br>
+          <b>Total unique tracks:</b> <span id="totalUniqueTracks"></span><br>
+          <b>Song Repetition:</b> <span id="songRepetition"></span><br>
+          <br><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span10">
+          <div class="accordion" id="accordion">
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#BBCode">
+                  <b>BB Code:</b>
+                </a>
+              </div>
+              <div id="BBCode" class="accordion-body in">
+                <div class="accordion-inner">
+                  <pre><code id="bbcode"></code></pre>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#OldBBCode">
+                  <b>Old BB Code:</b> (Based on kurtrips' heathaze.org BB Code)
+                </a>
+              </div>
+              <div id="OldBBCode" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <pre><code id="oldbbcode"></code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span10">
+          <p><a href="#toptracks"><b>Top 10 Tracks:</b> (more)</a></p>
+          <div id="trackList"></div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="span5">
+          <p><a href="#topartists"><b>Top 10 Artists:</b> (more)</a></p>
+          <div id="artistList"></div>
+        </div>
+        <div class="span5">
+          <p><a href="#topalbums"><b>Top 10 Albums:</b> (more)</a></p>
+          <div id="albumList"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="toptracks" class="span10"><hr></div>
+      </div>
+      <div class="row">
+        <div id="track-datagrid" class="span10"></div>
+      </div>
+      <div class="row">
+        <div id="topartists" class="span10"><hr></div>
+      </div>
+      <div class="row">
+        <div id="artist-datagrid" class="span10"></div>
+      </div>
+      <div class="row">
+        <div id="topalbums" class="span10"><hr></div>
+      </div>
+      <div class="row">
+        <div id="album-datagrid" class="span10"></div>
+      </div>
+    </div>
+
+    </div>
+    <!-- end Yearly Top Tracks -->
 
     <!-- start Artist Recommendations -->
     <div class="tab-pane" id="ArtistRecommendations">

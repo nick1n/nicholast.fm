@@ -35,11 +35,44 @@ var month = 0;
 var executing = null;
 var period = 0;
 var startTime;
+var idPrefix = '';
 var methods = {
   "#MonthlyTopTracks": getTracks,
+  "#YearlyTopTracks": getYearly,
   "#ArtistRecommendations": getArtistRecommendations,
   "#TrackRecommendations": getTrackRecommendations
 };
+
+/////////////////////// User's Yearly Top Tracks Code ///////////////////
+
+function getYearly(user) {
+
+  executing = 'Yearly Top Tracks';
+  $('.submit').button('loading');
+  startTime = +new Date;
+
+  username = $user.val();
+  numTracks = 0;
+  innerStr = '<table>';
+  pagesFinished = 0;
+  numPages = 0;
+  page = 1;
+  uniqueTracks = {};
+  uniqueArtists = {};
+  uniqueAlbums = {};
+  year = 0;
+  month = 0;
+  idPrefix = '#YearlyTopTracks ';
+
+  $('#progressBar').width('0%');
+
+  $(idPrefix + '#trackInfo').hide();
+  $('#progressBack').show();
+
+  getTimeZone();
+
+}
+
 
 /////////////////////// User's Monthly Top Tracks Code //////////////////
 
@@ -60,10 +93,12 @@ function getTracks(user) {
   uniqueAlbums = {};
   year = 0;
   month = 0;
+  idPrefix = '#MonthlyTopTracks ';
+
   $("#progressBar").width("0%");
   //document.getElementById("progressPercent").innerHTML = "0%";
 
-  $("#trackInfo").hide();
+  $(idPrefix + '#trackInfo').hide();
   $("#progressBack").show();
 
   // Just call getTimeZone, trying to figure out last.fm user's timezone isn't working out :-/
@@ -87,10 +122,10 @@ function getTimeZone(data) {
 
   // Find the from and to dates
   // need to fix this only works when you are in the same timezone as the scrobbling was
-  year = $("#year").val();
-  month = $("#month").val();
+  year = $(idPrefix + "#year").val();
+  month = $(idPrefix + "#month").val();
 
-  if (month == 'yearly') {
+  if (month == undefined) {
     date = new Date(year, 0, 1);
   } else {
     month = +month;
@@ -99,7 +134,7 @@ function getTimeZone(data) {
 
   fromDate = (date.getTime() - offset) / 1000 - 1;
 
-  if (month == 'yearly') {
+  if (month == undefined) {
     date.setFullYear(date.getFullYear() + 1);
   } else {
     date.setMonth(date.getMonth() + 1);
@@ -117,7 +152,7 @@ function getTimeZone(data) {
     }).done(gotNumTracks);
   } catch (e) {}
 
-  if (month == 'yearly') {
+  if (month == undefined) {
     _gaq.push(['_trackEvent', executing, year, username.toLocaleLowerCase()]);
   } else {
     _gaq.push(['_trackEvent', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), username.toLocaleLowerCase()]);
@@ -133,7 +168,7 @@ function gotNumTracks(data) {
   }
 
   numPages = data.recenttracks['@attr'].totalPages;
-  $("#totalTracks").html(data.recenttracks['@attr'].total);
+  $(idPrefix + "#totalTracks").html(data.recenttracks['@attr'].total);
 
   // check for extra now playing track even though its a list of tracks from last month :-/
   // and remove it from the array FOREVER!
@@ -172,8 +207,10 @@ function gotTracks(data) {
     getRecentTracks(++page);
   }
 
+  setTimeout(function() {
+
   numTracks += data.recenttracks.track.length;
-  $("#totalUniqueTracks").html(numTracks);
+  $(idPrefix + "#totalUniqueTracks").html(numTracks);
 
   for (var i = 0; i < data.recenttracks.track.length; ++i) {
     var artist = data.recenttracks.track[i].artist["#text"];
@@ -223,6 +260,9 @@ function gotTracks(data) {
   if (pagesFinished >= numPages) {
     finished();
   }
+
+  });
+
 }
 
 // sorts it by number of plays descending and if the plays are the same
@@ -319,9 +359,9 @@ function finished() {
   }
   albums.sort(albumSort);
 
-  $("#totalUniqueTracks").html(tracks.length);
+  $(idPrefix + "#totalUniqueTracks").html(tracks.length);
   if (numTracks > 0) {
-    $("#songRepetition").html((numTracks / tracks.length).toFixed(2));
+    $(idPrefix + "#songRepetition").html((numTracks / tracks.length).toFixed(2));
   }
 
   // generate top 10 artists list ...
@@ -332,11 +372,11 @@ function finished() {
         '<td>' + (i + 1) + '. ' + artists[i].artist + ' ' + artists[i].plays.replace(/hide-text/g, '') + '</td>' +
       '</tr>';
   }
-  $("#artistList").html(innerStr + '</table>');
+  $(idPrefix + "#artistList").html(innerStr + '</table>');
 
   // generate artist datagrid ...
-  $("#artist-datagrid").html($("#template-datagrid").html());
-  $("#artist-datagrid #caption").html("<h3>Top Artists:</h3>");
+  $(idPrefix + "#artist-datagrid").html($("#template-datagrid").html());
+  $(idPrefix + "#artist-datagrid #caption").html("<h3>Top Artists:</h3>");
 
   var dataSource = new StaticDataSource({
       columns: [{
@@ -354,7 +394,7 @@ function finished() {
       data: artists
   });
 
-  $('#artist-datagrid .datagrid').datagrid({
+  $(idPrefix + '#artist-datagrid .datagrid').datagrid({
       dataSource: dataSource
   });
 
@@ -370,11 +410,11 @@ function finished() {
         '<td>' + (i + 1) + '. ' + albums[i].artist.replace(/hide-text/g, '') + ' ' + albums[i].album + ' ' + albums[i].plays.replace(/hide-text/g, '') + '</td>' +
       '</tr>';
   }
-  $("#albumList").html(innerStr + '</table>');
+  $(idPrefix + "#albumList").html(innerStr + '</table>');
 
   // generate album datagrid ...
-  $("#album-datagrid").html($("#template-datagrid").html());
-  $("#album-datagrid #caption").html("<h3>Top Albums:</h3>");
+  $(idPrefix + "#album-datagrid").html($("#template-datagrid").html());
+  $(idPrefix + "#album-datagrid #caption").html("<h3>Top Albums:</h3>");
 
   dataSource = new StaticDataSource({
       columns: [{
@@ -397,7 +437,7 @@ function finished() {
       data: albums
   });
 
-  $('#album-datagrid .datagrid').datagrid({
+  $(idPrefix + '#album-datagrid .datagrid').datagrid({
       dataSource: dataSource
   });
 
@@ -413,11 +453,11 @@ function finished() {
         '<td>' + (i + 1) + '. ' + tracks[i].artist.replace(/hide-text/g, '') + ' ' + tracks[i].track + ' ' + tracks[i].plays.replace(/hide-text/g, '') + '</td>' +
       '</tr>';
   }
-  $("#trackList").html(innerStr + '</table>');
+  $(idPrefix + "#trackList").html(innerStr + '</table>');
 
   // generate track datagrid ...
-  $("#track-datagrid").html($("#template-datagrid").html());
-  $("#track-datagrid #caption").html("<h3>Top Tracks:</h3>");
+  $(idPrefix + "#track-datagrid").html($("#template-datagrid").html());
+  $(idPrefix + "#track-datagrid #caption").html("<h3>Top Tracks:</h3>");
 
   dataSource = new StaticDataSource({
       columns: [{
@@ -440,17 +480,17 @@ function finished() {
       data: tracks
   });
 
-  $('#track-datagrid .datagrid').datagrid({
+  $(idPrefix + '#track-datagrid .datagrid').datagrid({
       dataSource: dataSource
   });
 
-  if (month == 'yearly') {
+  if (month == undefined) {
 
     // TODO: BB code
-    $("#bbcode").html('');
-    $("#oldbbcode").html('');
+    $(idPrefix + "#bbcode").html('');
+    $(idPrefix + "#oldbbcode").html('');
 
-    $("#mttMonth").html("Yearly Stats For " + year);
+    $(idPrefix + "#mttMonth").html("Yearly Stats For " + year);
 
   } else {
 
@@ -476,7 +516,7 @@ function finished() {
     for (var i = 0; albums[i] && albums[0].bbcode.plays == albums[i].bbcode.plays; ++i) {
       bbCode += "[b]" + codeMonth + "-" + year.substr(2) + ":[/b] [artist]" + EncodeHtml(albums[i].bbcode.artist) + "[/artist] - [album artist=" + EncodeHtml(albums[i].bbcode.artist) + "]" + EncodeHtml(albums[i].bbcode.album) + "[/album]<br>";
     }
-    $("#bbcode").html(bbCode);
+    $(idPrefix + "#bbcode").html(bbCode);
 
     // generate old bb code (styled from lastfm.heathaze.org)
     bbCode = "";
@@ -497,20 +537,20 @@ function finished() {
     for (var i = 0; albums[i] && albums[0].bbcode.plays == albums[i].bbcode.plays; ++i) {
       bbCode += "[b]" + getShortMonthName(month) + "-" + year + "[/b]<br>[artist]" + EncodeHtml(albums[i].bbcode.artist) + "[/artist] : [album artist=" + EncodeHtml(albums[i].bbcode.artist) + "]" + EncodeHtml(albums[i].bbcode.album) + "[/album] ([b]" + albums[i].bbcode.plays + "[/b] plays)<br>";
     }
-    $("#oldbbcode").html(bbCode);
+    $(idPrefix + "#oldbbcode").html(bbCode);
   }
 
-  $("#mttMonth").html("Monthly Stats For " + getMonthName(month));
+  $(idPrefix + "#mttMonth").html("Monthly Stats For " + getMonthName(month));
 
   }
 
-  $("#trackInfo").show();
+  $(idPrefix + "#trackInfo").show();
   $("#progressBack").hide();
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100) {
 
-    if (month == 'yearly') {
+    if (month == undefined) {
       _gaq.push(['_trackTiming', executing, year, timeSpent, username.toLocaleLowerCase(), 100]);
     } else {
       _gaq.push(['_trackTiming', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), timeSpent, username.toLocaleLowerCase(), 100]);
