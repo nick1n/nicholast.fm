@@ -7,7 +7,7 @@
   $DIST = '.' . $pkg->version . '.min';
 
   // non-minified css and js
-  $DIST = '';
+  // $DIST = '';
 
 ?>
 <!DOCTYPE html>
