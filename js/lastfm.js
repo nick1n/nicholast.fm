@@ -117,21 +117,32 @@ var LastFM = (function( $ ) {
 		settings.cache = cache;
 
 		// make the api request
-		$.ajax( settings )
+		apiRequest();
 
-			// don't filter successful requests, but...
-			// when a request fails, call retry and use it's deferred object instead
-			.then( 0, retry( 3 ) )
+		// simple helper function for api requests
+		function apiRequest() {
 
-			// successful api request, call done
-			// if there was a request error, fail the promise
-			.then( done, deferred.reject );
+			$.ajax( settings )
+
+				// don't filter successful requests, but...
+				// when a request fails, call retry and use it's deferred object instead
+				.then( 0, retry( 3 ) )
+
+				// successful api request, call done
+				// if there was a request error, fail the promise
+				.then( done, deferred.reject );
+
+		}
 
 		// successful api request
 		function done( data, status, jqXHR ) {
 
+			// if the Rate Limit was exceeded, retry the call in a second
+			if ( data.error == 29 ) {
+				setTimeout( apiRequest, 1000 );
+
 			// if there was a last.fm error fail the promise
-			if ( data.error ) {
+			} else if ( data.error ) {
 				deferred.reject( jqXHR, status, data );
 
 			// else fulfill the promise

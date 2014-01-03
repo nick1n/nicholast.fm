@@ -145,6 +145,7 @@
       </select>
       <button class="btn btn-primary submit disabled" data-loading-text="loading...">Submit</button>
     </form>
+
     <div id="trackInfo" class="hide">
       <div class="row">
         <div class="span10">
@@ -152,9 +153,10 @@
           <b>Total tracks:</b> <span id="totalTracks"></span><br>
           <b>Total unique tracks:</b> <span id="totalUniqueTracks"></span><br>
           <b>Song Repetition:</b> <span id="songRepetition"></span><br>
-          <br><br>
+          <br>
         </div>
       </div>
+
       <div class="row">
         <div class="span10">
           <div class="accordion" id="accordion">
@@ -185,6 +187,7 @@
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="span10">
           <p><a href="#toptracks"><b>Top 10 Tracks:</b> (more)</a></p>
@@ -192,6 +195,7 @@
         </div>
       </div>
       <br>
+
       <div class="row">
         <div class="span5">
           <p><a href="#topartists"><b>Top 10 Artists:</b> (more)</a></p>
@@ -202,6 +206,7 @@
           <div id="albumList"></div>
         </div>
       </div>
+
       <div class="row">
         <div id="toptracks" class="span10"><hr></div>
       </div>
@@ -245,6 +250,7 @@
       </select>
       <button class="btn btn-primary submit disabled" data-loading-text="loading...">Submit</button>
     </form>
+
     <div id="trackInfo" class="hide">
       <div class="row">
         <div class="span10">
@@ -252,39 +258,10 @@
           <b>Total tracks:</b> <span id="totalTracks"></span><br>
           <b>Total unique tracks:</b> <span id="totalUniqueTracks"></span><br>
           <b>Song Repetition:</b> <span id="songRepetition"></span><br>
-          <br><br>
+          <br>
         </div>
       </div>
-      <div class="row">
-        <div class="span10">
-          <div class="accordion" id="accordion">
-            <div class="accordion-group">
-              <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#BBCode">
-                  <b>BB Code:</b>
-                </a>
-              </div>
-              <div id="BBCode" class="accordion-body in">
-                <div class="accordion-inner">
-                  <pre><code id="bbcode"></code></pre>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-group">
-              <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#OldBBCode">
-                  <b>Old BB Code:</b> (Based on kurtrips' heathaze.org BB Code)
-                </a>
-              </div>
-              <div id="OldBBCode" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  <pre><code id="oldbbcode"></code></pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <div class="row">
         <div class="span10">
           <p><a href="#toptracks"><b>Top 10 Tracks:</b> (more)</a></p>
@@ -292,6 +269,7 @@
         </div>
       </div>
       <br>
+
       <div class="row">
         <div class="span5">
           <p><a href="#topartists"><b>Top 10 Artists:</b> (more)</a></p>
@@ -302,6 +280,7 @@
           <div id="albumList"></div>
         </div>
       </div>
+
       <div class="row">
         <div id="toptracks" class="span10"><hr></div>
       </div>

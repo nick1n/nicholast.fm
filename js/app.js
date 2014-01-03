@@ -35,6 +35,8 @@ var month = 0;
 var executing = null;
 var period = 0;
 var startTime;
+var oneSecond = 1000;
+var now = Date.now() / oneSecond;
 var idPrefix = '';
 var methods = {
   "#MonthlyTopTracks": getTracks,
@@ -62,6 +64,7 @@ function getYearly(user) {
   uniqueAlbums = {};
   year = 0;
   month = 0;
+  now = Date.now() / oneSecond;
   idPrefix = '#YearlyTopTracks ';
 
   $('#progressBar').width('0%');
@@ -93,6 +96,7 @@ function getTracks(user) {
   uniqueAlbums = {};
   year = 0;
   month = 0;
+  now = Date.now() / oneSecond;
   idPrefix = '#MonthlyTopTracks ';
 
   $("#progressBar").width("0%");
@@ -149,7 +153,7 @@ function getTimeZone(data) {
       page : 1,
       to : toDate,
       from : fromDate
-    }).done(gotNumTracks);
+    }, now > toDate).done(gotNumTracks);
   } catch (e) {}
 
   if (month == undefined) {
@@ -178,88 +182,89 @@ function gotNumTracks(data) {
     }
   }
 
-  // try {
-  //   for (var page = 2; page <= numPages; ++page) {
-  //     setTimeout(getRecentTracks(page), 200 * (page - 2));
-  //   }
-  // } catch (e) {}
+  page = 2;
 
-  gotTracks(data);
+  gotRecentTracks(data);
+
+  // send out a second api request, so we have two going at the same time
+  setTimeout(getRecentTracks, 500);
 }
 
 // a proxy function for delaying all the last.fm api calls
-function getRecentTracks(page) {
-  // return function() {
+function getRecentTracks() {
+
+  if (page <= numPages) {
+
     LastFM('user.getRecentTracks' , {
       user: username,
       limit: '200',
-      page: page,
+      page: page++,
       to: toDate,
       from: fromDate
-    }).done(gotTracks);
-  // };
+    }, now > toDate).done(gotRecentTracks);
+
+  }
+
 }
 
 // got some track info from last.fm lets parse it :)
-function gotTracks(data) {
+function gotRecentTracks(data) {
 
-  if (page < numPages) {
-    getRecentTracks(++page);
-  }
+  getRecentTracks();
 
   setTimeout(function() {
 
-  numTracks += data.recenttracks.track.length;
-  $(idPrefix + "#totalUniqueTracks").html(numTracks);
+    numTracks += data.recenttracks.track.length;
+    $(idPrefix + "#totalUniqueTracks").html(numTracks);
 
-  for (var i = 0; i < data.recenttracks.track.length; ++i) {
-    var artist = data.recenttracks.track[i].artist["#text"];
-    var album = artist + " - " + data.recenttracks.track[i].album["#text"];
-    var track = artist + " - " + data.recenttracks.track[i].name;
+    for (var i = 0; i < data.recenttracks.track.length; ++i) {
+      var artist = data.recenttracks.track[i].artist["#text"];
+      var album = artist + " - " + data.recenttracks.track[i].album["#text"];
+      var track = artist + " - " + data.recenttracks.track[i].name;
 
-    if (uniqueTracks[track]) {
-      ++uniqueTracks[track].plays;
-    } else {
-      uniqueTracks[track] = {
-        artist : artist,
-        track : data.recenttracks.track[i].name,
-        url : data.recenttracks.track[i].url,
-        plays : 1
-      };
+      if (uniqueTracks[track]) {
+        ++uniqueTracks[track].plays;
+      } else {
+        uniqueTracks[track] = {
+          artist : artist,
+          track : data.recenttracks.track[i].name,
+          url : data.recenttracks.track[i].url,
+          plays : 1
+        };
+      }
+
+      if (uniqueAlbums[album]) {
+        ++uniqueAlbums[album].plays;
+      } else {
+        uniqueAlbums[album] = {
+          artist : artist,
+          album : data.recenttracks.track[i].album["#text"],
+          url : data.recenttracks.track[i].url,
+          plays : 1
+        };
+      }
+
+      if (uniqueArtists[artist]) {
+        ++uniqueArtists[artist].plays;
+      } else {
+        uniqueArtists[artist] = {
+          artist : artist,
+          url : data.recenttracks.track[i].url,
+          plays : 1
+        };
+      }
     }
+    ++pagesFinished;
 
-    if (uniqueAlbums[album]) {
-      ++uniqueAlbums[album].plays;
-    } else {
-      uniqueAlbums[album] = {
-        artist : artist,
-        album : data.recenttracks.track[i].album["#text"],
-        url : data.recenttracks.track[i].url,
-        plays : 1
-      };
+    //code for progress bar :)
+    var percent = (pagesFinished / numPages * 100).toFixed(0) + "%";
+    $("#progressBar").width(percent);
+    //document.getElementById("progressPercent").innerHTML = percent;
+
+    // this is our last page so let's finish this
+    if (pagesFinished >= numPages) {
+      finished();
     }
-
-    if (uniqueArtists[artist]) {
-      ++uniqueArtists[artist].plays;
-    } else {
-      uniqueArtists[artist] = {
-        artist : artist,
-        url : data.recenttracks.track[i].url,
-        plays : 1
-      };
-    }
-  }
-  ++pagesFinished;
-
-  //code for progress bar :)
-  var percent = (pagesFinished / numPages * 100).toFixed(0) + "%";
-  $("#progressBar").width(percent);
-  //document.getElementById("progressPercent").innerHTML = percent;
-
-  // this is our last page so let's finish this
-  if (pagesFinished >= numPages) {
-    finished();
-  }
 
   });
 
