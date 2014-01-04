@@ -11239,7 +11239,7 @@ var LastFM = (function( $ ) {
 		},
 
 		// jQuery ajax settings
-		settings = {},
+		ajaxSettings = {},
 
 		// callbacks that are called for every api request
 		callbacks = {};
@@ -11248,7 +11248,7 @@ var LastFM = (function( $ ) {
 	function init( options ) {
 
 		// setup jQuery's ajax settings
-		$.extend( settings, defaults, options );
+		$.extend( ajaxSettings, defaults, options );
 
 		// setup the api key
 		data.api_key = options.api_key || data.api_key;
@@ -11259,7 +11259,11 @@ var LastFM = (function( $ ) {
 
 	// API Request function
 	function apiRequest( method, params, cache ) {
+
 		var callback,
+
+			// local scope settings for async makeRequest calls
+			settings = $.extend( {}, ajaxSettings ),
 
 			// create a deferred promise
 			deferred = $.Deferred(),
@@ -11274,10 +11278,10 @@ var LastFM = (function( $ ) {
 		settings.cache = cache;
 
 		// make the api request
-		apiRequest();
+		makeRequest();
 
 		// simple helper function for api requests
-		function apiRequest() {
+		function makeRequest() {
 
 			$.ajax( settings )
 
@@ -11296,7 +11300,7 @@ var LastFM = (function( $ ) {
 
 			// if the Rate Limit was exceeded, retry the call in a second
 			if ( data.error == 29 ) {
-				setTimeout( apiRequest, 1000 );
+				setTimeout( makeRequest, 1000 );
 
 			// if there was a last.fm error fail the promise
 			} else if ( data.error ) {
@@ -11514,15 +11518,13 @@ function getTimeZone(data) {
 
   toDate = (date.getTime() - offset) / 1000;
 
-  try {
-    LastFM('user.getRecentTracks', {
-      user : username,
-      limit : '200',
-      page : 1,
-      to : toDate,
-      from : fromDate
-    }, now > toDate).done(gotNumTracks);
-  } catch (e) {}
+  LastFM('user.getRecentTracks', {
+    user : username,
+    limit : '200',
+    page : 1,
+    to : toDate,
+    from : fromDate
+  }, now > toDate).done(gotNumTracks);
 
   if (month == undefined) {
     _gaq.push(['_trackEvent', executing, year, username.toLocaleLowerCase()]);
@@ -12414,12 +12416,10 @@ function logoInit() {
 
   username = $user.val();
 
-  try {
-    LastFM('user.getTopAlbums', {
-      user : username,
-      limit : '20'
-    }).done(logo);
-  } catch (e) { }
+  LastFM('user.getTopAlbums', {
+    user : username,
+    limit : '20'
+  }).done(logo);
 }
 
 function activate(method) {

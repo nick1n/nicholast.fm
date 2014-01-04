@@ -146,15 +146,13 @@ function getTimeZone(data) {
 
   toDate = (date.getTime() - offset) / 1000;
 
-  try {
-    LastFM('user.getRecentTracks', {
-      user : username,
-      limit : '200',
-      page : 1,
-      to : toDate,
-      from : fromDate
-    }, now > toDate).done(gotNumTracks);
-  } catch (e) {}
+  LastFM('user.getRecentTracks', {
+    user : username,
+    limit : '200',
+    page : 1,
+    to : toDate,
+    from : fromDate
+  }, now > toDate).done(gotNumTracks);
 
   if (month == undefined) {
     _gaq.push(['_trackEvent', executing, year, username.toLocaleLowerCase()]);
@@ -1046,12 +1044,10 @@ function logoInit() {
 
   username = $user.val();
 
-  try {
-    LastFM('user.getTopAlbums', {
-      user : username,
-      limit : '20'
-    }).done(logo);
-  } catch (e) { }
+  LastFM('user.getTopAlbums', {
+    user : username,
+    limit : '20'
+  }).done(logo);
 }
 
 function activate(method) {
