@@ -141,8 +141,8 @@ var LastFM = (function( $ ) {
 		// successful api request
 		function done( data, status, jqXHR ) {
 
-			// if the Rate Limit was exceeded, retry the call in a second
-			if ( data.error == 29 ) {
+			// if the Rate Limit was exceeded or there was an error fetching the tracks, retry the call in a second
+			if ( data.error == 29 || data.error == 8 ) {
 				setTimeout( makeRequest, 1000 );
 
 			// if there was a last.fm error fail the promise
