@@ -1,4 +1,4 @@
-/*! nicholast.fm v0.4.0 2014 */
+/*! nicholast.fm v0.4.1 2014 */
 
 (function() {
 
@@ -11244,6 +11244,7 @@ var LastFM = (function( $ ) {
 		// callbacks that are called for every api request
 		callbacks = {};
 
+
 	// Init function
 	function init( options ) {
 
@@ -11256,6 +11257,23 @@ var LastFM = (function( $ ) {
 		// setup any callbacks
 		$.extend( callbacks, options.callbacks );
 	}
+
+
+	// simple helper function for api requests
+	function makeRequest( settings, retries, resolve, reject ) {
+
+		$.ajax( settings )
+
+			// filter successful requests checking for last.fm errors,
+			// so, if a request fails, call retry the ajax call
+			.then( checkError( retries ), retry( retries ) )
+
+			// successful api request, call the resolve callback
+			// if there was a request error, call the reject callback
+			.then( resolve, reject );
+
+	}
+
 
 	// API Request function
 	function apiRequest( method, params, cache ) {
@@ -11278,39 +11296,7 @@ var LastFM = (function( $ ) {
 		settings.cache = cache;
 
 		// make the api request
-		makeRequest();
-
-		// simple helper function for api requests
-		function makeRequest() {
-
-			$.ajax( settings )
-
-				// don't filter successful requests, but...
-				// when a request fails, call retry and use it's deferred object instead
-				.then( 0, retry( 3 ) )
-
-				// successful api request, call done
-				// if there was a request error, fail the promise
-				.then( done, deferred.reject );
-
-		}
-
-		// successful api request
-		function done( data, status, jqXHR ) {
-
-			// if the Rate Limit was exceeded or there was an error fetching the tracks, retry the call in a second
-			if ( data.error == 29 || data.error == 8 ) {
-				setTimeout( makeRequest, 1000 );
-
-			// if there was a last.fm error fail the promise
-			} else if ( data.error ) {
-				deferred.reject( jqXHR, status, data );
-
-			// else fulfill the promise
-			} else {
-				deferred.resolve( data, status, jqXHR );
-			}
-		}
+		makeRequest( settings, 3, deferred.resolve, deferred.reject );
 
 		// add any callbacks to the promise
 		for ( callback in callbacks ) {
@@ -11320,6 +11306,39 @@ var LastFM = (function( $ ) {
 		// return the promise
 		return promise;
 	}
+
+
+	// Checks for Last.fm errors, filters "successful" requests and retries them a couple seconds later
+	function checkError( retries ) {
+
+		return function ( data, status, jqXHR ) {
+
+			// create a new deferred object and filter the previous ajax request with this one
+			var output = $.Deferred(),
+
+				settings = this;
+
+			// if the Rate Limit was exceeded or there was an error fetching the tracks, retry the call in a second
+			if ( data.error == 29 || data.error == 8 ) {
+
+				setTimeout( function () {
+					makeRequest( settings, 3, output.resolve, output.reject );
+				}, 2000 );
+
+			// if there was a last.fm error fail the promise
+			} else if ( data.error ) {
+				output.reject( jqXHR, status, data );
+
+			// else if there are wasn't an error, resolve the new deferred object
+			} else {
+				output.resolve( data, status, jqXHR );
+			}
+
+			// return the new deferred object
+			return output;
+		}
+	}
+
 
 	// Retry function
 	function retry( retries ) {
@@ -11340,9 +11359,7 @@ var LastFM = (function( $ ) {
 				}
 
 				// retry the ajax call
-				$.ajax( this )
-					.then( 0, retry( retries ) )
-					.then( output.resolve, output.reject );
+				makeRequest( this, retries, output.resolve, output.reject );
 
 				// return the new deferred object
 				return output;
@@ -11355,6 +11372,7 @@ var LastFM = (function( $ ) {
 			return output;
 		};
 	}
+
 
 	// Main class definition
 	return function( options, params, cache ) {
@@ -11375,7 +11393,7 @@ var LastFM = (function( $ ) {
  * Authors: Nicholas Ness & Nicholas Kramer
  */
 
-if (!console) { var console = { log : function(val) {} }; }
+if (!window.console) { window.console = { log: function(){} }; }
 
 // add scrollbar from load so no weird repositioning happens
 //$("body").height( $(window).height() * 1.1 );
@@ -11563,7 +11581,7 @@ function gotNumTracks(data) {
 // a proxy function for delaying all the last.fm api calls
 function getRecentTracks() {
 
-  if (page <= numPages) {
+  if (executing && page <= numPages) {
 
     LastFM('user.getRecentTracks' , {
       user: username,

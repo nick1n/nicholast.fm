@@ -3,7 +3,7 @@
  * Authors: Nicholas Ness & Nicholas Kramer
  */
 
-if (!console) { var console = { log : function(val) {} }; }
+if (!window.console) { window.console = { log: function(){} }; }
 
 // add scrollbar from load so no weird repositioning happens
 //$("body").height( $(window).height() * 1.1 );
@@ -191,7 +191,7 @@ function gotNumTracks(data) {
 // a proxy function for delaying all the last.fm api calls
 function getRecentTracks() {
 
-  if (page <= numPages) {
+  if (executing && page <= numPages) {
 
     LastFM('user.getRecentTracks' , {
       user: username,
