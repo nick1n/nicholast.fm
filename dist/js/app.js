@@ -11318,7 +11318,7 @@ var LastFM = (function( $ ) {
 
 				settings = this;
 
-			// if the Rate Limit was exceeded or there was an error fetching the tracks, retry the call in a second
+			// if the Rate Limit was exceeded or there was an error fetching the tracks, retry the call in 2 seconds
 			if ( data.error == 29 || data.error == 8 ) {
 
 				setTimeout( function () {
@@ -11336,7 +11336,7 @@ var LastFM = (function( $ ) {
 
 			// return the new deferred object
 			return output;
-		}
+		};
 	}
 
 
@@ -11361,12 +11361,10 @@ var LastFM = (function( $ ) {
 				// retry the ajax call
 				makeRequest( this, retries, output.resolve, output.reject );
 
-				// return the new deferred object
-				return output;
-			}
-
 			// else if there are no retries left, fail the new deferred object
-			output.reject( jqXHR, status, data );
+			} else {
+				output.reject( jqXHR, status, data );
+			}
 
 			// return the new deferred object
 			return output;
