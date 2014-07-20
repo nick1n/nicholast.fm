@@ -155,9 +155,9 @@ function getTimeZone(data) {
   }, now > toDate).done(gotNumTracks);
 
   if (month == undefined) {
-    _gaq.push(['_trackEvent', executing, year, username.toLocaleLowerCase()]);
+    ga('send', 'event', executing, year, username.toLocaleLowerCase());
   } else {
-    _gaq.push(['_trackEvent', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), username.toLocaleLowerCase()]);
+    ga('send', 'event', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), username.toLocaleLowerCase());
   }
 }
 
@@ -554,9 +554,9 @@ function finished() {
   if (timeSpent > 100) {
 
     if (month == undefined) {
-      _gaq.push(['_trackTiming', executing, year, timeSpent, username.toLocaleLowerCase(), 100]);
+      ga('send', 'timing', executing, year, timeSpent, username.toLocaleLowerCase());
     } else {
-      _gaq.push(['_trackTiming', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), timeSpent, username.toLocaleLowerCase(), 100]);
+      ga('send', 'timing', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), timeSpent, username.toLocaleLowerCase());
     }
 
   }
@@ -607,7 +607,7 @@ function getArtistRecommendations(user) {
     }).done(gotTopArtists);
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', executing, period + ' ' + numPages, username.toLocaleLowerCase()]);
+  ga('send', 'event', executing, period + ' ' + numPages, username.toLocaleLowerCase());
 }
 
 function gotTopArtists(data) {
@@ -745,7 +745,7 @@ function arFinished() {
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, period + ' ' + numPages, timeSpent, username.toLocaleLowerCase(), 100])
+    ga('send', 'timing', executing, period + ' ' + numPages, timeSpent, username.toLocaleLowerCase());
 
   $(".submit").button('reset');
   executing = null;
@@ -798,7 +798,7 @@ function getTrackRecommendations(user) {
     }).done(gotTopTracks);
   } catch (e) {}
 
-  _gaq.push(['_trackEvent', executing, period + ' ' + numPages, username.toLocaleLowerCase()]);
+  ga('send', 'event', executing, period + ' ' + numPages, username.toLocaleLowerCase());
 }
 
 function gotTopTracks(data) {
@@ -934,7 +934,7 @@ function trFinished() {
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    _gaq.push(['_trackTiming', executing, period + ' ' + numPages, timeSpent, username.toLocaleLowerCase(), 100])
+    ga('send', 'timing', executing, period + ' ' + numPages, timeSpent, username.toLocaleLowerCase());
 
   $(".submit").button('reset');
   executing = null;
@@ -983,7 +983,7 @@ function failFunction(code, message, obj) {
   $(".submit").button("reset");
   $("#progressBack").hide();
 
-  _gaq.push(['_trackEvent', 'Error', code + ": " + message, username.toLocaleLowerCase()]);
+  ga('send', 'event', 'Error', code + ": " + message, username.toLocaleLowerCase());
   // should be logging this error info:
   //  executing + ', ' + username.toLocaleLowerCase() + ', ' + numTracks + ', ' + pagesFinished + ', ' + period + ', ' + numPages + ', ' + fromDate + ', ' + toDate + ', ' + year + ', ' + month
 
@@ -1151,7 +1151,7 @@ $(function() {
 
       var href = $(this).attr('href');
       if (href && href != "#") {
-        _gaq.push(['_trackEvent', 'Click', href, username.toLocaleLowerCase()]);
+        ga('send', 'event', 'Click', href, username.toLocaleLowerCase());
       }
 
     });
@@ -1174,7 +1174,6 @@ $(function() {
   //logoInit();
 
   // Asynchronously load google services, leave it for the very last
-  script('http://www.google-analytics.com/ga.js');
   script('http://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   script('http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
 });
@@ -1203,18 +1202,22 @@ function getShortMonthName(month) {
 
 // Asynchronous script helper function
 function script(src) {
-  var ga = document.createElement('script');
-  ga.type = 'text/javascript';
-  ga.async = true;
-  ga.src = src;
+  var _ga = document.createElement('script');
+  _ga.type = 'text/javascript';
+  _ga.async = true;
+  _ga.src = src;
   var s = document.getElementsByTagName('script')[0];
-  s.parentNode.insertBefore(ga, s);
+  s.parentNode.insertBefore(_ga, s);
 }
 
 // Google Analytics
-window._gaq = window._gaq || [];
-_gaq.push(['_setAccount', 'UA-30386018-1']);
-_gaq.push(['_trackPageview']);
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-30386018-1', 'auto');  // Replace with your property ID.
+ga('send', 'pageview');
 
 // Google Web Fonts
 window.WebFontConfig = {
