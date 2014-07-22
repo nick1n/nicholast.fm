@@ -210,7 +210,7 @@
   // $year = date("Y");
   for ($y = 2005; $y <= $year; $y++) {
     echo "<option value=\"$y\"";
-    if (2013 == $y)
+    if (2014 == $y)
       echo " selected";
     echo ">$y</option>\n";
   }
