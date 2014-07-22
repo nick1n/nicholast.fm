@@ -628,22 +628,33 @@ function gotTopArtists(data) {
 
   topArtists = data.topartists.artist;
 
+  page = 0;
+
   // for each top artist get their list of similar artists
-  for (var i = 0; i < data.topartists.artist.length && i < numPages; ++i) {
-    setTimeout(getSimilarArtists(i), 200 * i + 200);
-  }
+  getSimilarArtists();
+
+  setTimeout(getSimilarArtists, 500);
 }
 
-function getSimilarArtists(i) {
-  return function() {
+function getSimilarArtists() {
+
+  if (executing && page < numPages) {
+
     LastFM('artist.getSimilar', {
-      artist: topArtists[i].name,
+      artist: topArtists[page++].name,
       autocorrect: 1
     }).done(gotTopSimilarArtists);
-  };
+
+  }
+
 }
 
 function gotTopSimilarArtists(data) {
+
+  getSimilarArtists();
+
+  setTimeout(function() {
+
   // no similar artists for this one
   if (!data.similarartists['@attr']) {
     ++pagesFinished;
@@ -691,6 +702,9 @@ function gotTopSimilarArtists(data) {
   if (pagesFinished >= numPages) {
     arFinished();
   }
+
+  });
+
 }
 
 function arFinished() {
@@ -702,7 +716,7 @@ function arFinished() {
       recommendations : '<span class="hide-text">(</span>' + uniqueArtists[i].recommendations + '<span class="hide-text"> recommendations)</span>',
       searchable : {
         artist : uniqueArtists[i].artist.toLocaleLowerCase(),
-        match : uniqueArtists[i].match.toFixed(3),
+        match : uniqueArtists[i].match,
         recommendations : uniqueArtists[i].recommendations
       }
     });
@@ -819,23 +833,34 @@ function gotTopTracks(data) {
 
   topArtists = data.toptracks.track;
 
+  page = 0;
+
+  getSimilarTracks();
+
   // for each top artist get their list of similar artists
-  for (var i = 0; i < data.toptracks.track.length && i < numPages; ++i) {
-    setTimeout(getSimilarTracks(i), 200 * i + 200);
-  }
+  setTimeout(getSimilarTracks, 500);
 }
 
-function getSimilarTracks(i) {
-  return function() {
+function getSimilarTracks() {
+
+  if (executing && page < numPages) {
+
     LastFM('track.getSimilar', {
-      artist: topArtists[i].artist.name,
-      track: topArtists[i].name,
+      artist: topArtists[page].artist.name,
+      track: topArtists[page++].name,
       autocorrect: 1
     }).done(gotTopSimilarTracks);
-  };
+
+  }
+
 }
 
 function gotTopSimilarTracks(data) {
+
+  getSimilarTracks();
+
+  setTimeout(function() {
+
   // make sure that there are similar tracks for this one
   if (data.similartracks['@attr']) {
     // for each similar artist
@@ -873,6 +898,9 @@ function gotTopSimilarTracks(data) {
   if (pagesFinished >= numPages) {
     trFinished();
   }
+
+  });
+
 }
 
 function trFinished() {
@@ -887,7 +915,7 @@ function trFinished() {
         artist : uniqueArtists[i].artist.toLocaleLowerCase(),
         track : uniqueArtists[i].track.toLocaleLowerCase(),
         recommendations : uniqueArtists[i].recommendations,
-        match : uniqueArtists[i].match.toFixed(3)
+        match : uniqueArtists[i].match
       }
     });
   }
@@ -1216,7 +1244,8 @@ function script(src) {
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-ga('create', 'UA-30386018-1', 'auto');  // Replace with your property ID.
+ga('create', 'UA-30386018-1', 'nicholast.fm');  // Replace with your property ID.
+ga('require', 'displayfeatures');
 ga('send', 'pageview');
 
 // Google Web Fonts

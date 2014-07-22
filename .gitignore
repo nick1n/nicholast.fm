@@ -9,3 +9,4 @@ _resources
 beta/
 node_modules
 bower_components
+.sublime*
