@@ -1,15 +1,13 @@
+/*!
+ * nicholast.fm's gruntfile
+ */
+
 module.exports = function(grunt) {
 
 	'use strict';
 
 	// Load the plugins
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-qunit');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-recess');
+	require('load-grunt-tasks')(grunt, { scope: 'devDependencies' });
 
 
 	// Project configuration
