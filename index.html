@@ -36,6 +36,8 @@
 
 				background: #F6F6F6;
 				box-shadow: 0 0 20px #C44D58;
+
+				overflow: hidden;
 			}
 
 			@media (min-width: 480px) {
@@ -52,19 +54,54 @@
 			}
 
 			header {
-/*                height: 20%;*/
-				padding-top: 20%;
+				position: relative;
+
+				padding-top: 30%;
+
+				text-align: center;
 
 				background: black;
 
-				text-align: center;
+				overflow: hidden;
+			}
+
+			header img {
+				position: absolute;
+				top: 0;
+				left: 0;
+
+				width: 120%;
+				margin-top: -45%;
+				margin-left: -10%;
+
+				opacity: 0.8;
+
+				-webkit-filter: blur(20px);
+			}
+
+			header h1 {
+				position: absolute;
+				top: 0;
+				right: 0;
+				left: 0;
+			}
+
+			h1 {
+				color: #fff;
+				font-size: 8vw;
+				font-weight: 700;
+				text-shadow: 0 0 2px #fff;
+			}
+
+			section {
+				position: relative;
 			}
 
 			section:before {
 				content: "";
 				display: block;
-				margin-top: -4%;
-				padding-top: 8%;
+				margin-top: -16%;
+				padding-top: 32%;
 
 				background: #F6F6F6;
 
@@ -73,8 +110,8 @@
 			}
 
 			.form-control {
-				margin: -4% auto 0;
-				width: 80%;
+				margin: -28% auto 0;
+				width: 40%;
 
 				text-align: center;
 			}
@@ -98,9 +135,8 @@
 		<main>
 
 			<header>
-				<div class="title">
-					nicholast.fm
-				</div>
+				<img src="http://userserve-ak.last.fm/serve/500/87338269/Native+Cover+JosepVinaixacom+Version.png" alt="Artwork for Love Runs Out">
+				<h1>nicholast.fm</h1>
 			</header>
 
 			<section>
