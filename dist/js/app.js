@@ -12563,7 +12563,7 @@ function gotTopSimilarArtists(data) {
   setTimeout(function() {
 
   // no similar artists for this one
-  if (!data.similarartists['@attr']) {
+  if (!data || !data.similarartists['@attr']) {
     ++pagesFinished;
 
     //code for progress bar :)
@@ -12769,7 +12769,7 @@ function gotTopSimilarTracks(data) {
   setTimeout(function() {
 
   // make sure that there are similar tracks for this one
-  if (data.similartracks['@attr']) {
+  if (data && data.similartracks['@attr']) {
     // for each similar artist
     for (var i = 0; i < data.similartracks.track.length; ++i) {
       var combinedName = data.similartracks.track[i].artist.name + " " + data.similartracks.track[i].name;
