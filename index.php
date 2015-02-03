@@ -207,10 +207,11 @@
 <?php
 
   // Dynamic Year Selector
-  $year = date("Y", strtotime('-3 months'));
+  $selectedYear = date("Y", strtotime('-2 months'));
+  $year = date("Y");
   for ($y = 2005; $y <= $year; $y++) {
     echo "<option value=\"$y\"";
-    if ($year == $y)
+    if ($selectedYear == $y)
       echo " selected";
     echo ">$y</option>\n";
   }
