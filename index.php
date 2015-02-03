@@ -73,7 +73,7 @@
     <div id="tabbable">
       <ul class="nav nav-tabs">
         <li class="active"><a href="#MonthlyTopTracks" data-toggle="tab">Monthly Top</a></li>
-        <li><a href="#YearlyTopTracks" data-toggle="tab">Yearly Top <span class="label label-important">new!</span></a></li>
+        <li><a href="#YearlyTopTracks" data-toggle="tab">Yearly Top</a></li>
         <li><a href="#ArtistRecommendations" data-toggle="tab">Artist Recommendations</a></li>
         <li><a href="#TrackRecommendations" data-toggle="tab">Track Recommendations</a></li>
         <li><a href="#About" data-toggle="tab">About</a></li>
