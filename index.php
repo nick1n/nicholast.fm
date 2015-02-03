@@ -417,7 +417,7 @@
     <div class="span7 offset1">
       <p>nicholast.fm v<?= $pkg->version ?></p>
       <p>by <a href="http://www.last.fm/user/nick1n" target="_blank" class="link">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank" class="link">Nick</a></p>
-      <p>Copyright &copy; 2014</p>
+      <p>Copyright &copy; 2015</p>
     </div>
     <div class="span3">
       <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, grunt.js, Google, and <span class="web-font">Ubuntu</span></p><br>
