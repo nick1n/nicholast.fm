@@ -372,7 +372,7 @@
     </div>
     <div class="row">
       <div class="span10">
-        <p>Found a bug? Report it on our <a href="https://github.com/namklabs/nicholast.fm/issues?labels=Issue&amp;state=open" target="_blank" class="link">github.com issue queue</a></p>
+        <p>Found a bug? Report it on our <a href="https://github.com/nick1n/nicholast.fm/labels/Issue" target="_blank" class="link">github.com issue queue</a></p>
       </div>
     </div>
     <div class="row">
