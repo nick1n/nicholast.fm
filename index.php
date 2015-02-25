@@ -73,7 +73,7 @@
     <div id="tabbable">
       <ul class="nav nav-tabs">
         <li class="active"><a href="#MonthlyTopTracks" data-toggle="tab">Monthly Top</a></li>
-        <li><a href="#YearlyTopTracks" data-toggle="tab">Yearly Top <span class="label label-important">new!</span></a></li>
+        <li><a href="#YearlyTopTracks" data-toggle="tab">Yearly Top</a></li>
         <li><a href="#ArtistRecommendations" data-toggle="tab">Artist Recommendations</a></li>
         <li><a href="#TrackRecommendations" data-toggle="tab">Track Recommendations</a></li>
         <li><a href="#About" data-toggle="tab">About</a></li>
@@ -207,10 +207,11 @@
 <?php
 
   // Dynamic Year Selector
-  $year = date("Y", strtotime('-3 months'));
+  $selectedYear = date("Y", strtotime('-1 month'));
+  $year = date("Y");
   for ($y = 2005; $y <= $year; $y++) {
     echo "<option value=\"$y\"";
-    if ($year == $y)
+    if ($selectedYear == $y)
       echo " selected";
     echo ">$y</option>\n";
   }
@@ -371,7 +372,7 @@
     </div>
     <div class="row">
       <div class="span10">
-        <p>Found a bug? Report it on our <a href="https://github.com/namklabs/nicholast.fm/issues?labels=Issue&amp;state=open" target="_blank" class="link">github.com issue queue</a></p>
+        <p>Found a bug? Report it on our <a href="https://github.com/nick1n/nicholast.fm/labels/Issue" target="_blank" class="link">github.com issue queue</a></p>
       </div>
     </div>
     <div class="row">
@@ -416,7 +417,7 @@
     <div class="span7 offset1">
       <p>nicholast.fm v<?= $pkg->version ?></p>
       <p>by <a href="http://www.last.fm/user/nick1n" target="_blank" class="link">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank" class="link">Nick</a></p>
-      <p>Copyright &copy; 2014</p>
+      <p>Copyright &copy; 2015</p>
     </div>
     <div class="span3">
       <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, grunt.js, Google, and <span class="web-font">Ubuntu</span></p><br>
