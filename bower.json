@@ -1,0 +1,22 @@
+{
+  "name": "nicholast.fm",
+  "version": "0.4.2",
+  "homepage": "nicholast.fm",
+  "authors": [
+    "Nick <nnick1n@gmail.com>"
+  ],
+  "description": "Last.fm stat utility website",
+  "main": "index.php",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.2.0"
+  }
+}
