@@ -135,7 +135,7 @@
                   <b>BB Code:</b>
                 </a>
               </div>
-              <div id="BBCode" class="accordion-body in">
+              <div id="BBCode" class="accordion-body collapse">
                 <div class="accordion-inner">
                   <pre><code id="bbcode"></code></pre>
                 </div>
