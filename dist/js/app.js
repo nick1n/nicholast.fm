@@ -1,4 +1,4 @@
-/*! nicholast.fm v0.4.3 2015 */
+/*! nicholast.fm v0.4.4 2015 */
 
 (function() {
 
@@ -12117,14 +12117,6 @@ function gotNumTracks(data) {
   numPages = data.recenttracks['@attr'].totalPages;
   $(idPrefix + "#totalTracks").html(data.recenttracks['@attr'].total);
 
-  // check for extra now playing track even though its a list of tracks from last month :-/
-  // and remove it from the array FOREVER!
-  if (data.recenttracks.track[0]) {
-    if (data.recenttracks.track[0]['@attr']) {
-      data.recenttracks.track.shift();
-    }
-  }
-
   page = 2;
 
   gotRecentTracks(data);
@@ -12156,6 +12148,14 @@ function gotRecentTracks(data) {
   getRecentTracks();
 
   setTimeout(function() {
+
+    // check for extra now playing track even though its a list of tracks from last month :-/
+    // and remove it from the array FOREVER!
+    if (data.recenttracks.track[0]) {
+      if (data.recenttracks.track[0]['@attr']) {
+        data.recenttracks.track.shift();
+      }
+    }
 
     numTracks += data.recenttracks.track.length;
     $(idPrefix + "#totalUniqueTracks").html(numTracks);
