@@ -96,15 +96,7 @@ code {
 }
 
 .container {
-  margin-top: 20px;
-  margin-bottom: 20px;
   background-color: #FFF;
-  -webkit-border-radius: 50px;
-     -moz-border-radius: 50px;
-          border-radius: 50px;
-  -webkit-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
-     -moz-box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
-          box-shadow: 0 0 32px rgba(0, 0, 0, 0.4);
 }
 
 .nav-tabs > .active > a {
@@ -270,11 +262,7 @@ code {
   }
 
   .container {
-    margin: 0;
     padding: 8px;
-    -webkit-border-radius: 25px;
-       -moz-border-radius: 25px;
-            border-radius: 25px;
   }
 
   /* makes the nav-tabs into nav-stacked */
