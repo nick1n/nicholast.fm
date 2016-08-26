@@ -313,6 +313,10 @@ code {
   body {
     margin-bottom: 400px;
   }
+
+  #logo-container {
+    margin: 20px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 979px) {

@@ -29,12 +29,8 @@
 </head>
 <body>
 <div class="container">
-<div class="row">
-  <div class="span10 offset1">
-    <div id="logo-container">
-      <a><img id="logo" src="img/nicholast.png" alt="nicholast.fm logo"></a>
-    </div>
-  </div>
+<div id="logo-container">
+  <a><img id="logo" src="img/nicholast.png" alt="nicholast.fm logo"></a>
 </div>
 
 <div class="row share-row">
