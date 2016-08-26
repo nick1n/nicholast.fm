@@ -1023,6 +1023,7 @@ function EncodeHtml(s) {
 }
 
 function checkHttp(s) {
+  if (s.lastIndexOf('https://', 0) === 0) return s;
   if (s.lastIndexOf('http://', 0) === 0) return s;
   return 'http://' + s;
 }
