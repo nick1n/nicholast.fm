@@ -1,3 +1,15 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+bower_components
+
+# production
+build
+
+# misc
+.DS_Store
+npm-debug.log
 *~
 ~*
 Thumbs.db
@@ -7,6 +19,4 @@ Thumbs.db
 desktop.ini
 _resources
 beta/
-node_modules
-bower_components
 .sublime*
