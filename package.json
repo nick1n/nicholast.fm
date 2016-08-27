@@ -8,7 +8,9 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.2.3"
+    "node-sass": "^3.8.0",
+    "react-scripts": "0.2.3",
+    "sass-loader": "^4.0.0"
   },
   "dependencies": {
     "react": "^15.3.1",
