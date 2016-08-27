@@ -1,9 +1,91 @@
 
-@import "../node_modules/bootstrap/scss/variables";
-@import "font-awesome/scss/variables";
-
-
 // Font Awesome Variables
 // --------------------------
 
 $fa-font-path: "font-awesome/fonts";
+
+
+// Bootstrap Variables
+//
+// Table of Contents
+//
+// Colors
+// Options
+// Spacing
+// Body
+// Links
+// Grid breakpoints
+// Grid containers
+// Grid columns
+// Fonts
+// Components
+
+// General variable structure
+//
+// Variable format should follow the `$component-modifier-state-property` order.
+
+
+// Colors
+//
+// Grayscale and brand colors for use across Bootstrap.
+
+$gray-dark:                 #333333;
+$gray:                      #55595c;
+$gray-light:                #818a91;
+$gray-lighter:              #E8E8E8;
+$gray-lightest:             #F6F6F6;
+
+$brand-primary:             #556270;
+$brand-success:             #4ECDC4;
+$brand-info:                #C7F464;
+$brand-warning:             #FF6B6B;
+$brand-danger:              #C44D58;
+$brand-inverse:             $gray-dark;
+
+
+// Options
+//
+// Quickly modify global styling by enabling or disabling optional features.
+
+$enable-flex:               false;
+$enable-rounded:            false;
+$enable-shadows:            false;
+$enable-gradients:          false;
+$enable-transitions:        false;
+$enable-hover-media-query:  false;
+$enable-grid-classes:       true;
+$enable-print-styles:       false;
+
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg:    $gray-lightest;
+$body-color: $gray-dark;
+
+
+// Form states and alerts
+//
+// Define colors for form feedback states and, by default, alerts.
+
+$state-success-text:             #3c763d;
+$state-success-bg:               $brand-success;
+$state-success-border:           darken($state-success-bg, 5%);
+
+$state-info-text:                #31708f;
+$state-info-bg:                  #d9edf7;
+$state-info-border:              darken($state-info-bg, 7%);
+
+$state-warning-text:             #8a6d3b;
+$state-warning-bg:               #fcf8e3;
+$mark-bg:                        $state-warning-bg;
+$state-warning-border:           darken($state-warning-bg, 5%);
+
+$state-danger-text:              #a94442;
+$state-danger-bg:                #f2dede;
+$state-danger-border:            darken($state-danger-bg, 5%);
+
+
+@import "../node_modules/bootstrap/scss/variables";
+@import "font-awesome/scss/variables";
