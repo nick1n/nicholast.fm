@@ -1,0 +1,14 @@
+@import "variables";
+
+header {
+    height: 90vh;
+    position: relative;
+
+    .title {
+        left: 50%;
+        position: absolute;
+        text-align: center;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
