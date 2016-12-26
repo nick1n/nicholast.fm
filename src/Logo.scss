@@ -1,0 +1,42 @@
+@import "variables";
+
+h1 {
+	color: transparent;
+	text-shadow: 0 0 1px rgba(255, 255, 255, 0.9);
+}
+
+// h1 {
+
+.n {
+	letter-spacing: -.09em;
+}
+
+.i,
+.o {
+	letter-spacing: -.07em;
+}
+
+.c,
+.t,
+.f {
+	letter-spacing: -.04em;
+}
+
+.h {
+	letter-spacing: -.06em;
+}
+
+.l {
+	letter-spacing: -.03em;
+}
+
+.a,
+.s {
+	letter-spacing: -.05em;
+}
+
+.d {
+	letter-spacing: -.11em;
+}
+
+// }

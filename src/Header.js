@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import './Header.scss';
 
+import Logo from './Logo';
+
 class Header extends Component {
 
 
@@ -9,8 +11,8 @@ class Header extends Component {
 		return (
 			<header>
 				<div className="title">
-					<h1>nicholast.fm</h1>
-					<button className="btn btn-outline-primary btn-lg btn-block"><i className="fa fa-user"></i> sign in</button>
+					<Logo />
+					<button className="btn btn-outline-primary btn-lg"><i className="fa fa-user"></i> sign in with last.fm</button>
 				</div>
 			</header>
 		);
