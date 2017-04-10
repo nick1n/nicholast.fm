@@ -1,21 +1,21 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, /*Link,*/ browserHistory } from 'react-router';
+import { BrowserRouter, Route/*, Link*/ } from 'react-router-dom'
 
 import './index.scss';
 
 import App from './App';
 
 render((
-  <Router history={browserHistory}>
+  <BrowserRouter>
     <Route path="/" component={App}>
 {/*
-      <Route path="about" component={About}/>
-      <Route path="users" component={Users}>
+      <Route path="/about" component={About}/>
+      <Route path="/users" component={Users}>
         <Route path="/user/:userId" component={User}/>
       </Route>
       <Route path="*" component={NoMatch}/>
 */}
     </Route>
-  </Router>
+  </BrowserRouter>
 ), document.getElementById('root'));
