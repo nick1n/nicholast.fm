@@ -10,8 +10,8 @@
   "devDependencies": {
     "bootstrap": "^4.0.0-alpha.5",
     "node-sass": "^4.1.1",
-    "react-scripts": "0.8.4",
-    "sass-loader": "^4.1.1"
+    "react-scripts": "^0.9.5",
+    "sass-loader": "^6.0.3"
   },
   "dependencies": {
     "react": "^15.4.1",
