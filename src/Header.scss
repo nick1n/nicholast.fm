@@ -1,14 +1,45 @@
 @import "variables";
 
 header {
-    height: 90vh;
-    position: relative;
+	background: #ff6b6b;
+	background-size: auto 100%;
+	padding: 1rem;
+	position: relative;
+	text-align: center;
 
-    .title {
-        left: 50%;
-        position: absolute;
-        text-align: center;
-        top: 50%;
-        transform: translate(-50%, -50%);
-    }
+	&.background-0 {
+		background: url(images/major-lazer-min.jpg) 50% 0;
+	}
+
+	&.background-1 {
+		background: url(images/muse-crop-min.jpg) 50% 10%;
+	}
+
+	&.background-2 {
+		background: url(images/rihanna-min.jpg) 50% 30%;
+	}
+
+	&::before {
+		background: #4ECDC4;
+		/*background: #FF6B6B;*/
+		/*background: #C44D58;*/
+		background: #556270;
+		background: -moz-linear-gradient(top,  rgba(85,98,112,0.94) 0%, rgba(85,98,112,1) 100%);
+		background: -webkit-linear-gradient(top,  rgba(85,98,112,0.94) 0%,rgba(85,98,112,1) 100%);
+		background: linear-gradient(to bottom,  rgba(85,98,112,0.94) 0%,rgba(85,98,112,1) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0556270', endColorstr='#556270',GradientType=0 );
+		bottom: 0;
+		content: "";
+		left: 0;
+		/*opacity: .94;*/
+		position: absolute;
+		right: 0;
+		top: 0;
+		/*transition: opacity .2s ease;*/
+	}
+}
+
+h1,
+button {
+	position: relative;
 }
