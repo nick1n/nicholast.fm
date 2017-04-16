@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "bootstrap": "^4.0.0-alpha.5",
+    "bootstrap": "^4.0.0-alpha.6",
     "node-sass": "^4.1.1",
     "react-scripts": "^0.9.5",
     "sass-loader": "^6.0.3"
