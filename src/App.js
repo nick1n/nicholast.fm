@@ -4,19 +4,21 @@ import './App.scss';
 
 import Header from './Header';
 import Footer from './Footer';
+import Alert from './Alert';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header />
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <div className="alert alert-success">
-          <p className="m-b-0"><strong>Welcome</strong> to the new nicholast.fm!</p>
+        <Header/>
+        <div className="container-fluid">
+          <p className="App-intro">
+            To get started, edit <code>src/App.js</code> and save to reload.
+          </p>
+          <p>{this.props.params && this.props.params.token}</p>
         </div>
-        <Footer />
+        <Footer/>
+        <Alert/>
       </div>
     );
   }
