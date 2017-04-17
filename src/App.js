@@ -51,16 +51,23 @@ class App extends Component {
             </a>
           </nav>
 
+          <h1>Stats</h1>
+
+          <div>
+
+
+          </div>
+
           <div className="row">
             <div className="col-sm-6 col-lg-4">
               <h2>Tracks</h2>
               <ol>
                 <li>
                   <div className="item">
-                    <img src="https://lastfm-img2.akamaized.net/i/u/avatar170s/c2e67a2f81d6472dc7fb1892d24d41b4.jpg" alt="CHVRCHES"/>
-                    <p><strong>I Can Talk</strong></p>
-                    <p>Two Door Cinema Club</p>
-                    <p>5 scrobbles</p>
+                    <a href="https://www.last.fm/music/CHVRCHES"><img src="https://lastfm-img2.akamaized.net/i/u/avatar170s/c2e67a2f81d6472dc7fb1892d24d41b4.jpg" alt="CHVRCHES"/></a>
+                    <p><a href="https://www.last.fm/music/Two+Door+Cinema+Club/_/I+Can+Talk"><strong>I Can Talk</strong></a></p>
+                    <p><a href="https://www.last.fm/music/Two+Door+Cinema+Club">Two Door Cinema Club</a></p>
+                    <p><a href="http://www.last.fm/user/nick1n/library/music/Two+Door+Cinema+Club">5 scrobbles</a></p>
                   </div>
                 </li>
                 <li>

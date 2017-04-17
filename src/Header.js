@@ -34,7 +34,7 @@ class Header extends Component {
 			<header className={this.background}>
 				<Logo />
 				<button className="btn btn-outline-success btn-lg" type="button" onClick={this.onClick}>
-					<i className="fa fa-user"></i> {this.btnText()}
+					<i className="fa fa-user fa-lg"></i> {this.btnText()}
 				</button>
 			</header>
 		);
