@@ -145,6 +145,33 @@ $btn-font-weight:                300;
 // $nav-item-inline-spacer:        1rem !default;
 $nav-link-padding:              .5em 0;
 
+// Pagination
+
+// $pagination-padding-x:                .75rem !default;
+// $pagination-padding-y:                .5rem !default;
+// $pagination-padding-x-sm:             .5rem !default;
+// $pagination-padding-y-sm:             .25rem !default;
+// $pagination-padding-x-lg:             1.5rem !default;
+// $pagination-padding-y-lg:             .75rem !default;
+// $pagination-line-height:              1.25 !default;
+
+// $pagination-color:                     $link-color !default;
+// $pagination-bg:                        $white !default;
+// $pagination-border-width:              $border-width !default;
+// $pagination-border-color:              #ddd !default;
+
+// $pagination-hover-color:               $link-hover-color !default;
+// $pagination-hover-bg:                  $gray-lighter !default;
+// $pagination-hover-border:              #ddd !default;
+
+// $pagination-active-color:              $white !default;
+// $pagination-active-bg:                 $brand-primary !default;
+// $pagination-active-border:             $brand-primary !default;
+
+$pagination-disabled-color:            $body-color;
+$pagination-disabled-bg:               transparent;
+$pagination-disabled-border:           transparent;
+
 // Close
 
 // $close-font-size:             $font-size-base * 1.5 !default;

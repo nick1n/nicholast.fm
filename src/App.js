@@ -11,13 +11,22 @@ const DISCOVER = 1;
 const TOOLS = 2;
 const ABOUT = 3;
 
+const Granularities = [
+  'Daily',
+  'Weekly',
+  'Monthly',
+  'Seasonal',
+  'Yearly'
+];
+
 class App extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      nav: STATS
+      nav: STATS,
+      granularity: 2
     };
   }
 
@@ -27,6 +36,20 @@ class App extends Component {
       this.setState({
         nav
       });
+    };
+  }
+
+  handleGranularity(offset) {
+    return (e) => {
+      e.preventDefault();
+
+      var granularity = this.state.granularity + offset;
+
+      if (granularity >= 0 && granularity < Granularities.length) {
+        this.setState({
+          granularity
+        })
+      }
     };
   }
 
@@ -51,11 +74,20 @@ class App extends Component {
             </a>
           </nav>
 
-          <h1>Stats</h1>
+          <h1>{Granularities[this.state.granularity]} Stats</h1>
 
           <div>
-
-
+            <ul className="pagination pagination-lg justify-content-center">
+              <li className={'page-item' + (this.state.granularity === 0 ? ' disabled' : '')}>
+                <a className="page-link" href="#" onClick={this.handleGranularity(-1)}><i className="fa fa-arrow-left" aria-hidden="true"></i></a>
+              </li>
+              <li className="page-item disabled">
+                <span className="page-link">{Granularities[this.state.granularity]}</span>
+              </li>
+              <li className={'page-item' + (this.state.granularity === Granularities.length - 1 ? ' disabled' : '')}>
+                <a className="page-link" href="#" onClick={this.handleGranularity(1)}><i className="fa fa-arrow-right" aria-hidden="true"></i></a>
+              </li>
+            </ul>
           </div>
 
           <div className="row">

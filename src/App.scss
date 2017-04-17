@@ -14,9 +14,9 @@ button {
 	position: relative;
 }
 
-.fa {
-	margin-right: 1rem;
-}
+// .fa {
+// 	margin-right: 1rem;
+// }
 
 // testing stuff
 
@@ -57,6 +57,10 @@ nav {
 			transform: translate3d(-100%, 0, 0);
 		}
 	}
+
+	.fa {
+		margin-right: 1rem;
+	}
 }
 
 @include media-breakpoint-down(sm) {
@@ -70,15 +74,18 @@ nav {
 
 @include media-breakpoint-down(xs) {
 
-	nav .fa {
-		margin-right: 0;
-	}
-
 	.nav-text {
 		display: none;
 	}
 
 }
+
+
+.pagination span {
+	text-align: center;
+	width: 9rem;
+}
+
 
 ol {
 	padding-left: 0;
