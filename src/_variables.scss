@@ -145,6 +145,13 @@ $btn-font-weight:                300;
 // $nav-item-inline-spacer:        1rem !default;
 $nav-link-padding:              .5em 0;
 
+// Close
+
+// $close-font-size:             $font-size-base * 1.5 !default;
+// $close-font-weight:           $font-weight-bold !default;
+// $close-color:                 $black !default;
+$close-text-shadow:           none;
+
 @import "../node_modules/bootstrap/scss/variables";
 @import "font-awesome/scss/variables";
 
