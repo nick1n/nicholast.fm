@@ -21,13 +21,13 @@ class App extends Component {
     };
   }
 
-  handleNav(text) {
+  handleNav(nav) {
     return (e) => {
       e.preventDefault();
       this.setState({
-        nav: text
+        nav
       });
-    }
+    };
   }
 
   render() {

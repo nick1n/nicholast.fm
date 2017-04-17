@@ -1,26 +1,24 @@
 @import "variables";
 
-// html {
-//   font-size: 14px;
-// }
+html {
+	font-weight: 300;
+	letter-spacing: -.03em;
+}
 
-// @include media-breakpoint-up(sm) {
-//   html {
-//     font-size: 16px;
-//   }
-// }
+strong {
+	font-weight: 500;
+}
 
-// @include media-breakpoint-up(md) {
-//   html {
-//     font-size: 20px;
-//   }
-// }
+h1,
+button {
+	position: relative;
+}
 
-// @include media-breakpoint-up(lg) {
-//   html {
-//     font-size: 28px;
-//   }
-// }
+.fa {
+	margin-right: 1rem;
+}
+
+// testing stuff
 
 nav {
 	background: #fff;
@@ -59,14 +57,28 @@ nav {
 			transform: translate3d(-100%, 0, 0);
 		}
 	}
-
-	.fa {
-		// display: block;
-		margin-right: 1rem;
-	}
 }
 
+@include media-breakpoint-down(sm) {
 
+	nav .fa {
+		display: block;
+		margin-right: 0;
+	}
+
+}
+
+@include media-breakpoint-down(xs) {
+
+	nav .fa {
+		margin-right: 0;
+	}
+
+	.nav-text {
+		display: none;
+	}
+
+}
 
 ol {
 	padding-left: 0;
