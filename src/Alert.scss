@@ -13,11 +13,7 @@
 	transition: bottom 0.3s;
 
 	&.true {
-		bottom: ($grid-gutter-width-base / 2);
-	}
-
-	.fa-times {
-		margin: 0;
+		bottom: 0; //($grid-gutter-width-base / 2);
 	}
 }
 
