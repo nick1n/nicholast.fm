@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 import './App.scss';
 
@@ -89,6 +90,10 @@ class App extends Component {
               </li>
             </ul>
           </div>
+
+          <p>
+            {moment().format('YYYY')}
+          </p>
 
           <div className="row">
             <div className="col-sm-6 col-lg-4">
