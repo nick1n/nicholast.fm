@@ -7,18 +7,51 @@ import Header from './Header';
 import Footer from './Footer';
 import Alert from './Alert';
 
+// Some constants
 const STATS = 0;
 const DISCOVER = 1;
 const TOOLS = 2;
 const ABOUT = 3;
 
-const Granularities = [
-  'Daily',
-  'Weekly',
-  'Monthly',
-  'Seasonal',
-  'Yearly'
-];
+// const DAILY = 0;
+// const WEEKLY = 1;
+const MONTHLY = 2;
+const SEASONAL = 3;
+// const YEARLY = 4;
+// const ALL = 5;
+
+const Granularities = [{
+  label: 'Daily',
+  period: 'd',
+  format: 'dddd, MMMM Do YYYY',
+  start: 'day'
+}, {
+  label: 'Weekly',
+  period: 'w',
+  format: '[Sun-Sat], MMMM Do YYYY',
+  start: 'week'
+}, {
+  label: 'Monthly',
+  period: 'M',
+  format: 'MMMM YYYY',
+  start: 'month'
+}, {
+  label: 'Seasonal',
+  period: 'Q',
+  format: 'dddd, MMMM Do YYYY', // TODO
+  start: 'quarter'
+}, {
+  label: 'Yearly',
+  period: 'y',
+  format: 'YYYY',
+  start: 'year'
+}, {
+  label: 'All Time',
+  period: false,
+  format: 'dddd, MMMM Do YYYY', // TODO
+  start: false
+}];
+
 
 class App extends Component {
 
@@ -27,10 +60,12 @@ class App extends Component {
 
     this.state = {
       nav: STATS,
-      granularity: 2
+      granularity: MONTHLY,
+      date: moment().startOf('month')
     };
   }
 
+  // Handle changing the main navigation
   handleNav(nav) {
     return (e) => {
       e.preventDefault();
@@ -40,6 +75,7 @@ class App extends Component {
     };
   }
 
+  // Handle a change in the Stat's Granularity
   handleGranularity(offset) {
     return (e) => {
       e.preventDefault();
@@ -47,11 +83,46 @@ class App extends Component {
       var granularity = this.state.granularity + offset;
 
       if (granularity >= 0 && granularity < Granularities.length) {
+
+        var start = Granularities[granularity].start;
+        var date = this.state.date;
+
+        if (start !== false) {
+          date = date.startOf(start);
+        }
+
+        // correct Seasonal date (moment only does beginning of quarters)
+        if (granularity === SEASONAL) {
+          date = date.add(-1, 'M');
+        }
+
         this.setState({
-          granularity
-        })
+          granularity,
+          date
+        });
+
       }
     };
+  }
+
+  // Handle a change in the date
+  handleDate(offset) {
+    return (e) => {
+      e.preventDefault();
+
+      var period = Granularities[this.state.granularity].period;
+      var date = this.state.date;
+
+
+
+      if (period === false) {
+
+      } else {
+        this.setState({
+          date: date.add(offset, period)
+        });
+      }
+    }
   }
 
   render() {
@@ -75,7 +146,7 @@ class App extends Component {
             </a>
           </nav>
 
-          <h1>{Granularities[this.state.granularity]} Stats</h1>
+          <h1>{Granularities[this.state.granularity].label} Stats</h1>
 
           <div>
             <ul className="pagination pagination-lg justify-content-center">
@@ -83,7 +154,7 @@ class App extends Component {
                 <a className="page-link" href="#" onClick={this.handleGranularity(-1)}><i className="fa fa-arrow-left" aria-hidden="true"></i></a>
               </li>
               <li className="page-item disabled">
-                <span className="page-link">{Granularities[this.state.granularity]}</span>
+                <span className="page-link">{Granularities[this.state.granularity].label}</span>
               </li>
               <li className={'page-item' + (this.state.granularity === Granularities.length - 1 ? ' disabled' : '')}>
                 <a className="page-link" href="#" onClick={this.handleGranularity(1)}><i className="fa fa-arrow-right" aria-hidden="true"></i></a>
@@ -91,8 +162,22 @@ class App extends Component {
             </ul>
           </div>
 
+          <div>
+            <ul className="pagination pagination-lg justify-content-center">
+              <li className="page-item">
+                <a className="page-link" href="#" onClick={this.handleDate(-1)}><i className="fa fa-arrow-left" aria-hidden="true"></i></a>
+              </li>
+              <li className="page-item disabled">
+                <span className="page-link">{this.state.date.format(Granularities[this.state.granularity].format)}</span>
+              </li>
+              <li className="page-item">
+                <a className="page-link" href="#" onClick={this.handleDate(1)}><i className="fa fa-arrow-right" aria-hidden="true"></i></a>
+              </li>
+            </ul>
+          </div>
+
           <p>
-            {moment().format('YYYY')}
+            {this.state.date.format(Granularities[this.state.granularity].format)}
           </p>
 
           <div className="row">
