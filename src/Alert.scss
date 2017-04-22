@@ -1,19 +1,89 @@
 @import "variables";
 
-.alert {
-	// bottom: ($grid-gutter-width-base / 2);
-	bottom: -4rem;
-	// left: ($grid-gutter-width-base / 2);
-	left: 0;
-	margin: 0;
-	position: fixed;
-	// right: ($grid-gutter-width-base / 2);
-	right: 0;
-	-webkit-transition: bottom 0.3s;
-	transition: bottom 0.3s;
+@keyframes bounceInUp {
+	from, 60%, 75%, 90%, to {
+		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+	}
 
-	&.true {
-		bottom: 0; //($grid-gutter-width-base / 2);
+	from {
+		opacity: 0;
+		transform: translate3d(0, 3000px, 0);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translate3d(0, -20px, 0);
+	}
+
+	75% {
+		transform: translate3d(0, 10px, 0);
+	}
+
+	90% {
+		transform: translate3d(0, -5px, 0);
+	}
+
+	to {
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@keyframes bounceOutDown {
+	20% {
+		transform: translate3d(0, 10px, 0);
+	}
+
+	40%, 45% {
+		opacity: 1;
+		transform: translate3d(0, -20px, 0);
+	}
+
+	to {
+		opacity: 0;
+		transform: translate3d(0, 2000px, 0);
+	}
+}
+
+@keyframes bounce {
+	from, 20%, 53%, 80%, to {
+		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+		transform: translate3d(0,0,0);
+	}
+
+	40%, 43% {
+		animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+		transform: translate3d(0, -30px, 0);
+	}
+
+	70% {
+		animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+		transform: translate3d(0, -15px, 0);
+	}
+
+	90% {
+		transform: translate3d(0,-4px,0);
+	}
+}
+
+.alert {
+	animation-duration: 1s;
+	animation-fill-mode: both;
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	right: 0;
+
+	&.closing {
+		animation-name: bounceOutDown;
+	}
+
+	&.opening {
+		animation-name: bounceInUp;
+	}
+
+	&.updating {
+		animation-name: bounce;
+		transform-origin: center bottom;
 	}
 }
 
