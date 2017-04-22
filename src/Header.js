@@ -10,35 +10,35 @@ import Logo from './Logo';
 
 class Header extends Component {
 
-	constructor(props) {
-		super(props);
+  constructor(props) {
+    super(props);
 
-		this.state = {
-			signedIn: false,
-			background: 0
-		};
+    this.state = {
+      signedIn: false,
+      background: 0,
+    };
 
-		this.background = 'background-' + Math.floor(Math.random() * 3);
-	}
+    this.background = 'background-' + Math.floor(Math.random() * 3);
+  }
 
-	btnText = () => this.state.signedIn ? 'sign out' : 'sign in with last.fm';
+  getBtnText = () => this.state.signedIn ? 'sign out' : 'sign in with last.fm';
 
-	onClick = () => {
-		this.setState({
-			signedIn: !this.state.signedIn
-		});
-	}
+  onClick = () => {
+    this.setState({
+      signedIn: !this.state.signedIn,
+    });
+  }
 
-	render() {
-		return (
-			<header className={this.background}>
-				<Logo />
-				<button className="btn btn-outline-success btn-lg" type="button" onClick={this.onClick}>
-					<i className="fa fa-user fa-lg"></i> {this.btnText()}
-				</button>
-			</header>
-		);
-	}
+  render() {
+    return (
+      <header className={this.background}>
+        <Logo />
+        <a className="btn btn-outline-success btn-lg" onClick={this.onClick}>
+          <i className="fa fa-user fa-lg"></i> {this.getBtnText()}
+        </a>
+      </header>
+    );
+  }
 }
 
 export default Header;
