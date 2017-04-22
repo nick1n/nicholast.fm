@@ -87,6 +87,15 @@ $state-danger-bg:                #f2dede;
 $state-danger-border:            darken($state-danger-bg, 5%);
 
 
+// Alerts
+//
+// Define alert colors, border radius, and padding.
+
+// $alert-padding-x:             1.25rem !default;
+// $alert-padding-y:             .75rem !default;
+$alert-margin-bottom:         0;
+
+
 // Typography
 //
 // Font, line-height, and color for body text, headings, and more.
