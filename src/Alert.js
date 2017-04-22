@@ -11,7 +11,7 @@ const CLOSED = 4;
 const CLASSNAMES = [
   'opening',
   'updating',
-  'closing'
+  'closing',
 ];
 
 const ANIMATION_TIME = 1000;
@@ -22,11 +22,11 @@ class Alert extends Component {
     super(props);
 
     this.state = {
-      state: CLOSED
+      state: CLOSED,
     };
 
     this.timeout = setTimeout(() => {
-      this.update()
+      this.update();
     }, ANIMATION_TIME);
   }
 
@@ -35,7 +35,7 @@ class Alert extends Component {
 
     this.timeout = setTimeout(() => {
       this.setState({
-        state
+        state,
       });
     }, ANIMATION_TIME);
   }
@@ -46,7 +46,7 @@ class Alert extends Component {
     // if its opened, update it
     if (state === OPENED) {
       this.setState({
-        state: UPDATING
+        state: UPDATING,
       });
 
       this.wait(OPENED);
@@ -54,7 +54,7 @@ class Alert extends Component {
     // else if its closed, open it
     } else if (state === CLOSED) {
       this.setState({
-        state: OPENING
+        state: OPENING,
       });
 
       this.wait(OPENED);
@@ -65,7 +65,7 @@ class Alert extends Component {
     e.preventDefault();
 
     this.setState({
-      state: CLOSING
+      state: CLOSING,
     });
 
     this.wait(CLOSED);
@@ -77,7 +77,7 @@ class Alert extends Component {
     this.update();
   };
 
-  get className() {
+  getClassName() {
     return `alert alert-success ${CLASSNAMES[this.state.state]}`;
   }
 
@@ -88,12 +88,14 @@ class Alert extends Component {
     }
 
     return (
-      <div className={this.className}>
+      <div className={this.getClassName()}>
         <button type="button" className="close" aria-label="Close" onClick={this.handleClose}>
           <i className="fa fa-times" aria-hidden="true"></i>
         </button>
-        <i className="fa fa-spin fa-circle-o-notch" aria-hidden="true"></i>&nbsp;
-        <strong>Welcome</strong> to the new nicholast.fm!&nbsp;
+        <i className="fa fa-spin fa-circle-o-notch" aria-hidden="true"></i>
+        {' '}
+        <strong>Welcome</strong> to the new nicholast.fm!
+        {' '}
         <button className="btn btn-sm btn-default" onClick={this.handleUpdate}>Update</button>
       </div>
     );
