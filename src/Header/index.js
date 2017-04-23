@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // import background1 from './images/muse-crop-min.jpg';
 // import background2 from './images/rihanna-min.jpg';
 
-import './Header.scss';
+import './index.scss';
 
 import Logo from './Logo';
 

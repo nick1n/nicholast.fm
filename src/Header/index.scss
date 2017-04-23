@@ -1,4 +1,4 @@
-@import "variables";
+@import "../variables";
 
 header {
 	background: #556270;
@@ -7,17 +7,17 @@ header {
 	text-align: center;
 
 	&.background-0 {
-		background: url(images/major-lazer-min.jpg) 50% 0;
+		background: url(../images/major-lazer-min.jpg) 50% 0;
 		background-size: 100% auto;
 	}
 
 	&.background-1 {
-		background: url(images/muse-crop-min.jpg) 50% 10%;
+		background: url(../images/muse-crop-min.jpg) 50% 10%;
 		background-size: 100% auto;
 	}
 
 	&.background-2 {
-		background: url(images/rihanna-min.jpg) 50% 30%;
+		background: url(../images/rihanna-min.jpg) 50% 30%;
 		background-size: 100% auto;
 	}
 
