@@ -7,38 +7,21 @@ import React, { Component } from 'react';
 import './index.scss';
 
 import Logo from './Logo';
+import Signin from './Signin';
 
 class Header extends Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      signedIn: false,
-    };
-
     this.background = 'background-' + Math.floor(Math.random() * 3);
-  }
-
-  handleClick = (e) => {
-    e.preventDefault();
-
-    this.setState({
-      signedIn: !this.state.signedIn,
-    });
-  }
-
-  getBtnText() {
-    return this.state.signedIn ? 'sign out' : 'sign in with last.fm';
   }
 
   render() {
     return (
       <header className={this.background}>
         <Logo />
-        <a href="#" className="btn btn-outline-success btn-lg" onClick={this.handleClick}>
-          <i className="fa fa-user fa-lg"></i> {this.getBtnText()}
-        </a>
+        <Signin />
       </header>
     );
   }
