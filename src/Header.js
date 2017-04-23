@@ -15,25 +15,28 @@ class Header extends Component {
 
     this.state = {
       signedIn: false,
-      background: 0,
     };
 
     this.background = 'background-' + Math.floor(Math.random() * 3);
   }
 
-  getBtnText = () => this.state.signedIn ? 'sign out' : 'sign in with last.fm';
+  handleClick = (e) => {
+    e.preventDefault();
 
-  onClick = () => {
     this.setState({
       signedIn: !this.state.signedIn,
     });
+  }
+
+  getBtnText() {
+    return this.state.signedIn ? 'sign out' : 'sign in with last.fm';
   }
 
   render() {
     return (
       <header className={this.background}>
         <Logo />
-        <a className="btn btn-outline-success btn-lg" onClick={this.onClick}>
+        <a href="#" className="btn btn-outline-success btn-lg" onClick={this.handleClick}>
           <i className="fa fa-user fa-lg"></i> {this.getBtnText()}
         </a>
       </header>

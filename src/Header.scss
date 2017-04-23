@@ -1,40 +1,41 @@
 @import "variables";
 
 header {
-	background: #ff6b6b;
-	background-size: auto 100%;
+	background: #556270;
 	padding: 1rem;
 	position: relative;
 	text-align: center;
 
 	&.background-0 {
 		background: url(images/major-lazer-min.jpg) 50% 0;
+		background-size: 100% auto;
 	}
 
 	&.background-1 {
 		background: url(images/muse-crop-min.jpg) 50% 10%;
+		background-size: 100% auto;
 	}
 
 	&.background-2 {
 		background: url(images/rihanna-min.jpg) 50% 30%;
+		background-size: 100% auto;
 	}
 
 	&::before {
-		background: #4ECDC4;
-		/*background: #FF6B6B;*/
-		/*background: #C44D58;*/
 		background: #556270;
-		background: -moz-linear-gradient(top,  rgba(85,98,112,0.94) 0%, rgba(85,98,112,1) 100%);
-		background: -webkit-linear-gradient(top,  rgba(85,98,112,0.94) 0%,rgba(85,98,112,1) 100%);
-		background: linear-gradient(to bottom,  rgba(85,98,112,0.94) 0%,rgba(85,98,112,1) 100%);
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0556270', endColorstr='#556270',GradientType=0 );
+		background: -moz-linear-gradient(top, rgba(85,98,112,0.94) 0%, rgba(85,98,112,1) 100%);
+		background: -webkit-linear-gradient(top, rgba(85,98,112,0.94) 0%, rgba(85,98,112,1) 100%);
+		background: linear-gradient(to bottom, rgba(85,98,112,0.94) 0%, rgba(85,98,112,1) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0556270', endColorstr='#556270', GradientType=0);
 		bottom: 0;
 		content: "";
 		left: 0;
-		/*opacity: .94;*/
 		position: absolute;
 		right: 0;
 		top: 0;
-		/*transition: opacity .2s ease;*/
 	}
+}
+
+.btn {
+	position: relative;
 }
