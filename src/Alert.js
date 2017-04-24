@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import './Alert.scss';
 
@@ -16,21 +16,22 @@ const CLASSNAMES = [
 
 const ANIMATION_TIME = 1000;
 
-class Alert extends Component {
+class Alert extends PureComponent {
 
   constructor(props) {
     super(props);
 
     this.state = {
+      text: null,
       state: CLOSED,
     };
 
     this.timeout = setTimeout(() => {
-      this.update();
+      this.update(<span><strong>Welcome!</strong> to the new nicholast.fm!</span>);
     }, ANIMATION_TIME);
   }
 
-  wait(state) {
+  waitToBe(state) {
     clearTimeout(this.timeout);
 
     this.timeout = setTimeout(() => {
@@ -40,24 +41,26 @@ class Alert extends Component {
     }, ANIMATION_TIME);
   }
 
-  update() {
+  update(text) {
     var state = this.state.state;
 
     // if its opened, update it
     if (state === OPENED) {
       this.setState({
+        text,
         state: UPDATING,
       });
 
-      this.wait(OPENED);
+      this.waitToBe(OPENED);
 
     // else if its closed, open it
     } else if (state === CLOSED) {
       this.setState({
+        text,
         state: OPENING,
       });
 
-      this.wait(OPENED);
+      this.waitToBe(OPENED);
     }
   }
 
@@ -68,13 +71,13 @@ class Alert extends Component {
       state: CLOSING,
     });
 
-    this.wait(CLOSED);
+    this.waitToBe(CLOSED);
   };
 
   handleUpdate = (e) => {
     e.preventDefault();
 
-    this.update();
+    this.update(<span>this has been updated :)</span>);
   };
 
   getClassName() {
@@ -94,7 +97,7 @@ class Alert extends Component {
         </button>
         <i className="fa fa-spin fa-circle-o-notch" aria-hidden="true"></i>
         {' '}
-        <strong>Welcome</strong> to the new nicholast.fm!
+        {this.state.text}
         {' '}
         <button className="btn btn-sm btn-default" onClick={this.handleUpdate}>Update</button>
       </div>
