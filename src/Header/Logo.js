@@ -3,6 +3,11 @@ import './Logo.scss';
 import React, { Component } from 'react';
 
 class Logo extends Component {
+
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     return (
       <h1>
