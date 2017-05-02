@@ -25,10 +25,16 @@ class Alert extends PureComponent {
       text: null,
       state: CLOSED,
     };
+  }
 
+  componentDidMount() {
     this.timeout = setTimeout(() => {
       this.update(<span><strong>Welcome!</strong> to the new nicholast.fm!</span>);
     }, ANIMATION_TIME);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
   }
 
   waitToBe(state) {
@@ -42,26 +48,31 @@ class Alert extends PureComponent {
   }
 
   update(text) {
-    var state = this.state.state;
+    this.setState((prevState) => {
 
-    // if its opened, update it
-    if (state === OPENED) {
-      this.setState({
-        text,
-        state: UPDATING,
-      });
+      // if its opened, update it
+      if (prevState.state === OPENED) {
+        this.waitToBe(OPENED);
 
-      this.waitToBe(OPENED);
+        return {
+          text,
+          state: UPDATING,
+        };
 
-    // else if its closed, open it
-    } else if (state === CLOSED) {
-      this.setState({
-        text,
-        state: OPENING,
-      });
+      // else if its closed, open it
+      } else if (prevState.state === CLOSED) {
+        this.waitToBe(OPENED);
 
-      this.waitToBe(OPENED);
-    }
+        return {
+          text,
+          state: OPENING,
+        };
+      } else {
+        // TODO: queue the message's text
+      }
+
+      return prevState;
+    });
   }
 
   handleClose = (e) => {
