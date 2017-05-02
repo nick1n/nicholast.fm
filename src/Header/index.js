@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 // import background0 from './images/major-lazer-min.jpg';
 // import background1 from './images/muse-crop-min.jpg';
@@ -9,22 +9,15 @@ import './index.scss';
 import Logo from './Logo';
 import Signin from './Signin';
 
-class Header extends Component {
+const BACKGROUND = 'background-' + Math.floor(Math.random() * 3);
 
-  constructor(props) {
-    super(props);
-
-    this.background = 'background-' + Math.floor(Math.random() * 3);
-  }
-
-  render() {
-    return (
-      <header className={this.background}>
-        <Logo />
-        <Signin />
-      </header>
-    );
-  }
+function Header() {
+  return (
+    <header className={BACKGROUND}>
+      <Logo />
+      <Signin />
+    </header>
+  );
 }
 
 export default Header;
