@@ -107,3 +107,34 @@ ol {
 		margin: 0;
 	}
 }
+
+
+select.form-control:not([size]):not([multiple]) {
+	height: auto;
+}
+
+
+.CalendarDay,
+.CalendarDay--hovered,
+.CalendarDay--selected-span,
+.CalendarDay--selected-span.CalendarDay--hovered {
+	border: 0;
+}
+
+.DateInput {
+	font-size: 1rem;
+	text-align: center;
+}
+
+.DateInput__display-text--focused,
+.transition-container,
+.DayPickerNavigation--horizontal .DayPickerNavigation__prev,
+.DayPickerNavigation--horizontal .DayPickerNavigation__next {
+	border-radius: 0;
+}
+
+
+.rdtPrev,
+.rdtNext {
+	width: 33px;
+}

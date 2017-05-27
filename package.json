@@ -15,9 +15,19 @@
   },
   "dependencies": {
     "md5": "^2.2.1",
+    "mobx": "^3.1.9",
+    "mobx-react": "^4.1.8",
     "moment": "^2.18.1",
     "react": "^16.0.0-alpha.11",
-    "react-dom": "^16.0.0-alpha.11"
+    "react-addons-shallow-compare": "^15.5.2",
+    "react-bootstrap-daterangepicker": "^3.2.2",
+    "react-dates": "^10.1.1",
+    "react-datetime": "^2.8.10",
+    "react-dom": "^16.0.0-alpha.11",
+    "react-redux": "^5.0.4",
+    "redux": "^3.6.0",
+    "redux-logger": "^3.0.1",
+    "redux-thunk": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
