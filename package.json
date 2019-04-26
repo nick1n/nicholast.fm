@@ -11,7 +11,7 @@
     "bootstrap": "^4.0.0-alpha.6",
     "node-sass": "^4.1.1",
     "react-scripts": "^0.9.5",
-    "sass-loader": "^6.0.3"
+    "sass-loader": "^7.1.0"
   },
   "dependencies": {
     "md5": "^2.2.1",

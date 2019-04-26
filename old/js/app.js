@@ -861,43 +861,43 @@ function gotTopSimilarTracks(data) {
 
   setTimeout(function() {
 
-  // make sure that there are similar tracks for this one
-  if (data && data.similartracks['@attr']) {
-    // for each similar artist
-    for (var i = 0; i < data.similartracks.track.length; ++i) {
-      var combinedName = data.similartracks.track[i].artist.name + " " + data.similartracks.track[i].name;
-      // look for the artist in the user's top artists
-      if (!uniqueTracks[combinedName]) {
-        // if not in it, look for it in the list of recommended artist
-        if (uniqueArtists[combinedName]) {
-          ++uniqueArtists[combinedName].recommendations;
-          uniqueArtists[combinedName].match += parseFloat(data.similartracks.track[i].match);
-        } else {
-          // if not in it add that artist to it and add one recommendation
-          uniqueArtists[combinedName] = {
-            artist : data.similartracks.track[i].artist.name,
-            track : data.similartracks.track[i].name,
-            recommendations : 1,
-            match : parseFloat(data.similartracks.track[i].match),
-            artisturl : data.similartracks.track[i].artist.url,
-            trackurl : data.similartracks.track[i].url
-          };
+    // make sure that there are similar tracks for this one
+    if (data && data.similartracks['@attr']) {
+      // for each similar artist
+      for (var i = 0; i < data.similartracks.track.length; ++i) {
+        var combinedName = data.similartracks.track[i].artist.name + " " + data.similartracks.track[i].name;
+        // look for the artist in the user's top artists
+        if (!uniqueTracks[combinedName]) {
+          // if not in it, look for it in the list of recommended artist
+          if (uniqueArtists[combinedName]) {
+            ++uniqueArtists[combinedName].recommendations;
+            uniqueArtists[combinedName].match += parseFloat(data.similartracks.track[i].match);
+          } else {
+            // if not in it add that artist to it and add one recommendation
+            uniqueArtists[combinedName] = {
+              artist : data.similartracks.track[i].artist.name,
+              track : data.similartracks.track[i].name,
+              recommendations : 1,
+              match : parseFloat(data.similartracks.track[i].match),
+              artisturl : data.similartracks.track[i].artist.url,
+              trackurl : data.similartracks.track[i].url
+            };
+          }
         }
       }
     }
-  }
 
-  ++pagesFinished;
+    ++pagesFinished;
 
-  //code for progress bar :)
-  var percent = (pagesFinished/numPages*100).toFixed(0) + "%";
-  $("#progressBar").width(percent);
-  //$("#progressPercent").innerHTML = percent;
+    //code for progress bar :)
+    var percent = (pagesFinished/numPages*100).toFixed(0) + "%";
+    $("#progressBar").width(percent);
+    //$("#progressPercent").innerHTML = percent;
 
-  // this is our last page so let's finish this
-  if (pagesFinished >= numPages) {
-    trFinished();
-  }
+    // this is our last page so let's finish this
+    if (pagesFinished >= numPages) {
+      trFinished();
+    }
 
   });
 

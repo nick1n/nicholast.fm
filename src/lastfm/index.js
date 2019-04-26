@@ -23,8 +23,6 @@ function handleToken(token) {
 
   var api_sig = '';
 
-  // clear the url of the token
-  window.history.pushState(token, '', '/');
 
   // add the token to the data being sent to last.fm
   var data = {
