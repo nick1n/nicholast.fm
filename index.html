@@ -1,16 +1,4 @@
-﻿<?php
-
-  // Read Project Metadata
-  $pkg = json_decode(file_get_contents("package.json"));
-
-  // minified css and js
-  $DIST = '.' . $pkg->version . '.min';
-
-  // non-minified css and js
-  // $DIST = '';
-
-?>
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -18,7 +6,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="dist/css/app<?= $DIST ?>.css" rel="stylesheet">
+  <link href="dist/css/app.min.css?v0.4.5" rel="stylesheet">
   <!--[if lt IE 9]>
     <link href="css/app-ie.css" rel="stylesheet">
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -81,32 +69,35 @@
 
     <form id="form" class="form-inline" onSubmit="return false;">
       <select id="month">
-<?php
-
-  // Dynamic Month Selector
-  $month = date("m");
-  for ($m = 0; $m < 12; $m++) {
-    echo "<option value=\"$m\"";
-    if ($month == $m + 1)
-     echo " selected";
-    echo ">" . date("F", mktime(0, 0, 0, $m + 1, 1, 2000)) . "</option>\n";
-  }
-
-?>
+<option value="0">January</option>
+<option value="1">February</option>
+<option value="2">March</option>
+<option value="3" selected>April</option>
+<option value="4">May</option>
+<option value="5">June</option>
+<option value="6">July</option>
+<option value="7">August</option>
+<option value="8">September</option>
+<option value="9">October</option>
+<option value="10">November</option>
+<option value="11">December</option>
       </select>
       <select id="year">
-<?php
-
-  // Dynamic Year Selector
-  $year = date("Y");
-  for ($y = 2005; $y <= $year; $y++) {
-    echo "<option value=\"$y\"";
-    if ($year == $y)
-      echo " selected";
-    echo ">$y</option>\n";
-  }
-
-?>
+<option value="2005">2005</option>
+<option value="2006">2006</option>
+<option value="2007">2007</option>
+<option value="2008">2008</option>
+<option value="2009">2009</option>
+<option value="2010">2010</option>
+<option value="2011">2011</option>
+<option value="2012">2012</option>
+<option value="2013">2013</option>
+<option value="2014">2014</option>
+<option value="2015">2015</option>
+<option value="2016">2016</option>
+<option value="2017">2017</option>
+<option value="2018">2018</option>
+<option value="2019" selected>2019</option>
       </select>
       <button class="btn btn-primary submit disabled" data-loading-text="loading...">Submit</button>
     </form>
@@ -200,19 +191,21 @@
 
     <form id="form" class="form-inline" onSubmit="return false;">
       <select id="year">
-<?php
-
-  // Dynamic Year Selector
-  $selectedYear = date("Y", strtotime('-1 month'));
-  $year = date("Y");
-  for ($y = 2005; $y <= $year; $y++) {
-    echo "<option value=\"$y\"";
-    if ($selectedYear == $y)
-      echo " selected";
-    echo ">$y</option>\n";
-  }
-
-?>
+<option value="2005">2005</option>
+<option value="2006">2006</option>
+<option value="2007">2007</option>
+<option value="2008">2008</option>
+<option value="2009">2009</option>
+<option value="2010">2010</option>
+<option value="2011">2011</option>
+<option value="2012">2012</option>
+<option value="2013">2013</option>
+<option value="2014">2014</option>
+<option value="2015">2015</option>
+<option value="2016">2016</option>
+<option value="2017">2017</option>
+<option value="2018">2018</option>
+<option value="2019" selected>2019</option>
       </select>
       <button class="btn btn-primary submit disabled" data-loading-text="loading...">Submit</button>
     </form>
@@ -411,9 +404,9 @@
   </div>
   <div class="row">
     <div class="span7 offset1">
-      <p>nicholast.fm v<?= $pkg->version ?></p>
+      <p>nicholast.fm v0.4.5</p>
       <p>by <a href="http://www.last.fm/user/nick1n" target="_blank" class="link">Nick</a> &amp; <a href="http://twitter.namklabs.com" target="_blank" class="link">Nick</a></p>
-      <p>Copyright &copy; 2016</p>
+      <p>Copyright &copy; 2019</p>
     </div>
     <div class="span3">
       <p>Many thanks to last.fm, bootstrap, icomoon, Mark Dotto, nickf, flagcounter, jQuery, Fuel UX's Datagrid, grunt.js, Google, and <span class="web-font">Ubuntu</span></p><br>
@@ -467,7 +460,7 @@
 </script>
 
 <!-- scripts at the bottom of the body for faster loading -->
-<script async src="dist/js/app<?= $DIST ?>.js" defer></script>
+<script async src="dist/js/app.min.js?v0.4.5" defer></script>
 
 </body>
 </html>
