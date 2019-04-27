@@ -77,7 +77,7 @@ var Base = {
 
 var Images = extend(Base, {
 
-	_url: 'http://userserve-ak.last.fm/serve/',
+	_url: 'https://userserve-ak.last.fm/serve/',
 
 	_compressSizes: {
 		34: 1,

@@ -72,7 +72,7 @@ var LastFM = (function( $ ) {
 		defaults = {
 
 			// Last.fm's api v2.0 url
-			url: 'http://ws.audioscrobbler.com/2.0/',
+			url: 'https://ws.audioscrobbler.com/2.0/',
 
 			// make all api requests have a javascript callback
 			dataType: 'jsonp',
