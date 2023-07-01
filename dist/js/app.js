@@ -1,4 +1,4 @@
-/*! nicholast.fm v0.4.6 2019 */
+/*! nicholast.fm v0.4.6 2023 */
 
 (function() {
 
@@ -12100,9 +12100,9 @@ function getTimeZone(data) {
   }, now > toDate).done(gotNumTracks);
 
   if (month == undefined) {
-    ga('send', 'event', executing, year, username.toLocaleLowerCase());
+    ga('event', executing, { year: year, username: username.toLocaleLowerCase() });
   } else {
-    ga('send', 'event', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), username.toLocaleLowerCase());
+    ga('event', executing, { month: year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), username: username.toLocaleLowerCase() });
   }
 }
 
@@ -12499,9 +12499,9 @@ function finished() {
   if (timeSpent > 100) {
 
     if (month == undefined) {
-      ga('send', 'timing', executing, year, timeSpent, username.toLocaleLowerCase());
+      ga('event', 'timing', { executing: executing, date: year, time: timeSpent, username: username.toLocaleLowerCase() });
     } else {
-      ga('send', 'timing', executing, year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), timeSpent, username.toLocaleLowerCase());
+      ga('event', 'timing', { executing: executing, date: year + ' ' + padMonth(month + 1) + ' ' + getMonthName(month), time: timeSpent, username: username.toLocaleLowerCase() });
     }
 
   }
@@ -12552,7 +12552,7 @@ function getArtistRecommendations(user) {
     }).done(gotTopArtists);
   } catch (e) {}
 
-  ga('send', 'event', executing, period + ' ' + numPages, username.toLocaleLowerCase());
+  ga('event', executing, { period: period + ' ' + numPages, username: username.toLocaleLowerCase() });
 }
 
 function gotTopArtists(data) {
@@ -12704,7 +12704,7 @@ function arFinished() {
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    ga('send', 'timing', executing, period + ' ' + numPages, timeSpent, username.toLocaleLowerCase());
+    ga('event', 'timing', { executing: executing, date: period + ' ' + numPages, time: timeSpent, username: username.toLocaleLowerCase() });
 
   $(".submit").button('reset');
   executing = null;
@@ -12757,7 +12757,7 @@ function getTrackRecommendations(user) {
     }).done(gotTopTracks);
   } catch (e) {}
 
-  ga('send', 'event', executing, period + ' ' + numPages, username.toLocaleLowerCase());
+  ga('event', executing, { period: period + ' ' + numPages, username: username.toLocaleLowerCase() });
 }
 
 function gotTopTracks(data) {
@@ -12907,7 +12907,7 @@ function trFinished() {
 
   var timeSpent = new Date().getTime() - startTime;
   if (timeSpent > 100)
-    ga('send', 'timing', executing, period + ' ' + numPages, timeSpent, username.toLocaleLowerCase());
+    ga('event', 'timing', { executing: executing, date: period + ' ' + numPages, time: timeSpent, username: username.toLocaleLowerCase() });
 
   $(".submit").button('reset');
   executing = null;
@@ -12956,7 +12956,7 @@ function failFunction(code, message, obj) {
   $(".submit").button("reset");
   $("#progressBack").hide();
 
-  ga('send', 'event', 'Error', code + ": " + message, username.toLocaleLowerCase());
+  ga('event', 'Error', { message: code + ": " + message, username: username.toLocaleLowerCase() });
   // should be logging this error info:
   //  executing + ', ' + username.toLocaleLowerCase() + ', ' + numTracks + ', ' + pagesFinished + ', ' + period + ', ' + numPages + ', ' + fromDate + ', ' + toDate + ', ' + year + ', ' + month
 
@@ -13125,7 +13125,7 @@ $(function() {
 
       var href = $(this).attr('href');
       if (href && href != "#") {
-        ga('send', 'event', 'Click', href, username.toLocaleLowerCase());
+        ga('event', 'Click', { href: href, username: username.toLocaleLowerCase() });
       }
 
     });
@@ -13184,15 +13184,11 @@ function script(src) {
   s.parentNode.insertBefore(_ga, s);
 }
 
-// Google Analytics
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-30386018-1', 'nicholast.fm');  // Replace with your property ID.
-ga('require', 'displayfeatures');
-ga('send', 'pageview');
+// Google Analytics 4
+window.dataLayer = window.dataLayer || [];
+function ga(){dataLayer.push(arguments);}
+ga('js', new Date());
+ga('config', 'G-TKSWS3SW20');
 
 // Google Web Fonts
 window.WebFontConfig = {
